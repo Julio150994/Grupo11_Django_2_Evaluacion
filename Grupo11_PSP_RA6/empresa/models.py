@@ -3,7 +3,7 @@ from django.db import models
 # Create your models here.
 
 class Usuario(models.Model):
-    id = models.IntegerField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     username = models.CharField(max_length=40)
     password = models.CharField(max_length=255)
     
@@ -12,7 +12,7 @@ class Usuario(models.Model):
     
 
 class Empleado(models.Model):
-    id = models.IntegerField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     dni = models.CharField(max_length=9)
     nombre = models.CharField(max_length=40)
     apellidos = models.CharField(max_length=60)
@@ -25,7 +25,7 @@ class Empleado(models.Model):
     
     
 class Cliente(models.Model):
-    id = models.IntegerField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     dni = models.CharField(max_length=9)
     nombre = models.CharField(max_length=40)
     apellidos = models.CharField(max_length=60)
@@ -40,7 +40,7 @@ class Cliente(models.Model):
 
 
 class Categoria(models.Model):
-    id = models.IntegerField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=150)
     foto = models.ImageField(verbose_name="Foto", upload_to='imagenes', null=False)
     
@@ -49,7 +49,7 @@ class Categoria(models.Model):
     
     
 class Proyecto(models.Model):
-    id = models.IntegerField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     titulo = models.CharField(max_length=150)
     descripcion = models.CharField(max_length=255)
     nivel = models.IntegerField()
@@ -64,7 +64,7 @@ class Proyecto(models.Model):
     
     
 class Participa(models.Model):
-    id = models.IntegerField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     idCliente = models.ForeignKey(Cliente, on_delete = models.CASCADE)
     idProyecto = models.ForeignKey(Proyecto, on_delete = models.CASCADE)
     fechaDescripcion = models.DateField(auto_now=True)
