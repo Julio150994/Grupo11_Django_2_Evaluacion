@@ -8,7 +8,7 @@ class Usuario(models.Model):
     password = models.CharField(max_length=255)
     
     def __str__(self):
-        return self.id+" "+self.username+" "+self.password
+        return str(self.id)+" "+str(self.username)+" "+str(self.password)
     
 
 class Empleado(models.Model):
@@ -21,7 +21,7 @@ class Empleado(models.Model):
     idUsuario = models.ForeignKey(Usuario, on_delete = models.CASCADE)
     
     def __str__(self):
-        return self.id+" "+self.dni+" "+self.nombre+" "+self.apellidos+" "+self.direccion+" "+self.biografia+" "+self.idUsuario
+        return str(self.id)+" "+str(self.dni)+" "+str(self.nombre)+" "+str(self.apellidos)+" "+str(self.direccion)+" "+str(self.biografia)+" "+str(self.idUsuario)
     
     
 class Cliente(models.Model):
@@ -36,7 +36,7 @@ class Cliente(models.Model):
     idUsuario = models.ForeignKey(Usuario, on_delete = models.CASCADE)
     
     def __str__(self):
-        return self.id+" "+self.dni+" "+self.nombre+" "+self.apellidos+" "+self.direccion+" "+self.fechaNacimiento+" "+self.fechaAlta+" "+self.activo+" "+self.idUsuario
+        return str(self.id)+" "+str(self.dni)+" "+str(self.nombre)+" "+str(self.apellidos)+" "+str(self.direccion)+" "+str(self.fechaNacimiento)+" "+str(self.fechaAlta)+" "+str(self.activo)+" "+str(self.idUsuario)
 
 
 class Categoria(models.Model):
@@ -45,7 +45,7 @@ class Categoria(models.Model):
     foto = models.ImageField(verbose_name="Foto", upload_to='imagenes', null=False)
     
     def __str__(self):
-        return self.id+" "+self.nombre+" "+self.foto
+        return str(self.id)+" "+str(self.nombre)+" "+str(self.foto)
     
     
 class Proyecto(models.Model):
@@ -60,7 +60,7 @@ class Proyecto(models.Model):
     idCategoria = models.ForeignKey(Categoria, on_delete = models.CASCADE)
     
     def __str__(self):
-        return self.id+" "+self.titulo+" "+self.descripcion+" "+self.nivel+" "+self.fechaInicio+" "+self.fechaFin+" "+self.informeFinal+" "+self.idEmpleado+" "+self.idCategoria
+        return str(self.id)+" "+str(self.titulo)+" "+str(self.descripcion)+" "+str(self.nivel)+" "+str(self.fechaInicio)+" "+str(self.fechaFin)+" "+str(self.informeFinal)+" "+str(self.idEmpleado)+" "+str(self.idCategoria)
     
     
 class Participa(models.Model):
@@ -71,4 +71,4 @@ class Participa(models.Model):
     rol = models.CharField(max_length=100)
     
     def __str__(self):
-        return self.id+" "+self.idCliente+" "+self.idProyecto+" "+self.fechaDescripcion+" "+self.rol
+        return str(self.id)+" "+str(self.idCliente)+" "+str(self.idProyecto)+" "+str(self.fechaDescripcion)+" "+str(self.rol)
