@@ -4,7 +4,7 @@ from django.db import models
 
 class Usuario(models.Model):
     id = models.AutoField(primary_key=True)
-    username = models.CharField(max_length=40)
+    username = models.CharField(max_length=40, unique=True)
     password = models.CharField(max_length=255)
     
     def __str__(self):
@@ -18,7 +18,7 @@ class Empleado(models.Model):
     apellidos = models.CharField(max_length=60)
     direccion = models.CharField(max_length=150)
     biografia = models.CharField(max_length=255)
-    idUsuario = models.ForeignKey(Usuario, on_delete = models.CASCADE)
+    idUsuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
     
     def __str__(self):
         return str(self.id)+" "+str(self.dni)+" "+str(self.nombre)+" "+str(self.apellidos)+" "+str(self.direccion)+" "+str(self.biografia)+" "+str(self.idUsuario)
@@ -30,14 +30,13 @@ class Cliente(models.Model):
     nombre = models.CharField(max_length=40)
     apellidos = models.CharField(max_length=60)
     direccion = models.CharField(max_length=150)
-    fechaNacimiento = models.DateField(auto_now=True)
-    fechaAlta = models.DateField(auto_now=True)
-    activo = models.BooleanField()
+    fechaNacimiento = models.DateField(auto_now=False)
+    fechaAlta = models.DateField(auto_now=False)
+    activo = models.BooleanField(default=False)
     idUsuario = models.ForeignKey(Usuario, on_delete = models.CASCADE)
     
     def __str__(self):
         return str(self.id)+" "+str(self.dni)+" "+str(self.nombre)+" "+str(self.apellidos)+" "+str(self.direccion)+" "+str(self.fechaNacimiento)+" "+str(self.fechaAlta)+" "+str(self.activo)+" "+str(self.idUsuario)
-
 
 class Categoria(models.Model):
     id = models.AutoField(primary_key=True)
