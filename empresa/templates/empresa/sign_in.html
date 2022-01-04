@@ -1,0 +1,22 @@
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <title>Sign In</title>
+    </head>
+
+    <body>
+        <h3>Log into your account!</h3>
+        <form method="post" action="{% url 'users_login' %}" class="mb-2">
+        {% csrf_token %}
+            <div class="form-group">
+                <label for="username"> Username </label>
+                <input type="text" class="form-control" id="username" name="username" placeholder="Enter your username!" Required>
+            </div>
+            <div>
+                <label for="password"> Password </label>
+                <input type="password" class="form-control" id="pwd" name="pwd" placeholder="Introduce your password" Required>
+            </div>   
+            
+            <button type="submit" class="btn btn-primary"> Log In! </button>
+    </body>
+</html>

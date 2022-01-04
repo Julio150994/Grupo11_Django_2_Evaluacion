@@ -1,9 +1,12 @@
+from django.core.checks import messages
 from django.urls import reverse
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.views.generic import TemplateView
 from empresa.models import Cliente, Usuario
 from .forms import ClienteModelForm, UsuarioModelForm
+from django.contrib.auth import authenticate, login
+from django.contrib import messages
 
 # Create your views here.
 
@@ -49,3 +52,23 @@ def registrar_cliente(request):
                 #return redirect(reverse('login'+"?registrado"))
         
     return render(request, "empresa/registro_cliente.html",context)
+
+def sign_in(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        pwd = request.POST['pwd']
+
+        user = authenticate(username=username, password=pwd)
+
+        if user is not None:
+            login(request, user)
+            name = user.nombre
+            return render(request,"empresa/page_inicio.html", {'name': name})
+        
+        else:
+            messages.error(request, "Wrong credentials")
+            return redirect('page_inicio')
+
+    return render(request, "empresa/sign_in.html")
+
+
