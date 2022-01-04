@@ -24,7 +24,7 @@
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ms-auto">
                         {% if not request.usuario.is_authenticated %}
-                            <li class="nav-item"><a class="nav-link text-white" href="#">Login</a></li>
+                            <li class="nav-item"><a class="nav-link text-white" href="{% url 'users_login' %}">Login</a></li>
                             <li class="nav-item"><a class="nav-link text-white" href="{% url 'registro_cliente' %}">Register</a></li>
                         {% else %}
                             <li class="nav-item"><a class="nav-link text-white" href="{% url 'perfil_cliente' usuario.pk  %}">Editar perfil</a></li>
