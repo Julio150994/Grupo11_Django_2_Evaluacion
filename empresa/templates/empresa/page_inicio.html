@@ -44,16 +44,21 @@
                         <h1 class="mx-auto my-0 text-uppercase">SalesEmp</h1>
                         
                         {% if request.usuario.is_authenticated %}
-                            {% block body %}
-                            <div class="alert alert-primary">
-                                <p>{{user.username}} ha iniciado sesión correctamente.</p>
-                            </div>
-                            {% endblock %}
-                        <h2 class="text-white-50 mx-auto mt-2 mb-5">Login realizado</h2>
+                        <h2 class="text-white-50 mx-auto mt-2 mb-5">Web de la empresa</h2>
                         {% else %}
                         <h2 class="text-white-50 mx-auto mt-2 mb-5">Proyecto del Grupo 11</h2>
-                        {% endif %}
                         
+                        <div class="text-center text-danger col-md-5 col-5 fom-control">
+                            {% if messages %}
+                                {% for login in messages %}
+                                <div class="alert alert-primary text-center col-md-5 col-5" style="margin-top: 0.5%; margin-bottom: 4.5%; margin-left: 29.2%;">
+                                    {{ login }}
+                                </div>
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+
+                        {% endif %}
                     </div>
                 </div>
             </div>

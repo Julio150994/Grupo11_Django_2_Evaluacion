@@ -20,12 +20,6 @@
     <body class="bg-warning" id="page-top">
         {% include "empresa/header.html" %}
 
-        {% if 'user' in request.POST %}
-            <div class="alert alert-primary text-center col-md-5 col-5" style="margin-bottom: 4.5%; margin-left: 29.2%;">
-                {{ user.username }} ha cerrado sesión correctamente.
-            </div>
-        {% endif %}
-
         <div class="panel panel-default">
             <div class="panel-heading" id="panel">
                 <div class="container col-md-5 bg-white" id="form">
@@ -53,6 +47,14 @@
                             <span class="fas fa-user-plus"></span>
                             Register client
                         </a>
+
+                        {% if messages %}
+                            {% for logout in messages %}
+                            <div class="alert alert-primary text-center col-md-5 col-5 form-control" style="margin-top: 2%;">
+                                {{ logout }}
+                            </div>
+                            {% endfor %}
+                        {% endif %}
 
                         <button type="submit" class="form-control btn btn-primary text-white" id="buttonLogin">
                             <i class="fas fa-sign-in-alt"></i>

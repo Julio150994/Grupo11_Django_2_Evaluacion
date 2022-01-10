@@ -36,26 +36,34 @@ def registrar_cliente(request):
             usuario.save()
             
             if cliente.is_valid():
-                # Consulta en SQL: SELECT id FROM usuario ORDER BY id DESC LIMIT 1 #
-                last_id_usuario = Usuario.objects.last()
-                #id_usuario = Usuario.objects.filter(id=int(last_id_usuario[0:2])).values_list('id')
-                #print("Id de usuario: "+str(last_id_usuario))
-                #print(Usuario.objects.filter(id=int(last_id_usuario)).query())
-                
-                # Añadimos datos de cliente #
-                request.POST['dni']
-                request.POST['nombre']
-                request.POST['apellidos']
-                request.POST['direccion']
-                request.POST['fechaNacimiento']
-                request.POST['fechaAlta']
-                request.POST[str(0)]
-                request.POST[str(last_id_usuario)]
-                
-                cliente.save()
-                #return redirect('sign_in')
-                return redirect(reverse('sign_in'+"?registrado"))
-        
+               try:
+                    # Consulta en SQL: SELECT id FROM usuario ORDER BY id DESC LIMIT 1 #
+                    last_id_usuario = Usuario.objects.last()
+                    #id_usuario = Usuario.objects.filter(id=int(last_id_usuario[0:2])).values_list('id')
+                    #print("Id de usuario: "+str(last_id_usuario))
+                    #print(Usuario.objects.filter(id=int(last_id_usuario)).query())
+                    
+                    # Añadimos datos de cliente #
+                    dni = request.POST['dni']
+                    nombre = request.POST['nombre']
+                    apellidos = request.POST['apellidos']
+                    direccion = request.POST['direccion']
+                    fechaNacimiento = request.POST['fechaNacimiento']
+                    fechaAlta = request.POST['fechaAlta']
+                    activo = request.POST[str(0)]
+                    idUsuario = request.GET[str(last_id_usuario)]
+                    
+                    if dni is not None or nombre is not None or apellidos is not None or direccion is not None or fechaNacimiento is not None or fechaAlta is not None or activo is not None or idUsuario:
+                        cliente.save()
+                        messages.success(request,'Cliente registrado correctamente.')
+                        return redirect('users_login')
+                    else:
+                        messages.warning(request,'Faltan datos por introducir.')
+                        return redirect('registro_cliente')
+               except Exception as ex:
+                   messages.error(request,'Error al registrar cliente.')
+                   return redirect('registro_cliente')
+               
     return render(request, "empresa/registro_cliente.html",context)
 
 
@@ -65,22 +73,21 @@ def sign_in(request):
         pwd = request.POST['pwd']
 
         user = authenticate(username=username, password=pwd)
-
+        #name = user.nombre
+        # {'name': name} #
         if user is not None:
             login(request, user)
-            #name = user.nombre
-            # {'name': name} #
-            return render(request,"empresa/page_inicio.html")
-        
-        else:
-            messages.error(request, "Faltan credenciales por poner.")
+            messages.success(request,str(user)+' ha iniciado sesión correctamente.')
+            #return render(request,"empresa/page_inicio.html")
             return redirect('page_inicio')
+        else:
+            messages.error(request,'Faltan credenciales por poner.')
+            return redirect('users_login')
 
     return render(request, "empresa/sign_in.html")
 
+
 def sign_out(request):
     logout(request)
-    usuario = UsuarioModelForm()
-    context = { 'usuario': usuario }
-    
-    return render(request,'empresa/sign_in.html',context)
+    messages.success(request,' Ha cerrado sesión correctamente.')
+    return redirect('users_login')

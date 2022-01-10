@@ -20,6 +20,14 @@
     <body class="bg-warning" id="page-top">
         {% include "empresa/header.html" %}
 
+        {% if messages %}
+            {% for error in messages %}
+            <div class="alert alert-danger text-center col-md-5 col-5" id="mensaje_error">
+                {{ error }}
+            </div>
+            {% endfor %}
+        {% endif %}
+
         <div class="panel panel-default" style="margin-top: 1.10%;">
             <div class="panel-heading" id="panel">
                 <div class="container col-md-5 bg-white" id="form">
@@ -89,6 +97,14 @@
                                 <input type="date" class="form-control" id="fechaAlta" name="fechaAlta" required>
                             </div>
                         </div>
+
+                        {% if messages %}
+                            {% for empty_data in messages %}
+                            <div class="alert alert-warning text-center col-md-5 col-5" id="mensaje_error">
+                                {{ empty_data }}
+                            </div>
+                            {% endfor %}
+                        {% endif %}
 
                         <button type="submit" class="form-control btn btn-success text-white" id="botonRegistrar">
                             <i class="fas fa-user-plus"></i>
