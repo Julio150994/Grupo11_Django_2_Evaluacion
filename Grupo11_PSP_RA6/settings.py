@@ -124,3 +124,6 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR,"empresa/static"),
 ]
+
+LOGIN_REDIRECT_URL = 'sign_in/'
+LOGOUT_REDIRECT_URL = 'sign_in/'

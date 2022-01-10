@@ -1,11 +1,10 @@
 from django.core.checks import messages
 from django.urls import reverse
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
 from django.views.generic import TemplateView
 from empresa.models import Cliente, Usuario
 from .forms import ClienteModelForm, UsuarioModelForm
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 
 # Create your views here.
@@ -22,7 +21,7 @@ def registrar_cliente(request):
         'cliente': cliente
     }
     
-    if request.method == "POST":
+    if request.method == 'POST':
         usuario = UsuarioModelForm(request.POST)
         cliente = ClienteModelForm(request.POST)
         context = {
@@ -31,27 +30,34 @@ def registrar_cliente(request):
         }
         
         if usuario.is_valid():
+            # Añadimos datos de usuario #
+            request.POST['username']
+            request.POST['password']
             usuario.save()
-            #usuario_cliente = Usuario.objects.last()
-            usuario_cliente = Usuario.objects.raw('SELECT id from Usuario ORDER BY DESC LIMIT 1')
             
             if cliente.is_valid():
-                print("Id usuario: "+str(usuario_cliente))
+                # Consulta en SQL: SELECT id FROM usuario ORDER BY id DESC LIMIT 1 #
+                last_id_usuario = Usuario.objects.last()
+                #id_usuario = Usuario.objects.filter(id=int(last_id_usuario[0:2])).values_list('id')
+                #print("Id de usuario: "+str(last_id_usuario))
+                #print(Usuario.objects.filter(id=int(last_id_usuario)).query())
                 
-                dni = request.POST.get('dni','')
-                nombre = request.POST.get('nombre','')
-                apellidos = request.POST.get('apellidos','')
-                direccion = request.POST.get('direccion','')
-                fechaNacimiento = request.POST.get('fechaNacimiento','')
-                fechaAlta = request.POST.get('fechaAlta','')
-                activo = request.POST.get('activo',0)
-                idUsuario = request.GET.get('idUsuario',usuario_cliente)
+                # Añadimos datos de cliente #
+                request.POST['dni']
+                request.POST['nombre']
+                request.POST['apellidos']
+                request.POST['direccion']
+                request.POST['fechaNacimiento']
+                request.POST['fechaAlta']
+                request.POST[str(0)]
+                request.POST[str(last_id_usuario)]
                 
                 cliente.save()
-                return redirect('login')
-                #return redirect(reverse('login'+"?registrado"))
+                #return redirect('sign_in')
+                return redirect(reverse('sign_in'+"?registrado"))
         
     return render(request, "empresa/registro_cliente.html",context)
+
 
 def sign_in(request):
     if request.method == 'POST':
@@ -62,13 +68,19 @@ def sign_in(request):
 
         if user is not None:
             login(request, user)
-            name = user.nombre
-            return render(request,"empresa/page_inicio.html", {'name': name})
+            #name = user.nombre
+            # {'name': name} #
+            return render(request,"empresa/page_inicio.html")
         
         else:
-            messages.error(request, "Wrong credentials")
+            messages.error(request, "Faltan credenciales por poner.")
             return redirect('page_inicio')
 
     return render(request, "empresa/sign_in.html")
 
-
+def sign_out(request):
+    logout(request)
+    usuario = UsuarioModelForm()
+    context = { 'usuario': usuario }
+    
+    return render(request,'empresa/sign_in.html',context)
