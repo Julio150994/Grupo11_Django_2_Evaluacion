@@ -1,8 +1,9 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser, BaseUserManager
 
 # Create your models here.
 
-class Usuario(models.Model):
+class Usuario(AbstractUser):
     id = models.AutoField(primary_key=True)
     username = models.CharField(max_length=40, unique=True)
     password = models.CharField(max_length=255)
