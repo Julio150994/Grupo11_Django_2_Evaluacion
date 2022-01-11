@@ -1,0 +1,22 @@
+#panel {
+    margin-bottom: 2%;
+}
+
+#form {
+    padding: 1.78%;
+    margin-top: 1.56%;
+    border-radius: 20px;
+}
+
+#buttonLogin {
+    margin-top: 1.23%;
+}
+
+
+/* Mostrado al registrar usuario y al cerrar su sesión */
+
+#mensaje_alert {
+    margin-top: 0.5%;
+    margin-bottom: 4.5%;
+    margin-left: 29.2%;
+}

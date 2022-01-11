@@ -12,3 +12,9 @@
 #registroCliente {
     padding: 12%;
 }
+
+#mensaje_error {
+    margin-top: 0.5%;
+    margin-bottom: 4.5%;
+    margin-left: 29.2%;
+}

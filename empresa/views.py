@@ -1,11 +1,10 @@
 from django.core.checks import messages
 from django.urls import reverse
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
 from django.views.generic import TemplateView
 from empresa.models import Cliente, Usuario
 from .forms import ClienteModelForm, UsuarioModelForm
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 
 # Create your views here.
@@ -22,7 +21,7 @@ def registrar_cliente(request):
         'cliente': cliente
     }
     
-    if request.method == "POST":
+    if request.method == 'POST':
         usuario = UsuarioModelForm(request.POST)
         cliente = ClienteModelForm(request.POST)
         context = {
@@ -31,27 +30,42 @@ def registrar_cliente(request):
         }
         
         if usuario.is_valid():
+            # Añadimos datos de usuario #
+            request.POST['username']
+            request.POST['password']
             usuario.save()
-            #usuario_cliente = Usuario.objects.last()
-            usuario_cliente = Usuario.objects.raw('SELECT id from Usuario ORDER BY DESC LIMIT 1')
             
             if cliente.is_valid():
-                print("Id usuario: "+str(usuario_cliente))
-                
-                dni = request.POST.get('dni','')
-                nombre = request.POST.get('nombre','')
-                apellidos = request.POST.get('apellidos','')
-                direccion = request.POST.get('direccion','')
-                fechaNacimiento = request.POST.get('fechaNacimiento','')
-                fechaAlta = request.POST.get('fechaAlta','')
-                activo = request.POST.get('activo',0)
-                idUsuario = request.GET.get('idUsuario',usuario_cliente)
-                
-                cliente.save()
-                return redirect('login')
-                #return redirect(reverse('login'+"?registrado"))
-        
+               try:
+                    # Consulta en SQL: SELECT id FROM usuario ORDER BY id DESC LIMIT 1 #
+                    last_id_usuario = Usuario.objects.last()
+                    #id_usuario = Usuario.objects.filter(id=int(last_id_usuario[0:2])).values_list('id')
+                    #print("Id de usuario: "+str(last_id_usuario))
+                    #print(Usuario.objects.filter(id=int(last_id_usuario)).query())
+                    
+                    # Añadimos datos de cliente #
+                    dni = request.POST['dni']
+                    nombre = request.POST['nombre']
+                    apellidos = request.POST['apellidos']
+                    direccion = request.POST['direccion']
+                    fechaNacimiento = request.POST['fechaNacimiento']
+                    fechaAlta = request.POST['fechaAlta']
+                    activo = request.POST[str(0)]
+                    idUsuario = request.GET[str(last_id_usuario)]
+                    
+                    if dni is not None or nombre is not None or apellidos is not None or direccion is not None or fechaNacimiento is not None or fechaAlta is not None or activo is not None or idUsuario:
+                        cliente.save()
+                        messages.success(request,'Cliente registrado correctamente.')
+                        return redirect('users_login')
+                    else:
+                        messages.warning(request,'Faltan datos por introducir.')
+                        return redirect('registro_cliente')
+               except Exception as ex:
+                   messages.error(request,'Error al registrar cliente.')
+                   return redirect('registro_cliente')
+               
     return render(request, "empresa/registro_cliente.html",context)
+
 
 def sign_in(request):
     if request.method == 'POST':
@@ -59,16 +73,21 @@ def sign_in(request):
         pwd = request.POST['pwd']
 
         user = authenticate(username=username, password=pwd)
-
+        #name = user.nombre
+        # {'name': name} #
         if user is not None:
             login(request, user)
-            name = user.nombre
-            return render(request,"empresa/page_inicio.html", {'name': name})
-        
-        else:
-            messages.error(request, "Wrong credentials")
+            messages.success(request,str(user)+' ha iniciado sesión correctamente.')
+            #return render(request,"empresa/page_inicio.html")
             return redirect('page_inicio')
+        else:
+            messages.error(request,'Faltan credenciales por poner.')
+            return redirect('users_login')
 
     return render(request, "empresa/sign_in.html")
 
 
+def sign_out(request):
+    logout(request)
+    messages.success(request,' Ha cerrado sesión correctamente.')
+    return redirect('users_login')
