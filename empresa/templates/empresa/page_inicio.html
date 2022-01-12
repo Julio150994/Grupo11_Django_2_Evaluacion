@@ -14,7 +14,9 @@
         <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
         <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="/static/css/styles.css" rel="stylesheet"/>
+        {% load static %}
+        <link href="{% static 'css/styles.css' %}" rel="stylesheet"/>
+        <link href="{% static 'css/inicio.css' %}" rel="stylesheet"/>
     </head>
     <body id="page-top">
         <!-- Navigation-->
@@ -27,7 +29,7 @@
                             <li class="nav-item"><a class="nav-link text-white" href="{% url 'users_login' %}">Login</a></li>
                             <li class="nav-item"><a class="nav-link text-white" href="{% url 'registro_cliente' %}">Register</a></li>
                         {% else %}
-                            <li class="nav-item"><a class="nav-link text-white" href="#">Editar perfil</a></li>
+                            <li class="nav-item"><a class="nav-link text-white" href="{% url 'perfil_cliente' user.id  %}">Editar perfil</a></li>
                             <!-- Indicamos el nombre de usuario que se ha logueado actualmente -->
                             <li class="nav-item"><span class="nav-link text-white">{{user.username}}</span></li>
                             <li class="nav-item"><a class="nav-link text-white" href="{% url 'users_logout' %}">Logout</a></li>
@@ -48,10 +50,10 @@
                         {% else %}
                         <h2 class="text-white-50 mx-auto mt-2 mb-5">Proyecto del Grupo 11</h2>
                         
-                        <div class="text-center text-danger col-md-5 col-5 fom-control">
+                        <div class="text-center fom-control" id="login">
                             {% if messages %}
                                 {% for login in messages %}
-                                <div class="alert alert-primary text-center col-md-5 col-5" style="margin-top: 0.5%; margin-bottom: 4.5%; margin-left: 29.2%;">
+                                <div class="alert alert-primary text-center col-md-5 col-5">
                                     {{ login }}
                                 </div>
                                 {% endfor %}

@@ -77,7 +77,7 @@ def sign_in(request):
         # {'name': name} #
         if user is not None:
             login(request, user)
-            messages.success(request,str(user)+' ha iniciado sesión correctamente.')
+            messages.success(request,str(username)+' ha iniciado sesión correctamente.')
             #return render(request,"empresa/page_inicio.html")
             return redirect('page_inicio')
         else:
@@ -91,3 +91,32 @@ def sign_out(request):
     logout(request)
     messages.success(request,' Ha cerrado sesión correctamente.')
     return redirect('users_login')
+
+def vista_perfil(request, id):
+    # Después de haber accedido con del rol de cliente #
+    datos_usuario = Usuario.objects.get(id = id)
+    #perfil_cliente = Cliente.objects.get(id = id)
+
+    if request.method == 'GET':
+        usuario = UsuarioModelForm(instance = datos_usuario)
+        #cliente = ClienteModelForm(instance = perfil_cliente)
+        context = {
+            'usuario':usuario
+            #'cliente':cliente
+        }
+    else:
+        usuario = UsuarioModelForm(request.POST, instance = datos_usuario)
+        #cliente = ClienteModelForm(request.POST, instance = perfil_cliente)
+        context = {
+            'usuario':usuario,
+            #'cliente':cliente
+        }
+        
+        if usuario.is_valid():
+            usuario.save()
+        
+            """if cliente.is_valid():
+                cliente.save()
+                return redirect('page_inicio')"""
+        
+    return render(request,'empresa/perfil_cliente.html',context) 

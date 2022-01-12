@@ -7,5 +7,5 @@ urlpatterns = [
     path('registro/',views.registrar_cliente, name="registro_cliente"),
     path('sign_in/', views.sign_in, name="users_login"),
     path('logout/', views.sign_out, name="users_logout"),
-    # path('perfil_cliente/',views.editar_perfil, name="perfil_cliente"),
+    path('perfil_cliente/<int:id>/',views.vista_perfil, name="perfil_cliente"),
 ]
