@@ -126,5 +126,4 @@ STATICFILES_DIRS = [
 ]
 
 LOGIN_REDIRECT_URL = 'sign_in/'
-LOGOUT_REDIRECT_URL = 'sign_in/'
-AUTH_USER_MODEL = 'empresa.Usuario'
+#AUTH_USER_MODEL = 'empresa.Usuario'

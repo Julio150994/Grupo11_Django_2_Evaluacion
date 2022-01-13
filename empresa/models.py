@@ -3,7 +3,7 @@ from django.contrib.auth.models import AbstractUser, BaseUserManager
 
 # Create your models here.
 
-class Usuario(AbstractUser):
+class Usuario(models.Model):
     id = models.AutoField(primary_key=True)
     username = models.CharField(max_length=40, unique=True)
     password = models.CharField(max_length=255)
@@ -14,7 +14,7 @@ class Usuario(AbstractUser):
 
 class Empleado(models.Model):
     id = models.AutoField(primary_key=True)
-    dni = models.CharField(max_length=9)
+    dni = models.CharField(max_length=9,unique=True)
     nombre = models.CharField(max_length=40)
     apellidos = models.CharField(max_length=60)
     direccion = models.CharField(max_length=150)
@@ -27,7 +27,7 @@ class Empleado(models.Model):
     
 class Cliente(models.Model):
     id = models.AutoField(primary_key=True)
-    dni = models.CharField(max_length=9)
+    dni = models.CharField(max_length=9,unique=True)
     nombre = models.CharField(max_length=40)
     apellidos = models.CharField(max_length=60)
     direccion = models.CharField(max_length=150)

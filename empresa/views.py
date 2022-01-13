@@ -36,33 +36,36 @@ def registrar_cliente(request):
             usuario.save()
             
             if cliente.is_valid():
-               try:
-                    # Consulta en SQL: SELECT id FROM usuario ORDER BY id DESC LIMIT 1 #
-                    last_id_usuario = Usuario.objects.last()
-                    #id_usuario = Usuario.objects.filter(id=int(last_id_usuario[0:2])).values_list('id')
-                    #print("Id de usuario: "+str(last_id_usuario))
-                    #print(Usuario.objects.filter(id=int(last_id_usuario)).query())
-                    
+               #try:
+                # Consulta en SQL: SELECT id FROM usuario ORDER BY id DESC LIMIT 1 #
+                last_id_usuario = Usuario.objects.last()
+                dni = request.POST.get('dni')
+                nombre = request.POST.get('nombre')
+                apellidos = request.POST.get('apellidos')
+                direccion = request.POST.get('direccion')
+                fechaNacimiento = request.POST.get('fechaNacimiento')
+                fechaAlta = request.POST.get('fechaAlta')
+                activo = request.POST.get('activo',False)
+                idUsuario = request.POST.get('idUsuario',last_id_usuario)
+                
+                if dni is not None or nombre is not None or apellidos is not None or direccion is not None or fechaNacimiento is not None or fechaAlta is not None or activo is not None or idUsuario:
                     # Añadimos datos de cliente #
-                    dni = request.POST['dni']
-                    nombre = request.POST['nombre']
-                    apellidos = request.POST['apellidos']
-                    direccion = request.POST['direccion']
-                    fechaNacimiento = request.POST['fechaNacimiento']
-                    fechaAlta = request.POST['fechaAlta']
-                    activo = request.POST[str(0)]
-                    idUsuario = request.GET[str(last_id_usuario)]
-                    
-                    if dni is not None or nombre is not None or apellidos is not None or direccion is not None or fechaNacimiento is not None or fechaAlta is not None or activo is not None or idUsuario:
-                        cliente.save()
-                        messages.success(request,'Cliente registrado correctamente.')
-                        return redirect('users_login')
-                    else:
-                        messages.warning(request,'Faltan datos por introducir.')
-                        return redirect('registro_cliente')
-               except Exception as ex:
-                   messages.error(request,'Error al registrar cliente.')
-                   return redirect('registro_cliente')
+                    """dni=request.POST.get['dni'], nombre=request.POST.get['nombre'],
+                    apellidos=request.POST.get['apellidos'], direccion=request.POST.get['direccion'],
+                    fechaNacimiento=request.POST.get['fechaNacimiento'], fechaAlta=request.POST.get['fechaAlta'],
+                    activo=request.POST.get('activo',False), idUsuario=request.POST.get('idUsuario',str(last_id_usuario))"""
+                
+                    #nuevo_cliente = Cliente(Cliente.objects.get('id'),dni,nombre,apellidos,direccion,fechaNacimiento,fechaAlta,activo,idUsuario)
+                    nuevo_cliente = Cliente.objects.all()
+                    cliente.save(nuevo_cliente)
+                    messages.success(request,'Cliente registrado correctamente.')
+                else:
+                    messages.warning(request,'Faltan datos por introducir.')
+                    return redirect('registro_cliente')
+                return redirect('users_login')
+            """except Exception as ex:
+                messages.error(request,'Error al registrar cliente.')
+                return redirect('registro_cliente')"""
                
     return render(request, "empresa/registro_cliente.html",context)
 
