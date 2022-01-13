@@ -71,6 +71,9 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'Grupo11_PSP_RA6.wsgi.application'
 
+PASSWORD_HASHERS = [
+    'django.contrib.auth.hashers.PBKDF2PasswordHasher',
+]
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases

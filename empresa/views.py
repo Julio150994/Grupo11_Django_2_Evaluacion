@@ -7,6 +7,8 @@ from .forms import ClienteModelForm, UsuarioModelForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.base_user import BaseUserManager
+from django.contrib.auth.hashers import make_password
+from django.contrib.auth.models import User
 
 # Create your views here.
 
@@ -37,6 +39,9 @@ def registrar_cliente(request):
             pwd = request.POST['password']
             
             nuevo_usuario = Usuario(username=username, password=pwd)
+            nuevo_usuario.password = make_password(nuevo_usuario.password)
+            user = User.objects.create_user(username = username, password=pwd)
+            user.save()
             nuevo_usuario.save()
             
             if cliente.is_valid():
