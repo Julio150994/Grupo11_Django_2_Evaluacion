@@ -25,7 +25,6 @@ def registrar_cliente(request):
     }
     
     if request.POST:
-    #if request.method == 'POST':
         usuario = UsuarioModelForm(request.POST)
         cliente = ClienteModelForm(request.POST)
         context = {
@@ -34,18 +33,16 @@ def registrar_cliente(request):
         }
         
         if usuario.is_valid():
-            # Añadimos datos de usuario #
             username = request.POST['username']
             pwd = request.POST['password']
             
             nuevo_usuario = Usuario(username=username, password=pwd)
             nuevo_usuario.password = make_password(nuevo_usuario.password)
-            user = User.objects.create_user(username = username, password=pwd)
-            user.save()
+            #user = User.objects.create(username = username, password=pwd)
+            #user.save()
             nuevo_usuario.save()
             
             if cliente.is_valid():
-               #try:
                 last_id_usuario = Usuario.objects.last()
                 
                 dni = request.POST.get("dni")
@@ -58,19 +55,15 @@ def registrar_cliente(request):
                 idUsuario = request.POST.get("idUsuario",last_id_usuario)
                 
                 if dni is not None or nombre is not None or apellidos is not None or direccion is not None or fechaNacimiento is not None or fechaAlta is not None or activo is not None or idUsuario:
-                    # Añadimos datos de cliente #
                     nuevo_cliente = Cliente(dni=dni, nombre=nombre, apellidos=apellidos, direccion=direccion,
                         fechaNacimiento=fechaNacimiento, fechaAlta=fechaAlta,activo=activo,idUsuario=idUsuario)
                     nuevo_cliente.save()
                     messages.success(request,'Cliente registrado correctamente.')
+                    return redirect('users_login')
                 else:
                     messages.warning(request,'Faltan datos por introducir.')
                     return redirect('registro_cliente')
-                return redirect('users_login')
-            """except Exception as ex:
-                messages.error(request,'Error al registrar cliente.')
-                return redirect('registro_cliente')"""
-               
+                
     return render(request, "empresa/registro_cliente.html",context)
 
 
@@ -80,12 +73,9 @@ def sign_in(request):
         pwd = request.POST['pwd']
 
         user = authenticate(username=username, password=pwd)
-        #name = user.nombre
-        # {'name': name} #
         if user is not None:
             login(request, user)
             messages.success(request,str(username)+' ha iniciado sesión correctamente.')
-            #return render(request,"empresa/page_inicio.html")
             return redirect('page_inicio')
         else:
             messages.error(request,'Faltan credenciales por poner.')
@@ -99,31 +89,57 @@ def sign_out(request):
     messages.success(request,' Ha cerrado sesión correctamente.')
     return redirect('users_login')
 
+
 def vista_perfil(request, id):
     # Después de haber accedido con del rol de cliente #
     datos_usuario = Usuario.objects.get(id = id)
-    #perfil_cliente = Cliente.objects.get(id = id)
+    perfil_cliente = Cliente.objects.get(id = id)
 
     if request.method == 'GET':
         usuario = UsuarioModelForm(instance = datos_usuario)
-        #cliente = ClienteModelForm(instance = perfil_cliente)
+        cliente = ClienteModelForm(instance = perfil_cliente)
         context = {
-            'usuario':usuario
-            #'cliente':cliente
+            'usuario':usuario,
+            'cliente':cliente
         }
     else:
         usuario = UsuarioModelForm(request.POST, instance = datos_usuario)
-        #cliente = ClienteModelForm(request.POST, instance = perfil_cliente)
+        cliente = ClienteModelForm(request.POST, instance = perfil_cliente)
         context = {
             'usuario':usuario,
-            #'cliente':cliente
+            'cliente':cliente
         }
         
         if usuario.is_valid():
-            usuario.save()
+            username = request.POST['username']
+            pwd = request.POST['password']
+            
+            perfil = Usuario(username=username, password=pwd)
+            perfil.password = make_password(perfil.password)
+            #user = User.objects.create_user(username = username, password=pwd)
+            #user.save()
+            perfil.save()
         
-            """if cliente.is_valid():
-                cliente.save()
-                return redirect('page_inicio')"""
+            if cliente.is_valid():
+                last_id_usuario = Usuario.objects.last()
+                
+                dni = request.POST.get("dni")
+                nombre = request.POST.get("nombre")
+                apellidos = request.POST.get("apellidos")
+                direccion = request.POST.get("direccion")
+                fechaNacimiento = request.POST.get("fechaNacimiento")
+                fechaAlta = request.POST.get("fechaAlta")
+                activo = request.POST.get("activo",False)
+                idUsuario = request.POST.get("idUsuario",last_id_usuario)
+                
+                if dni is not None or nombre is not None or apellidos is not None or direccion is not None or fechaNacimiento is not None or fechaAlta is not None or activo is not None or idUsuario:
+                    nuevo_cliente = Cliente(dni=dni, nombre=nombre, apellidos=apellidos, direccion=direccion,
+                        fechaNacimiento=fechaNacimiento, fechaAlta=fechaAlta,activo=activo,idUsuario=idUsuario)
+                    nuevo_cliente.save()
+                    messages.success(request,'Perfil de cliente editado correctamente.')
+                    return redirect('page_inicio')
+                else:
+                    messages.warning(request,'Faltan datos por introducir.')
+                    return redirect('registro_cliente')
         
     return render(request,'empresa/perfil_cliente.html',context) 
