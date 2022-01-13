@@ -1,0 +1,3 @@
+USERNAME    	PASSWORD
+blas21		    1234
+qwerty		    1234
