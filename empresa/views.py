@@ -11,8 +11,6 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 
 # Create your views here.
-
-#---------Enlace a la plantilla escogida para el proyecto--------#
 class InicioEmpresaView(TemplateView):
     template_name = "empresa/page_inicio.html"
     
@@ -38,8 +36,6 @@ def registrar_cliente(request):
             
             nuevo_usuario = Usuario(username=username, password=pwd)
             nuevo_usuario.password = make_password(nuevo_usuario.password)
-            #user = User.objects.create(username = username, password=pwd)
-            #user.save()
             nuevo_usuario.save()
             
             if cliente.is_valid():
@@ -91,8 +87,7 @@ def sign_out(request):
 
 
 def vista_perfil(request, id):
-    # Después de haber accedido con del rol de cliente #
-    datos_usuario = Usuario.objects.get(id = id)
+    datos_usuario = User.objects.get(id = id)
     perfil_cliente = Cliente.objects.get(id = id)
 
     if request.method == 'GET':
@@ -116,8 +111,6 @@ def vista_perfil(request, id):
             
             perfil = Usuario(username=username, password=pwd)
             perfil.password = make_password(perfil.password)
-            #user = User.objects.create_user(username = username, password=pwd)
-            #user.save()
             perfil.save()
         
             if cliente.is_valid():
@@ -142,4 +135,4 @@ def vista_perfil(request, id):
                     messages.warning(request,'Faltan datos por introducir.')
                     return redirect('registro_cliente')
         
-    return render(request,'empresa/perfil_cliente.html',context) 
+    return render(request,'empresa/perfil_cliente.html',context)

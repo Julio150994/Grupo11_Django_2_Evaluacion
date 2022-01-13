@@ -1,3 +1,7 @@
+body {
+    background-image: url("/static/assets/img/fondo_django.png");
+}
+
 #panel {
     margin-bottom: 2%;
 }
