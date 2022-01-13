@@ -126,9 +126,9 @@ def vista_perfil(request, id):
                 idUsuario = request.POST.get("idUsuario",last_id_usuario)
                 
                 if dni is not None or nombre is not None or apellidos is not None or direccion is not None or fechaNacimiento is not None or fechaAlta is not None or activo is not None or idUsuario:
-                    nuevo_cliente = Cliente(dni=dni, nombre=nombre, apellidos=apellidos, direccion=direccion,
+                    perfil_cliente = Cliente(dni=dni, nombre=nombre, apellidos=apellidos, direccion=direccion,
                         fechaNacimiento=fechaNacimiento, fechaAlta=fechaAlta,activo=activo,idUsuario=idUsuario)
-                    nuevo_cliente.save()
+                    perfil_cliente.save()
                     messages.success(request,'Perfil de cliente editado correctamente.')
                     return redirect('page_inicio')
                 else:
