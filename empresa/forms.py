@@ -1,11 +1,11 @@
 from django import forms
-from empresa.models import Usuario, Cliente
+from empresa.models import Empleado, Usuario, Cliente
 
 class UsuarioModelForm(forms.ModelForm):
     username = forms.CharField(required=True, help_text="Debe introducir un nombre de usuario",widget=forms.TextInput(
-        attrs={'class':'form-control mb-1','placeholder':'Enter your username'}))
+        attrs={'class':'form-control','placeholder':'Enter your username'}))
     password = forms.CharField(required=True, help_text="Debe introducir una contraseña", widget=forms.PasswordInput(
-        attrs={'class':'form-control mb-1', 'placeholder':'Enter your password'}))
+        attrs={'class':'form-control', 'placeholder':'Enter your password'}))
         
     class Meta:
         model = Usuario
@@ -28,3 +28,20 @@ class ClienteModelForm(forms.ModelForm):
     class Meta:
         model = Cliente
         fields = ['dni','nombre','apellidos','direccion','fechaNacimiento','fechaAlta']
+        
+        
+class EmpleadoModelForm(forms.ModelForm):
+    dni = forms.CharField(required=True, help_text="Debe introducir un dni", widget=forms.TextInput(
+        attrs={'class':'form-control', 'placeholder':'Escriba su dni'}))
+    nombre = forms.CharField(required=True, help_text="Debe introducir un nombre", widget=forms.TextInput(
+        attrs={'class':'form-control', 'placeholder':'Escriba su nombre'}))
+    apellidos = forms.CharField(required=True, help_text="Debe introducir unos apellidos", widget=forms.TextInput(
+        attrs={'class':'form-control', 'placeholder':'Escriba sus apellidos'}))
+    direccion = forms.CharField(required=True, help_text="Debe introducir una dirección", widget=forms.TextInput(
+        attrs={'class':'form-control', 'placeholder':'Escriba su dirección'}))
+    biografia = forms.CharField(required=True, help_text="Debe introducir su biografía", widget=forms.Textarea(
+        attrs={'class':'form-control', 'placeholder':'Escriba su biografía'}))
+    
+    class Meta:
+        model = Empleado
+        fields = ['dni','nombre','apellidos','direccion','biografia']
