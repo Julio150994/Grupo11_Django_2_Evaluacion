@@ -102,17 +102,15 @@
                             <span>Cancelar</span>
                         </a>
                         
-                        {% if empleado.id == 0 %}
                         <button type="submit" class="form-control btn btn-success text-white" id="empleado">
                             <i class="fas fa-user-plus"></i>
                             <span>Añadir empleado</span>
                         </button>
-                        {% else %}
+
                         <button type="submit" class="form-control btn btn-primary text-white" id="empleado">
                             <i class="fas fa-edit"></i>
                             <span>Editar empleado</span>
                         </button>
-                        {% endif %}
                     </form>
                     {% endif %}
                 </div>

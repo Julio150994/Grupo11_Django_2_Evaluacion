@@ -67,8 +67,8 @@ class Participa(models.Model):
     id = models.AutoField(primary_key=True)
     idCliente = models.ForeignKey(Cliente, on_delete = models.CASCADE)
     idProyecto = models.ForeignKey(Proyecto, on_delete = models.CASCADE)
-    fechaDescripcion = models.DateField(auto_now=True)
+    fechaInscripcion = models.DateField(auto_now=True)
     rol = models.CharField(max_length=100)
     
     def __str__(self):
-        return str(self.id)+" "+str(self.idCliente)+" "+str(self.idProyecto)+" "+str(self.fechaDescripcion)+" "+str(self.rol)
+        return str(self.id)+" "+str(self.idCliente)+" "+str(self.idProyecto)+" "+str(self.fechaInscripcion)+" "+str(self.rol)
