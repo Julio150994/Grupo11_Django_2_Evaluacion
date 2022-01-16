@@ -198,8 +198,57 @@ def aniadir_empleado(request):
 
 
 def editar_empleado(request,id):
-    return
+    datos_usuario = Usuario.objects.get(id = id)
+    editar_empleado = Empleado.objects.get(id = id)
+
+    if request.method == 'GET':
+        usuario = UsuarioModelForm(instance = datos_usuario)
+        empleado = EmpleadoModelForm(instance = editar_empleado)
+        context = {
+            'usuario':usuario,
+            'empleado':empleado
+        }
+    else:
+        usuario = UsuarioModelForm(request.POST, instance = datos_usuario)
+        empleado = ClienteModelForm(request.POST, instance = editar_empleado)
+        context = {
+            'usuario':usuario,
+            'empleado':empleado
+        }
+        
+        if usuario.is_valid():
+            username = request.POST['username']
+            pwd = request.POST['password']
+            
+            perfil = Usuario(username=username, password=pwd)
+            perfil.password = make_password(perfil.password)
+            perfil.save()
+        
+            if empleado.is_valid():
+                last_id_usuario = Usuario.objects.last()
+                
+                dni = request.POST.get("dni")
+                nombre = request.POST.get("nombre")
+                apellidos = request.POST.get("apellidos")
+                direccion = request.POST.get("direccion")
+                biografia = request.POST.get("biografia")
+                idUsuario = request.POST.get("idUsuario",last_id_usuario)
+                
+                if dni is not None or nombre is not None or apellidos is not None or direccion is not None or biografia is not None or idUsuario is not None:
+                    set_empleado = Empleado(dni=dni, nombre=nombre, apellidos=apellidos, direccion=direccion,biografia=biografia,idUsuario=idUsuario)
+                    set_empleado.save()
+                    messages.success(request,'Empleado editado correctamente.')
+                    return redirect('empleados')
+                else:
+                    messages.warning(request,'Faltan datos por introducir.')
+                    return redirect('form_empleado')
+        
+    return render(request,'empresa/form_empleado.html',context)
 
 
 def eliminar_empleado(request,id):
-    return
+    # Eliminamos a un empleado con mensaje de opción #
+    empleado = Empleado.objects.get(id = id)
+    context = {'empleado':empleado}
+    empleado.delete()
+    return render(request,'empresa/empleados.html',context)
