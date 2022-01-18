@@ -1,5 +1,5 @@
-#panel {
-    margin-bottom: -6%;
+body {
+    background-image: url("/static/assets/img/fondo_django.png");
 }
 
 #form {
@@ -9,11 +9,11 @@
     border-radius: 20px;
 }
 
-#empleado {
+#categoria {
     margin-bottom: 2.35%;
 }
 
-#empleado_alert {
+#categoria_alert {
     width: 200%;
-    margin-left: 2.5%;
+    margin-left: 6%;
 }

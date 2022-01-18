@@ -1,5 +1,5 @@
 from django import forms
-from empresa.models import Empleado, Usuario, Cliente
+from empresa.models import Categoria, Empleado, Usuario, Cliente
 
 class UsuarioModelForm(forms.ModelForm):
     username = forms.CharField(required=True, help_text="Debe introducir un nombre de usuario",widget=forms.TextInput(
@@ -45,3 +45,14 @@ class EmpleadoModelForm(forms.ModelForm):
     class Meta:
         model = Empleado
         fields = ['dni','nombre','apellidos','direccion','biografia']
+        
+        
+class CategoriaModelForm(forms.ModelForm):
+    nombre = forms.CharField(required=True, help_text="Debe introducir un nombre de categoría", widget=forms.TextInput(
+        attrs={'class':'form-control', 'placeholder':'Escriba un nombre'}))
+    foto = forms.ImageField(required=True,help_text="Debe seleccionar una imágen para la categoría")
+    
+    class Meta:
+        model = Categoria
+        fields = ['nombre','foto']
+        

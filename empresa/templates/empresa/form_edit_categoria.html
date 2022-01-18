@@ -15,7 +15,7 @@
         <!-- Core theme CSS (includes Bootstrap)-->
         {% load static %}
         <link href="{% static 'css/styles.css' %}" rel="stylesheet"/>
-        <link href="{% static 'css/form_empleado.css' %}" rel="stylesheet"/>
+        <link href="{% static 'css/form_categoria.css' %}" rel="stylesheet"/>
     </head>
     <body>
         {% if messages %}
@@ -29,64 +29,25 @@
         <div class="panel panel-default" style="margin-top: 1.10%;">
             <div class="panel-heading" id="panel">
                 <div class="container col-md-5 bg-white" id="form">
-                    <h2 class="text-center mb-4">Formulario de Empleado</h2>
-                    {% if empleado %}
-                    <form action="{% url 'empleados' %}" method="POST">
+                    <h2 class="text-center mb-4">Formulario de Categoría</h2>
+                    <form action="{% url 'categorias' %}" method="POST">
                         {% csrf_token %}
-                        <div class="form-group">
-                            <label for="dni" class="text-primary">Dni</label>
-                            <div class="input-group mb-3">
-                                <span class="input-group-text"><i class="fas fa-address-card"></i></span>
-                                {{ empleado.dni }}
-                            </div>
-                        </div>
-
                         <div class="form-group">
                             <label for="nombre" class="text-primary">Nombre</label>
                             <div class="input-group mb-3">
-                                <span class="input-group-text"><i class="fas fa-id-badge"></i></span>
-                                {{ empleado.nombre }}
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="apellidos" class="text-primary">Apellidos</label>
-                            <div class="input-group mb-3">
-                                <span class="input-group-text"><i class="fas fa-id-badge"></i></span>
-                                {{ empleado.apellidos }}
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="direccion" class="text-primary">Direccion</label>
-                            <div class="input-group mb-3">
-                                <span class="input-group-text"><i class="fas fa-house-user"></i></span>
-                                {{ empleado.direccion }}
-                            </div>
-                        </div>
-
-                        <!--<div class="form-group">
-                            <label for="username" class="text-primary">Username</label>
-                            <div class="input-group mb-3">
                                 <span class="input-group-text"><i class="fas fa-user"></i></span>
-                                {{ usuario.username }}
+                                {{ categoria.nombre }}
                             </div>
+                            {{ categoria.nombre.errors }}
                         </div>
 
                         <div class="form-group">
-                            <label for="password" class="text-primary">Password</label>
+                            <label for="foto" class="text-primary">Foto</label>
                             <div class="input-group mb-3">
-                                <span class="input-group-text"><i class="fas fa-unlock"></i></span>
-                                {{ usuario.password }}
+                                <span class="input-group-text"><i class="fas fa-image"></i></span>
+                                {{ categoria.foto }}
                             </div>
-                        </div>-->
-
-                        <div class="form-group">
-                            <label for="biografia" class="text-primary">Biografía</label>
-                            <div class="input-group mb-3">
-                                <span class="input-group-text"><i class="fas fa-book"></i></span>
-                                {{ empleado.biografia }}
-                            </div>
+                            {{ categoria.foto.errors }}
                         </div>
 
                         {% if messages %}
@@ -96,23 +57,17 @@
                             </div>
                             {% endfor %}
                         {% endif %}
-
-                        <a href="{% url 'empleados' %}" class="form-control btn btn-danger text-white" id="empleado">
+                        
+                        <a href="{% url 'categorias' %}" class="form-control btn btn-danger text-white" id="categoria">
                             <i class="fas fa-arrow-left"></i>
                             <span>Cancelar</span>
                         </a>
-                        
-                        <button type="submit" class="form-control btn btn-success text-white" id="empleado">
-                            <i class="fas fa-user-plus"></i>
-                            <span>Añadir empleado</span>
-                        </button>
 
-                        <button type="submit" class="form-control btn btn-primary text-white" id="empleado">
+                        <button type="submit" class="form-control btn btn-primary text-white" id="categoria">
                             <i class="fas fa-edit"></i>
-                            <span>Editar empleado</span>
+                            <span>Editar categoría</span>
                         </button>
                     </form>
-                    {% endif %}
                 </div>
             </div>
         </div>

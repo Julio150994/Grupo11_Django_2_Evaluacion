@@ -9,7 +9,7 @@ class Usuario(models.Model):
     password = models.CharField(max_length=255)
     
     def __str__(self):
-        return str(self.id)+" "+str(self.username)+" "+str(self.password)
+        return str(self.id)
     
 
 class Empleado(models.Model):
@@ -42,7 +42,7 @@ class Cliente(models.Model):
 class Categoria(models.Model):
     id = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=150)
-    foto = models.ImageField(verbose_name="Foto", upload_to='imagenes', null=False)
+    foto = models.ImageField(verbose_name="Foto", upload_to='imagenes/', null=False)
     
     def __str__(self):
         return str(self.id)+" "+str(self.nombre)+" "+str(self.foto)

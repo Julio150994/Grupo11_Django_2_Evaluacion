@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>{% block title %} SalesEmp Datos de empleado {% endblock %}</title>
+        <title>{% block title %} SalesEmp Datos de categoría {% endblock %}</title>
         <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
         <!-- Font Awesome icons (free version)-->
         <script src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" crossorigin="anonymous"></script>
@@ -21,21 +21,18 @@
         <div class="panel panel-default" style="margin-top: 9.86%;">
             <div class="panel-heading">
                 <div class="container col-md-5 bg-white" style="border-radius: 10px;">
-                    <h2 class="text-center mb-4" style="padding-top: 2%;">Datos de empleado</h2>
+                    <h2 class="text-center mb-4" style="padding-top: 2%;">Datos de categoria</h2>
                     
                     <div class="container bg-white text-left" style="margin-top: 2%; padding-bottom: 2%;">
                         <ul class="list-group">
-                           <li class="list-group-item"><strong>Id:</strong> <span>{{ empleado.id }}</span></li>
-                           <li class="list-group-item"><strong>Nombre:</strong> <span>{{ empleado.nombre }}</span></li> 
-                           <li class="list-group-item"><strong>Apellidos:</strong> <span>{{ empleado.apellidos }}</span></li>
-                           <li class="list-group-item"><strong>Dirección:</strong> <span>{{ empleado.direccion }}</span></li>
-                           <li class="list-group-item"><strong>Nombre de usuario:</strong> <span>{{ empleado.idUsuario.username }}</span></li>
-                           <li class="list-group-item"><strong>Biografía:</strong> <span>{{ empleado.biografia }}</span></li>
+                           <li class="list-group-item"><strong>Id:</strong> <span>{{ categoria.id }}</span></li>
+                           <li class="list-group-item"><strong>Nombre:</strong> <span>{{ categoria.nombre }}</span></li> 
+                           <li class="list-group-item"><strong>Foto:</strong> <span>{{ categoria.apellidos }}</span></li>
                         </ul>
 
-                        <a href="{% url 'empleados' %}" class="btn btn-danger text-white" style="margin-top: 2.75%; margin-bottom: 2%;">
+                        <a href="{% url 'categorias' %}" class="btn btn-danger text-white" style="margin-top: 2.75%; margin-bottom: 2%;">
                             <i class="fas fa-arrow-left"></i>
-                            <span>Volver a Empleados</span>
+                            <span>Volver a Categorias</span>
                         </a>
                     </div>
                 </div>
