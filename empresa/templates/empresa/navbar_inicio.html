@@ -4,11 +4,14 @@
         <span class="navbar-brand text-white">Empresa de Gestión</span>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ms-auto">
-                {% if request.user.is_authenticated %}
+                {% if not request.user.is_authenticated %}
+                    <li class="nav-item"><a class="nav-link text-white" href="{% url 'users_login' %}">Login</a></li>
+                    <li class="nav-item"><a class="nav-link text-white" href="{% url 'registro_cliente' %}">Register</a></li>
+                {% else %}
                     <li class="nav-item"><a class="nav-link text-white" href="{% url 'perfil_cliente' user.id  %}">Editar perfil</a></li>
                     <!-- Indicamos el nombre de usuario que se ha logueado actualmente -->
                     <li class="nav-item"><span class="nav-link text-white">{{user.username}}</span></li>
-                    <li class="nav-item"><a class="nav-link text-white" href="{% url 'page_inicio' %}">Volver al menú</a></li>
+                    <li class="nav-item"><a class="nav-link text-white" href="{% url 'users_logout' %}">Logout</a></li>
                 {% endif %}
             </ul>
         </div>
