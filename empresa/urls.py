@@ -1,6 +1,6 @@
 """Rutas para la aplicación empresa."""
 from django.urls import path
-from empresa import views, view_empleados, view_categorias
+from empresa import view_pry, views, view_empleados, view_categorias
 
 urlpatterns = [
     path('',views.InicioEmpresaView.as_view(), name="page_inicio"),
@@ -20,4 +20,6 @@ urlpatterns = [
     path('aniadir_categoria/',view_categorias.aniadir_categoria,name="form_add_categoria"),
     path('editar_categoria/<int:id>/',view_categorias.editar_categoria,name="form_edit_categoria"),
     path('eliminar_categoria/<int:id>/',view_categorias.eliminar_categoria,name="categorias"),
+
+    path('proyectos/',view_pry.mostrar_pry,name="proyectos"),
 ]

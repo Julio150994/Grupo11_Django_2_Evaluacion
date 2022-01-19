@@ -1,5 +1,5 @@
 from django import forms
-from empresa.models import Categoria, Empleado, Usuario, Cliente
+from empresa.models import Categoria, Empleado, Proyecto, Usuario, Cliente
 
 class UsuarioModelForm(forms.ModelForm):
     username = forms.CharField(required=True, help_text="Debe introducir un nombre de usuario",widget=forms.TextInput(
@@ -55,4 +55,23 @@ class CategoriaModelForm(forms.ModelForm):
     class Meta:
         model = Categoria
         fields = ['nombre','foto']
+
+class ProyectoModelForm(forms.ModelForm):
+    titulo = forms.CharField(required=True, help_text="Introduzca nombre del proyecto", widget=forms.TextInput(
+        attrs={'class':'form-control', 'placeholder':'Escriba un nombre'}))
+    descripcion = forms.CharField(required=True, help_text="Introduzca descripcion del proyecto", widget=forms.TextInput(
+        attrs={'class':'form-control', 'placeholder':'Escriba una descripcion'}))
+    nivel = forms.IntegerField(required=True, help_text="Introduzca nivel del proyecto", widget=forms.NumberInput(
+        attrs={'class':'form-control', 'placeholder':'Escriba un nivel'}))
+    fechaInicio = forms.DateField(required=True, help_text="Introduzca nombre del proyecto", widget=forms.DateInput(
+        attrs={'class':'form-control','type':'date', 'placeholder':'Escriba fecha comienzo'}))
+    fechaFin = forms.DateField(required=True, help_text="Introduzca nombre del proyecto", widget=forms.DateInput(
+        attrs={'class':'form-control', 'type':'date', 'placeholder':'Escriba fecha fin'}))
+    informeFinal = forms.CharField(required=True, help_text="Introduzca el informe final", widget=forms.TextInput(
+        attrs={'class':'form-control', 'placeholder':'Escriba un informe'}))
+
+    class Meta:
+        model = Proyecto
+        fields = ['titulo','descripcion','nivel','fechaInicio','fechaFin','informeFinal']
+    
         

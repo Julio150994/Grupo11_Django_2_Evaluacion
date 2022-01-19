@@ -1,0 +1,36 @@
+<html>
+    <body>
+        <div>
+            <h1>Listado proyectos</h1>
+            <table>
+                <thead class = "bg-black text-white">
+                    <tr>
+                        <th>Id</th>
+                        <th>Titulo</th>
+                        <th>Desc</th>
+                        <th>Nivel</th>
+                        <th>FechaIn</th>
+                        <th>FechaFin</th>
+                        <th>InfoFinal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for proyecto in proyectos %}
+                    <tr>
+                        <th>{{proyecto.id}}</th>
+                        <th>{{proyecto.titulo}}</th>
+                        <th>{{proyecto.descripcion}}</th>
+                        <th>{{proyecto.nivel}}</th>
+                        <th>{{proyecto.fechaInicio}}</th>
+                        <th>{{proyecto.fechaFin}}</th>
+                        <th>{{proyecto.InformeFinal}}</th>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div>
+                <a href="{% url 'page_inicio' %} ">Inicio</a>
+            </div>
+        </div>
+    </body>
+</html>
