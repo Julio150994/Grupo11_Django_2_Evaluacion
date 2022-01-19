@@ -4,7 +4,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>{% block title %} SalesEmp Formulario de proyectos {% endblock %}</title>
+        <title>{% block title %} SalesEmp Formulario de clientes {% endblock %}</title>
         <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
         <!-- Font Awesome icons (free version)-->
         <script src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" crossorigin="anonymous"></script>
@@ -28,54 +28,62 @@
         <div class="panel panel-default" style="margin-top: 1.10%;">
             <div class="panel-heading" id="panel">
                 <div class="container col-md-5 bg-white" id="form">
-                    <h2 class="text-center mb-4">Formulario de proyecto</h2>
-                    <form action="{% url 'proyectos' %}" method="POST" enctype="multipart/form-data">
+                    <h2 class="text-center mb-4">Formulario de cliente</h2>
+                    <form action="{% url 'clientes' %}" method="POST" enctype="multipart/form-data">
                         {% csrf_token %}
+                            <div class="form-group">
+                                <label for="dni" class="text-primary">DNI</label>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text"><i class="fas fa-address-card"></i></span>
+                                    <input type="text" maxlength="9" pattern="[0-9]{8}[A-Z]" class="form-control" id="DNI" name="DNI" placeholder="Escriba su DNI" required>
+                                </div>
+                            </div>
+
                             <div class="form-group">
                                 <label for="nombre" class="text-primary">Nombre</label>
                                 <div class="input-group mb-3">
-                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
-                                    <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Escriba un nombre" required>
+                                    <span class="input-group-text"><i class="fas fa-id-badge"></i></span>
+                                    <input type="text" class="form-control" id="Nombre" name="Nombre" placeholder="Nombre del cliente" required>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label for="descripcion" class="text-primary">Descripcion</label>
+                                <label for="apellidos" class="text-primary">Apellidos</label>
                                 <div class="input-group mb-3">
-                                    <span class="input-group-text"><i class="fas fa-comment-dots"></i></span>
-                                    <input type="text" class="form-control" id="descripcion" name="descripcion" placeholder="Breve descripcion del proyecto" required>
+                                    <span class="input-group-text"><i class="fas fa-id-badge"></i></span>
+                                    <input type="text" class="form-control" id="Apellidos" name="Apellidos" placeholder="Apellidos del cliente" required>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label for="nivel" class="text-primary">Nivel</label>
+                                <label for="direccion" class="text-primary">Direccion</label>
                                 <div class="input-group mb-3">
-                                    <span class="input-group-text"><i class="fas fa-sort-numeric-up-alt"></i></span>
-                                    <input type="number" min="0" max="10" class="form-control" id="nivel" name="nivel" placeholder="Nivel de importancia del proyecto" required>
+                                    <span class="input-group-text"><i class="fas fa-house-user"></i></span>
+                                    <input type="text" class="form-control" id="Direccion" name="Direccion" placeholder="Direccion del cliente" required>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label for="fechaInicio" class="text-primary">Fecha de inicio</label>
+                                <label for="fechaNacimiento" class="text-primary">Fecha de nacimiento</label>
                                 <div class="input-group mb-3">
                                     <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
-                                    <input type="date" class="form-control" id="fechaInicio" name="fechaInicio" placeholder="Escoja la fecha de inicio del proyecto" required>
+                                    <input type="date" class="form-control" id="fechaNacimiento" name="fechaNacimiento" placeholder="Escoja la fecha de nacimiento del cliente" required>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label for="fechaFin" class="text-primary">Fecha de finalizacion</label>
+                                <label for="fechaAlta" class="text-primary">Fecha de alta</label>
                                 <div class="input-group mb-3">
                                     <span class="input-group-text"><i class="fas fa-calendar-check"></i></span>
-                                    <input type="date" class="form-control" id="fechaFin" name="fechaFin" required>
+                                    <input type="date" class="form-control" id="fechaAlta" name="fechaAlta" placeholder="Escoja la fecha de alta del cliente" required>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label for="informeFinal" class="text-primary">Informe final</label>
+                                <label for="activo" class="text-primary">Activo</label>
                                 <div class="input-group mb-3">
                                     <span class="input-group-text"><i class="fas fa-clipboard-list"></i></span>
-                                    <input type="text" class="form-control" id="informeFinal" name="informeFinal" placeholder="Breve descripcion del proyecto" required>
+                                    <input type="checkbox" class="form-check" id="Activo" name="Activo" required>
                                 </div>
                             </div>
 
@@ -87,14 +95,14 @@
                             {% endfor %}
                         {% endif %}
                         
-                        <a href="{% url 'proyectos' %}" class="form-control btn btn-danger text-white" id="proyecto">
+                        <a href="{% url 'clientes' %}" class="form-control btn btn-danger text-white" id="cliente">
                             <i class="fas fa-arrow-left"></i>
                             <span>Cancelar</span>
                         </a>
 
-                        <button type="submit" class="form-control btn btn-success text-white" id="proyecto">
+                        <button type="submit" class="form-control btn btn-success text-white" id="cliente">
                             <i class="fas fa-user-plus"></i>
-                            <span>Añadir proyecto</span>
+                            <span>Añadir cliente</span>
                         </button>
                     </form>
                 </div>

@@ -47,7 +47,7 @@
                         {% if request.user.is_authenticated %}
                         <div class="panel panel-default text-center" style="margin-right: 3em;">
                             <a href="{% url 'empleados' %}" class="btn btn-primary btn-block text-white"><i class="fas fa-link"></i> <span>Lista de empleados</span></a>
-                            <a href="#" class="btn btn-primary btn-block text-white"><i class="fas fa-link"></i> <span>Lista de clientes</span></a>
+                            <a href="{% url 'clientes' %}" class="btn btn-primary btn-block text-white"><i class="fas fa-link"></i> <span>Lista de clientes</span></a>
                             <a href="{% url 'categorias' %}" class="btn btn-primary btn-block text-white"><i class="fas fa-link"></i> <span>Lista de categorías</span></a>
                             <a href="{% url 'proyectos' %}" class="btn btn-primary btn-block text-white"><i class="fas fa-link"></i> <span>Lista de proyectos</span></a>
                         </div>
