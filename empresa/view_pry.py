@@ -19,7 +19,7 @@ def annadir_proyecto(request):
         context = {'proyecto': proyecto}
         
         if proyecto.is_valid():
-            obj_proyecto = proyecto.objects.get(pk=id)
+            obj_proyecto = Proyecto.objects.get(pk=id)
             obj_proyecto.titulo = proyecto.cleaned_data['titulo']
             print("titulo: "+str(obj_proyecto.titulo))
             obj_proyecto.descripcion = proyecto.cleaned_data['descripcion']

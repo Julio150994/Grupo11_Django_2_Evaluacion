@@ -1,0 +1,19 @@
+body {
+    background-image: url("/static/assets/img/fondo_django.png");
+}
+
+#form {
+    margin-top: 3.45%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+    border-radius: 20px;
+}
+
+#categoria {
+    margin-bottom: 2.35%;
+}
+
+#categoria_alert {
+    width: 200%;
+    margin-left: 6%;
+}
