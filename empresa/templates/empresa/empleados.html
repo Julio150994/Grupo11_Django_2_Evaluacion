@@ -20,7 +20,7 @@
     </head>
     <body id="page-top">
         {% include "empresa/navbar_inicio.html" %}
-        
+
         <!-- Masthead-->
         <header class="masthead">
             {% if messages %}
@@ -85,6 +85,12 @@
                                     {% endfor %}
                                 </tbody>
                             </table>
+                            <div class="text-center">
+                                <a class="btn btn-dark text-white" href="{% url 'page_inicio' %}" style="margin-top: 1%; margin-right: 81%;">
+                                    <i class="fas fa-arrow-left"></i>
+                                    <span>Volver al menú</span>
+                                </a>
+                            </div>
                         </div>
                         {% endif %}
                     </div>

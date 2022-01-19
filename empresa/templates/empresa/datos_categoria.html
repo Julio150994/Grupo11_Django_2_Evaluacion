@@ -27,7 +27,7 @@
                         <ul class="list-group">
                            <li class="list-group-item"><strong>Id:</strong> <span>{{ categoria.id }}</span></li>
                            <li class="list-group-item"><strong>Nombre:</strong> <span>{{ categoria.nombre }}</span></li> 
-                           <li class="list-group-item"><strong>Foto:</strong> <span>{{ categoria.apellidos }}</span></li>
+                           <li class="list-group-item"><strong>Foto:</strong> <span><img src="{{ categoria.foto.url }}" class="img-circle" width="140" height="140"></span></li>
                         </ul>
 
                         <a href="{% url 'categorias' %}" class="btn btn-danger text-white" style="margin-top: 2.75%; margin-bottom: 2%;">

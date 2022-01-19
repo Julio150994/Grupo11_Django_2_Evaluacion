@@ -20,7 +20,7 @@
     </head>
     <body id="page-top">
         {% include "empresa/navbar_inicio.html" %}
-
+        
         <!-- Masthead-->
         <header class="masthead">
             {% if 'cat_added' in request.GET %}
@@ -73,8 +73,7 @@
                                     <tr>
                                         <td>{{ categoria.id }}</td>
                                         <td>{{ categoria.nombre }}</td>
-                                        <!-- {{ categoria.foto }} -->
-                                        <td><img src="{{ categoria.foto.url }}" class="img-circle" id="img_categoria"></td>
+                                        <td><img src="{{ categoria.foto.url }}" class="img-circle" width="140" height="140"></td>
                                         <td><a href="{% url 'datos_categoria' categoria.id %}" class="btn btn-primary text-white"><i class="fas fa-list"></i> <span>Datos de categoria</span></a></td>
                                         <td><a href="{% url 'form_edit_categoria' categoria.id %}" class="btn btn-secondary text-white"><i class="fas fa-user-edit"></i> <span>Editar</span></a></td>
                                         <td><a href="{% url 'categorias' categoria.id %}" class="btn btn-danger text-white" id="cat"><i class="fas fa-trash-alt"></i> <span>Eliminar</span></a></td>
@@ -82,6 +81,12 @@
                                     {% endfor %}
                                 </tbody>
                             </table>
+                            <div class="text-center">
+                                <a class="btn btn-dark text-white" href="{% url 'page_inicio' %}" style="margin-top: 1%; margin-right: 81%;">
+                                    <i class="fas fa-arrow-left"></i>
+                                    <span>Volver al menú</span>
+                                </a>
+                            </div>
                         </div>
                         {% endif %}
                     </div>
