@@ -22,4 +22,6 @@ urlpatterns = [
     path('eliminar_categoria/<int:id>/',view_categorias.eliminar_categoria,name="categorias"),
 
     path('proyectos/',view_pry.mostrar_pry,name="proyectos"),
+    path('annadir_proyecto/',view_pry.annadir_proyecto,name="form_add_pry"),
+    # path('editar_proyecto/<int:id>/',view_pry.editar_proyecto,name="form_edit_pry"),
 ]
