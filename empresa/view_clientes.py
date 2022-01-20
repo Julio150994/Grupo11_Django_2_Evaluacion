@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
-from django.core.checks import messages
+from django.urls import reverse
+from django.contrib import messages
 from empresa.forms import ClienteModelForm
 from empresa.models import Cliente
 from .forms import ClienteModelForm
@@ -44,13 +45,33 @@ def annadir_clientes(request):
     return render(request, "empresa/form_add_cliente.html",context)
 
 def editar_clientes(request,id):
-    cliente = Cliente.objects.get(id=id)
-    return render(request, "empresa/form_edit_cliente.html", {'cliente':cliente} )
+    id_cliente = Cliente.objects.get(id = id)
+    
+    if request.method == 'GET':
+        cliente = ClienteModelForm(instance = id_cliente)
+        context = {'cliente': cliente}
+    else:
+        cliente = ClienteModelForm(request.POST, instance = id_cliente)
+        context = {'cliente': cliente}
+            
+        if cliente.is_valid():
+            cliente.save()
+            #messages.success(request,'Categoría editada correctamente.')
+            return reverse(redirect('clientes')+"?cliente_updated")
+        else:
+            messages.warning(request,'Faltan datos por introducir.')
+            return redirect('form_edit_cliente')
+    
+    return render(request, "empresa/form_edit_cliente.html",context)
 
-def actualizar_clientes(request,id):
-    cliente = Cliente.objects.get(id=id)
-    form = ClienteModelForm(request.POST, instance = cliente)
-    if form.is_valid():
-        form.save()
-        return redirect("/show")
-    return render(request, "empresa/form_edit_cliente.html", {'cliente':cliente} )
+def eliminar_cliente(request,id):
+    cliente = Cliente.objects.get(id = id)
+    context = {'cliente':cliente}
+    
+    if cliente is None:
+        messages.warning(request,'No se ha podido eliminar este cliente.')
+    else:
+        cliente.delete()
+        messages.error(request,'Cliente '+str(cliente)+' eliminado éxitosamente.')
+    
+    return redirect('empresa/cliente.html')
