@@ -59,7 +59,7 @@ class CategoriaModelForm(forms.ModelForm):
 class ProyectoModelForm(forms.ModelForm):
     titulo = forms.CharField(required=True, help_text="Introduzca nombre del proyecto", widget=forms.TextInput(
         attrs={'class':'form-control', 'placeholder':'Escriba un nombre'}))
-    descripcion = forms.CharField(required=True, help_text="Introduzca descripcion del proyecto", widget=forms.TextInput(
+    descripcion = forms.CharField(required=True, help_text="Introduzca descripcion del proyecto", widget=forms.Textarea(
         attrs={'class':'form-control', 'placeholder':'Escriba una descripcion'}))
     nivel = forms.IntegerField(required=True, help_text="Introduzca nivel del proyecto", widget=forms.NumberInput(
         attrs={'class':'form-control', 'placeholder':'Escriba un nivel'}))
@@ -67,7 +67,7 @@ class ProyectoModelForm(forms.ModelForm):
         attrs={'class':'form-control','type':'date', 'placeholder':'Escriba fecha comienzo'}))
     fechaFin = forms.DateField(required=True, help_text="Introduzca nombre del proyecto", widget=forms.DateInput(
         attrs={'class':'form-control', 'type':'date', 'placeholder':'Escriba fecha fin'}))
-    informeFinal = forms.CharField(required=True, help_text="Introduzca el informe final", widget=forms.TextInput(
+    informeFinal = forms.CharField(required=True, help_text="Introduzca el informe final", widget=forms.Textarea(
         attrs={'class':'form-control', 'placeholder':'Escriba un informe'}))
 
     class Meta:
