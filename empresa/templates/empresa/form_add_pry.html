@@ -75,8 +75,9 @@
                                 <label for="informeFinal" class="text-primary">Informe final</label>
                                 <div class="input-group mb-3">
                                     <span class="input-group-text"><i class="fas fa-clipboard-list"></i></span>
-                                    <input type="text" class="form-control" id="informeFinal" name="informeFinal" placeholder="Breve descripcion del proyecto" required>
+                                    {{ proyecto.informeFinal}}
                                 </div>
+                                {{ proyecto.informeFinal.errors}}
                             </div>
 
                         {% if messages %}

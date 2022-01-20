@@ -59,7 +59,7 @@ class CategoriaModelForm(forms.ModelForm):
 class ProyectoModelForm(forms.ModelForm):
     titulo = forms.CharField(required=True, help_text="Introduzca nombre del proyecto", widget=forms.TextInput(
         attrs={'class':'form-control', 'placeholder':'Escriba un nombre'}))
-    descripcion = forms.CharField(required=True, help_text="Introduzca descripcion del proyecto", widget=forms.TextInput(
+    descripcion = forms.CharField(required=True, help_text="Introduzca descripcion del proyecto", widget=forms.Textarea(
         attrs={'class':'form-control', 'placeholder':'Escriba una descripcion'}))
     nivel = forms.IntegerField(required=True, help_text="Introduzca nivel del proyecto", widget=forms.NumberInput(
         attrs={'class':'form-control', 'placeholder':'Escriba un nivel'}))
