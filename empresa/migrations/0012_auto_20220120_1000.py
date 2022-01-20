@@ -13,7 +13,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='usuario',
             name='role',
-            field=models.PositiveSmallIntegerField(choices=[(2, 'pepe'), (1, 'admin')], default='pepe'),
+            field=models.PositiveSmallIntegerField(choices=[(2, 'pepe'), (1, 'admin')], default='2'),
         ),
         migrations.AlterField(
             model_name='proyecto',
