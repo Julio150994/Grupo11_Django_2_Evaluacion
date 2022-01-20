@@ -24,6 +24,7 @@ def registrar_cliente(request):
     }
     
     if request.POST:
+        # print("aqui PST")
         usuario = UsuarioModelForm(request.POST)
         cliente = ClienteModelForm(request.POST)
         context = {
@@ -32,14 +33,18 @@ def registrar_cliente(request):
         }
         
         if usuario.is_valid():
+            # print("aqui VALID")
             username = request.POST['username']
             pwd = request.POST['password']
             
             nuevo_usuario = Usuario(username=username, password=pwd)
             nuevo_usuario.password = make_password(nuevo_usuario.password)
             nuevo_usuario.save()
+            user = User.objects.create_user(username = username, password = pwd)
+            user.save()
             
             if cliente.is_valid():
+                # print("aqui VALID 2")
                 last_id_usuario = Usuario.objects.last()
                 
                 dni = request.POST.get("dni")
@@ -54,12 +59,18 @@ def registrar_cliente(request):
                 if dni is not None or nombre is not None or apellidos is not None or direccion is not None or fechaNacimiento is not None or fechaAlta is not None or activo is not None or idUsuario:
                     nuevo_cliente = Cliente(dni=dni, nombre=nombre, apellidos=apellidos, direccion=direccion,
                         fechaNacimiento=fechaNacimiento, fechaAlta=fechaAlta,activo=activo,idUsuario=idUsuario)
+                    # print("aqui 1")
                     nuevo_cliente.save()
                     messages.success(request,'Cliente registrado correctamente.')
                     return redirect('users_login')
                 else:
                     messages.warning(request,'Faltan datos por introducir.')
+                    # print("aqui 2")
                     return redirect('registro_cliente')
+        #     else:
+        #         print(cliente.errors)
+        # else:
+        #     print(usuario.errors)
                 
     return render(request, "empresa/registro_cliente.html",context)
 
@@ -70,14 +81,16 @@ def sign_in(request):
         pwd = request.POST['pwd']
 
         user = authenticate(username=username, password=pwd)
+        # print(user, username, pwd)
+        # print(Usuario.rol)
         if user is not None:
             login(request, user)
             messages.success(request,str(username)+' ha iniciado sesión correctamente.')
             return redirect('page_inicio')
         else:
             messages.error(request,'Faltan credenciales por poner.')
+            # print()
             return redirect('users_login')
-
     return render(request, "empresa/sign_in.html")
 
 
