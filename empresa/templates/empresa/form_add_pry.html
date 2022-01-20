@@ -29,13 +29,13 @@
             <div class="panel-heading" id="panel">
                 <div class="container col-md-5 bg-white" id="form">
                     <h2 class="text-center mb-4">Formulario de proyecto</h2>
-                    <form action="{% url 'proyectos' %}" method="POST" enctype="multipart/form-data">
+                    <form action="{% url 'form_add_pry' %}" method="POST" enctype="multipart/form-data">
                         {% csrf_token %}
                             <div class="form-group">
-                                <label for="nombre" class="text-primary">Nombre</label>
+                                <label for="titulo" class="text-primary">Titulo</label>
                                 <div class="input-group mb-3">
                                     <span class="input-group-text"><i class="fas fa-user"></i></span>
-                                    <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Escriba un nombre" required>
+                                    <input type="text" class="form-control" id="titulo" name="titulo" placeholder="Escriba un nombre" required>
                                 </div>
                             </div>
 
@@ -79,6 +79,14 @@
                                 </div>
                                 {{ proyecto.informeFinal.errors}}
                             </div>
+
+                            {% comment %} <div class="form-group">
+                                <label for="idCategoria" class="text-primary">Categoria</label>
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text"><i class="fas fa-sort-numeric-up-alt"></i></span>
+                                    <input type="number" class="form-control" id="idCategoria" name="idCategoria" placeholder="Nivel de importancia del proyecto" required>
+                                </div>
+                            </div> {% endcomment %}
 
                         {% if messages %}
                             {% for empty_data in messages %}
