@@ -2,29 +2,11 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 
 # Create your models here.
-    
-class Role(models.Model):
-
-  admin = 1
-  cliente = 2
-  empleado = 3
-  
-  ROLE_CHOICES = (
-      (admin, 'admin'),
-      (cliente, 'cliente'),
-      (empleado, 'empleado'),
-  )
-
-  id = models.PositiveSmallIntegerField(choices=ROLE_CHOICES, primary_key=True, default='cliente')
-
-  def __str__(self):
-      return self.get_id_display()
-
+ 
 class Usuario(models.Model):
     id = models.AutoField(primary_key=True)
     username = models.CharField(max_length=40, unique=True)
     password = models.CharField(max_length=255)
-    rol = models.ManyToManyField(Role, blank=True)
     
     # ROL_USERS = {
     #     ('admin'),
