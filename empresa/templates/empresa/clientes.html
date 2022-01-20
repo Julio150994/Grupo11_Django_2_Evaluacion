@@ -15,7 +15,7 @@
         <!-- Core theme CSS (includes Bootstrap)-->
         {% load static %}
         <link href="{% static 'css/styles.css' %}" rel="stylesheet"/>
-        <link href="{% static 'css/cliente.css' %}" rel="stylesheet"/>
+        <link href="{% static 'css/clientes.css' %}" rel="stylesheet"/>
     </head>
     <body id="page-top">
         {% include "empresa/navbar_inicio.html" %}
@@ -68,6 +68,7 @@
                                         <th>Fecha de nacimiento</th>
                                         <th>Fecha de alta</th>
                                         <th>¿Activo?</th>
+                                        <th colspan="2">Acciones </th>
                                     </tr>
                                 </thead>
                                 <tbody class="bg-white text-dark">
@@ -81,6 +82,8 @@
                                         <th>{{cliente.fechaNacimiento}}</th>
                                         <th>{{cliente.fechaAlta}}</th>
                                         <th>{{cliente.activo}}</th>
+                                        <td><a href="#" class="btn btn-danger text-white"><i class="fas fa-times-circle "></i> <span>Eliminar</span></a></td>
+                                        <td><a href="{% url 'form_edit_cliente' cliente.id %}" class="btn btn-secondary text-white"><i class="fas fa-exchange-alt "></i> <span>Editar</span></a></td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>

@@ -42,3 +42,15 @@ def annadir_clientes(request):
             return redirect('form_add_cliente')
 
     return render(request, "empresa/form_add_cliente.html",context)
+
+def editar_clientes(request,id):
+    cliente = Cliente.objects.get(id=id)
+    return render(request, "empresa/form_edit_cliente.html", {'cliente':cliente} )
+
+def actualizar_clientes(request,id):
+    cliente = Cliente.objects.get(id=id)
+    form = ClienteModelForm(request.POST, instance = cliente)
+    if form.is_valid():
+        form.save()
+        return redirect("/show")
+    return render(request, "empresa/form_edit_cliente.html", {'cliente':cliente} )
