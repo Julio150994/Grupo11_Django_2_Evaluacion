@@ -30,7 +30,7 @@ def annadir_proyecto(request):
             idCategoria  = request.POST.get("idCategoria",last_id_categoria)
             idEmpleado = request.POST.get("idEmpleado",last_id_empresario)
 
-            if titulo is not None or descripcion is not None or nivel is not None or fechaInicio is not None or fechaFin is not None or informeFinal is not None or idCategoria or idEmpresa:
+            if titulo is not None or descripcion is not None or nivel is not None or fechaInicio is not None or fechaFin is not None or informeFinal is not None or idCategoria or idEmpleado:
                 nuevo_proyecto = Proyecto(titulo=titulo, descripcion=descripcion, nivel=nivel,
                 fechaInicio=fechaInicio,fechaFin=fechaFin,informeFinal=informeFinal,
                 idCategoria=idCategoria, idEmpleado=idEmpleado)
