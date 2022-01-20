@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.contrib import messages
 from empresa.forms import ClienteModelForm
-from empresa.models import Cliente
+from empresa.models import Cliente, Usuario
 from .forms import ClienteModelForm
 
 
@@ -15,31 +15,31 @@ def annadir_clientes(request):
     cliente = ClienteModelForm()
     context = {'cliente':cliente}
 
-    if request.method == 'POST':
-        cliente = ClienteModelForm(request.POST, request.FILES)
+    if request.POST:
+        cliente = ClienteModelForm(request.POST)
         context = {'cliente': cliente}
         
         if cliente.is_valid():
-            obj_cliente = Cliente.objects.get(pk=id)
-            obj_cliente.titulo = cliente.cleaned_data['titulo']
-            print("titulo: "+str(obj_cliente.titulo))
-            obj_cliente.descripcion = cliente.cleaned_data['descripcion']
-            print("descripcion: "+str(obj_cliente.descripcion))
-            obj_cliente.nivel = cliente.cleaned_data['nivel']
-            print("nivel: "+str(obj_cliente.nivel))
-            obj_cliente.fechaInicio = cliente.cleaned_data['fechaInicio']
-            print("fechaInicio: "+str(obj_cliente.fechaInicio))
-            obj_cliente.fechaFin = cliente.cleaned_data['fechaFin']
-            print("fechaFin: "+str(obj_cliente.fechaFin))
-            obj_cliente.informeFinal = cliente.cleaned_data['informeFinal']
-            print("informeFinal: "+str(obj_cliente.informeFinal))
-            obj_cliente.save()
+            last_id_usuario = Usuario.objects.last() 
+            dni = request.POST.get("dni")
+            nombre = request.POST.get("nombre")
+            apellidos = request.POST.get("apellidos")
+            direccion = request.POST.get("direccion")
+            fechaNacimiento = request.POST.get("fechaNacimiento")
+            fechaAlta = request.POST.get("fechaAlta")
+            activo = request.POST.get("activo",'') == 'on'
+            idUsuario = request.POST.get("idUsuario",last_id_usuario)
 
-            #nueva_proyecto = proyecto(nombre=nombre, foto=foto)
-            #messages.success(request,'Categoría añadida correctamente.')
-            return redirect('clientes')
+            if dni is not None or nombre is not None or apellidos is not None or direccion is not None or fechaNacimiento is not None or fechaAlta is not None or activo is not None or idUsuario:
+                nuevo_cliente = Cliente(dni=dni, nombre=nombre, apellidos=apellidos, direccion=direccion,
+                    fechaNacimiento=fechaNacimiento, fechaAlta=fechaAlta,activo=activo,idUsuario=idUsuario)
+                # print("aqui 1")
+                nuevo_cliente.save()
+                messages.success(request,'Cliente registrado correctamente.')
+                return redirect('clientes')
         else:
             messages.warning(request,'Faltan datos por introducir.')
+            print(cliente.errors)
             return redirect('form_add_cliente')
 
     return render(request, "empresa/form_add_cliente.html",context)
@@ -66,8 +66,7 @@ def editar_clientes(request,id):
 
 def eliminar_cliente(request,id):
     cliente = Cliente.objects.get(id = id)
-    context = {'cliente':cliente}
-    
+ 
     if cliente is None:
         messages.warning(request,'No se ha podido eliminar este cliente.')
     else:

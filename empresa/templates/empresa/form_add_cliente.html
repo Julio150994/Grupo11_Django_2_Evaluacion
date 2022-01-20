@@ -14,7 +14,7 @@
         <!-- Core theme CSS (includes Bootstrap)-->
         {% load static %}
         <link href="{% static 'css/styles.css' %}" rel="stylesheet"/>
-        <link href="{% static 'css/form_pry.css' %}" rel="stylesheet"/>
+        <link href="{% static 'css/form_clientes.css' %}" rel="stylesheet"/>
     </head>
     <body>
         {% if messages %}
@@ -29,13 +29,14 @@
             <div class="panel-heading" id="panel">
                 <div class="container col-md-5 bg-white" id="form">
                     <h2 class="text-center mb-4">Formulario de cliente</h2>
-                    <form action="{% url 'clientes' %}" method="POST" enctype="multipart/form-data">
+                    <form action="{% url 'form_add_cliente' %}" method="POST" enctype="multipart/form-data">
                         {% csrf_token %}
+
                             <div class="form-group">
                                 <label for="dni" class="text-primary">DNI</label>
                                 <div class="input-group mb-3">
                                     <span class="input-group-text"><i class="fas fa-address-card"></i></span>
-                                    <input type="text" maxlength="9" pattern="[0-9]{8}[A-Z]" class="form-control" id="DNI" name="DNI" placeholder="Escriba su DNI" required>
+                                    <input type="text" maxlength="9" pattern="[0-9]{8}[A-Z]" class="form-control" id="dni" name="dni" placeholder="Escriba su DNI" required>
                                 </div>
                             </div>
 
@@ -43,7 +44,7 @@
                                 <label for="nombre" class="text-primary">Nombre</label>
                                 <div class="input-group mb-3">
                                     <span class="input-group-text"><i class="fas fa-id-badge"></i></span>
-                                    <input type="text" class="form-control" id="Nombre" name="Nombre" placeholder="Nombre del cliente" required>
+                                    <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre del cliente" required>
                                 </div>
                             </div>
 
@@ -51,7 +52,7 @@
                                 <label for="apellidos" class="text-primary">Apellidos</label>
                                 <div class="input-group mb-3">
                                     <span class="input-group-text"><i class="fas fa-id-badge"></i></span>
-                                    <input type="text" class="form-control" id="Apellidos" name="Apellidos" placeholder="Apellidos del cliente" required>
+                                    <input type="text" class="form-control" id="apellidos" name="apellidos" placeholder="Apellidos del cliente" required>
                                 </div>
                             </div>
 
@@ -59,7 +60,7 @@
                                 <label for="direccion" class="text-primary">Direccion</label>
                                 <div class="input-group mb-3">
                                     <span class="input-group-text"><i class="fas fa-house-user"></i></span>
-                                    <input type="text" class="form-control" id="Direccion" name="Direccion" placeholder="Direccion del cliente" required>
+                                    <input type="text" class="form-control" id="direccion" name="direccion" placeholder="Direccion del cliente" required>
                                 </div>
                             </div>
 
@@ -83,7 +84,7 @@
                                 <label for="activo" class="text-primary">Activo</label>
                                 <div class="input-group mb-3">
                                     <span class="input-group-text"><i class="fas fa-clipboard-list"></i></span>
-                                    <input type="checkbox" class="form-check" id="Activo" name="Activo" required>
+                                    <input type="checkbox" class="form-check" id="activo" name="activo" required>
                                 </div>
                             </div>
 

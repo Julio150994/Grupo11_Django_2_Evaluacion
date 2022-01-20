@@ -42,7 +42,6 @@ def annadir_proyecto(request):
                 return redirect('proyectos')
         else:
             messages.warning(request,'Faltan datos por introducir.')
-            print(proyecto.errors)
             return redirect('form_add_pry')
 
     return render(request, "empresa/form_add_pry.html",context)
