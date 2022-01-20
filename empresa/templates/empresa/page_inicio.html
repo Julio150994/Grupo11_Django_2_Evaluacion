@@ -49,8 +49,11 @@
                             {% if request.user.role == user.admin %} 
                             <a href="{% url 'empleados' %}" class="btn btn-primary btn-block text-white"><i class="fas fa-link"></i> <span>Lista de empleados</span></a>
                             <a href="{% url 'categorias' %}" class="btn btn-primary btn-block text-white"><i class="fas fa-link"></i> <span>Lista de categorías</span></a>
-                            {% else %}
+
+                            {% elif request.user.role == user.cliente  %}
                             <a href="{% url 'clientes' %}" class="btn btn-primary btn-block text-white"><i class="fas fa-link"></i> <span>Lista de clientes</span></a>
+                            
+                            {% elif request.user.role == user.empleado %}
                             <a href="{% url 'proyectos' %}" class="btn btn-primary btn-block text-white"><i class="fas fa-link"></i> <span>Lista de proyectos</span></a>
                             {% endif %}
                         </div>
