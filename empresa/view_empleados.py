@@ -23,53 +23,57 @@ def datos_empleado(request,id):
     return render(request,'empresa/datos_empleado.html',context)
 
 
-def aniadir_empleado(request):
-    usuario = UsuarioModelForm()
+def annadir_empleados(request):
     empleado = EmpleadoModelForm()
-    context = {
-        'usuario':usuario,
-        'empleado': empleado
-    }
+    context = {'empleado': empleado}
     
-    if request.method == 'POST':
-        usuario = UsuarioModelForm(request.POST)
+    if request.POST:
         empleado = EmpleadoModelForm(request.POST)
-        context = {
-            'usuario': usuario,
-            'empleado': empleado
-        }
-        
-        if usuario.is_valid():
-            username = request.POST['username']
-            pwd = request.POST['password']
-            usuario.save()
+        context = {'empleado': empleado}
             
-            nuevo_usuario = Usuario(username=username, password=pwd)
-            nuevo_usuario.password = make_password(nuevo_usuario.password)
-            nuevo_usuario.save()
-            
-            if empleado.is_valid():
-                last_id_usuario = Usuario.objects.last()
+        if empleado.is_valid():
+            last_id_usuario = Usuario.objects.last()
+            dni = request.POST.get("dni")
+            nombre = request.POST.get("nombre")
+            apellidos = request.POST.get("apellidos")
+            direccion = request.POST.get("direccion")
+            biografia = request.POST.get("biografia")
+            idUsuario = request.POST.get("idUsuario",last_id_usuario)
                 
-                dni = request.POST.get("dni")
-                nombre = request.POST.get("nombre")
-                apellidos = request.POST.get("apellidos")
-                direccion = request.POST.get("direccion")
-                biografia = request.POST.get("biografia")
-                idUsuario = request.POST.get("idUsuario",last_id_usuario)
+            if dni is not None or nombre is not None or apellidos is not None or direccion is not None or biografia is not None or idUsuario is not None:
+                nuevo_empleado = Empleado(dni=dni, nombre=nombre, apellidos=apellidos, direccion=direccion,
+                    biografia=biografia,idUsuario=idUsuario)
                 
-                if dni is not None or nombre is not None or apellidos is not None or direccion is not None or biografia is not None or idUsuario is not None:
-                    nuevo_empleado = Empleado(dni=dni, nombre=nombre, apellidos=apellidos, direccion=direccion,biografia=biografia,idUsuario=idUsuario)
-                    nuevo_empleado.save()
-                    messages.success(request,'Empleado añadido correctamente.')
-                    return redirect('empleados')
-                else:
-                    messages.warning(request,'Faltan datos por introducir.')
-                    return redirect('form_add_empleado')
+                nuevo_empleado.save()
+                messages.success(request,'Empleado añadido correctamente.')
+                return redirect('empleados')
+        else:
+            messages.warning(request,'Faltan datos por introducir.')
+            return redirect('form_add_empleado')
                 
     return render(request, "empresa/form_add_empleado.html",context)
 
-def editar_empleado(request,idUsuario):
+def editar_empleados(request,id):
+    id_empleado = Empleado.objects.get(id = id)
+    
+    if request.method == 'GET':
+        empleado = EmpleadoModelForm(instance = id_empleado)
+        context = {'empleado':empleado}
+    else:
+        empleado = EmpleadoModelForm(request.POST, instance = id_empleado)
+        context = {'empleado':empleado}
+        
+        if empleado.is_valid():
+            empleado.save()
+            #messages.success(request,'Empleado editado correctamente.')
+            return reverse(redirect('empleados')+"?empleado_updated")
+        else:
+            messages.warning(request,'Faltan datos por introducir.')
+            return redirect('form_edit_empleado') 
+    return render(request, "empresa/form_edit_empleado.html",context)
+
+
+"""def editar_empleado(request,idUsuario):
     print("Id de usuario: "+str(idUsuario))
     
     #SELECT u.username, u.password, e.dni, e.nombre, e.apellidos, e.direccion, e.biografia
@@ -95,7 +99,7 @@ def editar_empleado(request,idUsuario):
             'empleado':empleado
         }
     
-    return render(request,'empresa/form_edit_empleado.html',context)
+    return render(request,'empresa/form_edit_empleado.html',context)"""
 
 """def editar_empleado(request,idUsuario):
     datos_empleado = Empleado.objects.filter(idUsuario=idUsuario)
@@ -153,7 +157,7 @@ def editar_empleado(request,idUsuario):
     return render(request,'empresa/form_edit_empleado.html',context)"""
 
 
-def eliminar_empleado(request,id):
+def eliminar_empleados(request,id):
     empleado = Empleado.objects.get(id = id)
     context = {'empleado':empleado}
     

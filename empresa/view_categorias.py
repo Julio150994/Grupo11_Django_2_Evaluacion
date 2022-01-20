@@ -16,7 +16,7 @@ def datos_categoria(request,id):
     context = {'categoria':categoria}
     return render(request,'empresa/datos_categoria.html',context)
 
-def aniadir_categoria(request):
+def annadir_categorias(request):
     categoria = CategoriaModelForm()
     context = {'categoria':categoria}
 
@@ -42,7 +42,7 @@ def aniadir_categoria(request):
 
     return render(request, "empresa/form_add_categoria.html",context)
 
-def editar_categoria(request,id):
+def editar_categorias(request,id):
     id_categoria = Categoria.objects.get(id = id)
     
     if request.method == 'GET':
@@ -62,7 +62,7 @@ def editar_categoria(request,id):
     
     return render(request, "empresa/form_edit_categoria.html",context)
 
-def eliminar_categoria(request,id):
+def eliminar_categorias(request,id):
     categoria = Categoria.objects.get(id = id)
     context = {'categoria':categoria}
     

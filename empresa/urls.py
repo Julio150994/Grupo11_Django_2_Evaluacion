@@ -11,15 +11,15 @@ urlpatterns = [
     
     path('empleados/',view_empleados.mostrar_empleados,name="empleados"),
     path('empleado/<int:id>/',view_empleados.datos_empleado,name="datos_empleado"),
-    path('aniadir_empleado/',view_empleados.aniadir_empleado,name="form_add_empleado"),
-    path('editar_empleado/<int:idUsuario>/',view_empleados.editar_empleado,name="form_edit_empleado"),
-    path('eliminar_empleado/<int:id>/',view_empleados.eliminar_empleado,name="empleados"),
+    path('annadir_empleado/',view_empleados.annadir_empleados,name="form_add_empleado"),
+    path('editar_empleado/<int:idUsuario>/',view_empleados.editar_empleados,name="form_edit_empleado"),
+    path('eliminar_empleado/<int:id>/',view_empleados.eliminar_empleados,name="empleados"),
     
     path('categorias/',view_categorias.mostrar_categorias,name="categorias"),
     path('categoria/<int:id>/',view_categorias.datos_categoria,name="datos_categoria"),
-    path('aniadir_categoria/',view_categorias.aniadir_categoria,name="form_add_categoria"),
-    path('editar_categoria/<int:id>/',view_categorias.editar_categoria,name="form_edit_categoria"),
-    path('eliminar_categoria/<int:id>/',view_categorias.eliminar_categoria,name="categorias"),
+    path('annadir_categoria/',view_categorias.annadir_categorias,name="form_add_categoria"),
+    path('editar_categoria/<int:id>/',view_categorias.editar_categorias,name="form_edit_categoria"),
+    path('eliminar_categoria/<int:id>/',view_categorias.eliminar_categorias,name="categorias"),
 
     path('proyectos/',view_pry.mostrar_pry,name="proyectos"),
     path('annadir_proyecto/',view_pry.annadir_proyecto,name="form_add_pry"),

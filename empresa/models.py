@@ -8,13 +8,6 @@ class Usuario(models.Model):
     username = models.CharField(max_length=40, unique=True)
     password = models.CharField(max_length=255)
     
-    # ROL_USERS = {
-    #     ('admin'),
-    #     ('pepe'),
-    # }
-    
-    # role = models.PositiveSmallIntegerField(choices=ROL_USERS, default='pepe')
-    
     def __str__(self):
         return str(self.id)
  
