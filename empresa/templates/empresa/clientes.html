@@ -82,7 +82,7 @@
                                         <th>{{cliente.fechaNacimiento}}</th>
                                         <th>{{cliente.fechaAlta}}</th>
                                         <th>{{cliente.activo}}</th>
-                                        <td><a href= "/delete/{{cliente.id}}" class="btn btn-danger text-white"><i class="fas fa-times-circle "></i> <span>Eliminar</span></a></td>
+                                        <td><a href= "{% url 'delete' cliente.id %}" class="btn btn-danger text-white"><i class="fas fa-times-circle "></i> <span>Eliminar</span></a></td>
                                         <td><a href="{% url 'form_edit_cliente' cliente.id %}" class="btn btn-secondary text-white"><i class="fas fa-exchange-alt "></i> <span>Editar</span></a></td>
                                     </tr>
                                     {% endfor %}

@@ -66,11 +66,12 @@ def editar_clientes(request,id):
 
 def eliminar_cliente(request,id):
     cliente = Cliente.objects.get(id = id)
- 
+    context = {'cliente':cliente}
+    
     if cliente is None:
         messages.warning(request,'No se ha podido eliminar este cliente.')
     else:
         cliente.delete()
         messages.error(request,'Cliente '+str(cliente)+' eliminado éxitosamente.')
     
-    return redirect('empresa/cliente.html')
+    return render(request,'empresa/clientes.html',context)
