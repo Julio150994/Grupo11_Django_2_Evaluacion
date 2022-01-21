@@ -24,31 +24,52 @@ def datos_empleado(request,id):
 
 
 def annadir_empleados(request):
+    usuario = UsuarioModelForm()
     empleado = EmpleadoModelForm()
-    context = {'empleado': empleado}
+    context = {
+        'usuario': usuario,
+        'empleado': empleado
+    }
     
     if request.POST:
+        usuario = UsuarioModelForm(request.POST)
         empleado = EmpleadoModelForm(request.POST)
-        context = {'empleado': empleado}
+        context = {
+            'usuario': usuario,
+            'empleado': empleado
+        }
+        
+        if usuario.is_valid():
+            username = request.POST['username']
+            pwd = request.POST['password']
             
-        if empleado.is_valid():
-            last_id_usuario = Usuario.objects.last()
-            dni = request.POST.get("dni")
-            nombre = request.POST.get("nombre")
-            apellidos = request.POST.get("apellidos")
-            direccion = request.POST.get("direccion")
-            biografia = request.POST.get("biografia")
-            idUsuario = request.POST.get("idUsuario",last_id_usuario)
-                
-            if dni is not None or nombre is not None or apellidos is not None or direccion is not None or biografia is not None or idUsuario is not None:
-                nuevo_empleado = Empleado(dni=dni, nombre=nombre, apellidos=apellidos, direccion=direccion,
-                    biografia=biografia,idUsuario=idUsuario)
-                print("Prueba Empleado")
-                nuevo_empleado.save()
-                messages.success(request,'Empleado añadido correctamente.')
-                return redirect('empleados')
+            nuevo_usuario = Usuario(username=username, password=pwd)
+            nuevo_usuario.password = make_password(nuevo_usuario.password)
+            nuevo_usuario.save()
+            user = User.objects.create_user(username = username, password = pwd)
+            user.save()
+            
+            if empleado.is_valid():
+                last_id_usuario = Usuario.objects.last()
+                dni = request.POST.get("dni")
+                nombre = request.POST.get("nombre")
+                apellidos = request.POST.get("apellidos")
+                direccion = request.POST.get("direccion")
+                biografia = request.POST.get("biografia")
+                idUsuario = request.POST.get("idUsuario",last_id_usuario)
+                    
+                if dni is not None or nombre is not None or apellidos is not None or direccion is not None or biografia is not None or idUsuario is not None:
+                    nuevo_empleado = Empleado(dni=dni, nombre=nombre, apellidos=apellidos, direccion=direccion,
+                        biografia=biografia,idUsuario=idUsuario)
+                    
+                    nuevo_empleado.save()
+                    messages.success(request,'Empleado añadido correctamente.')
+                    return redirect('empleados')
+            else:
+                messages.warning(request,'Faltan datos de empleado por introducir.')
+                return redirect('form_add_empleado')
         else:
-            messages.warning(request,'Faltan datos por introducir.')
+            messages.warning(request,'Faltan datos de usuario por introducir.')
             return redirect('form_add_empleado')
                 
     return render(request, "empresa/form_add_empleado.html",context)
