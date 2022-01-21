@@ -30,7 +30,7 @@
             <div class="panel-heading" id="panel">
                 <div class="container col-md-5 bg-white" id="form">
                     <h2 class="text-center mb-4">Formulario de Empleado</h2>
-                    <form action="{% url 'empleados' %}" method="POST">
+                    <form action="{% url 'form_edit_empleado' %}" method="POST">
                         {% csrf_token %}
                         
                         <div class="form-group">

@@ -30,7 +30,7 @@
             <div class="panel-heading" id="panel">
                 <div class="container col-md-5 bg-white" id="form">
                     <h2 class="text-center mb-4">Formulario de Categoría</h2>
-                    <form action="{% url 'categorias' %}" method="POST" enctype="multipart/form-data">
+                    <form action="{% url 'form_add_categoria' %}" method="POST" enctype="multipart/form-data">
                         {% csrf_token %}
                             <div class="form-group">
                                 <label for="nombre" class="text-primary">Nombre</label>

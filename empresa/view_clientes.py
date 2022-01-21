@@ -27,7 +27,7 @@ def annadir_clientes(request):
             direccion = request.POST.get("direccion")
             fechaNacimiento = request.POST.get("fechaNacimiento")
             fechaAlta = request.POST.get("fechaAlta")
-            activo = request.POST.get("activo",'') == 'on' # off
+            activo = request.POST.get("activo",'') == 'off'
             idUsuario = request.POST.get("idUsuario",last_id_usuario)
 
             if dni is not None or nombre is not None or apellidos is not None or direccion is not None or fechaNacimiento is not None or fechaAlta is not None or activo is not None or idUsuario:

@@ -43,7 +43,7 @@ def annadir_empleados(request):
             if dni is not None or nombre is not None or apellidos is not None or direccion is not None or biografia is not None or idUsuario is not None:
                 nuevo_empleado = Empleado(dni=dni, nombre=nombre, apellidos=apellidos, direccion=direccion,
                     biografia=biografia,idUsuario=idUsuario)
-                
+                print("Prueba Empleado")
                 nuevo_empleado.save()
                 messages.success(request,'Empleado añadido correctamente.')
                 return redirect('empleados')

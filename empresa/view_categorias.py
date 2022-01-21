@@ -20,22 +20,19 @@ def annadir_categorias(request):
     categoria = CategoriaModelForm()
     context = {'categoria':categoria}
 
-    if request.method == 'POST':
+    if request.POST:
         categoria = CategoriaModelForm(request.POST, request.FILES)
-        print("Imágen: "+str(request.FILES))
         context = {'categoria': categoria}
         
         if categoria.is_valid():
-            obj_categoria = Categoria.objects.get(pk=id)
-            obj_categoria.nombre = categoria.cleaned_data['nombre']
-            print("Nombre: "+str(obj_categoria.nombre))
-            obj_categoria.foto = categoria.cleaned_data['foto']
-            print("Foto: "+str(obj_categoria.foto))
-            obj_categoria.save()
+            nombre = request.POST.get("nombre")
+            foto = request.FILES.get("foto")
 
-            #nueva_categoria = Categoria(nombre=nombre, foto=foto)
-            #messages.success(request,'Categoría añadida correctamente.')
-            return redirect('categorias')
+            if nombre is not None or foto is not None:
+                nueva_categoria = Categoria(nombre=nombre, foto=foto)
+                nueva_categoria.save()
+                messages.success(request,'Categoría añadida correctamente.')
+                return redirect('categorias')
         else:
             messages.warning(request,'Faltan datos por introducir.')
             return redirect('form_add_categoria')
@@ -55,7 +52,8 @@ def editar_categorias(request,id):
         if categoria.is_valid():
             categoria.save()
             #messages.success(request,'Categoría editada correctamente.')
-            return reverse(redirect('categorias')+"?cat_updated")
+            #return reverse(redirect('categorias')+"?cat_updated")
+            return redirect('categorias')
         else:
             messages.warning(request,'Faltan datos por introducir.')
             return redirect('form_edit_categoria')
