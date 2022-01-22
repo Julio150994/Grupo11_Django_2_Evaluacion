@@ -50,7 +50,7 @@ class EmpleadoModelForm(forms.ModelForm):
 class CategoriaModelForm(forms.ModelForm):
     nombre = forms.CharField(required=True, help_text="Debe introducir un nombre de categoría", widget=forms.TextInput(
         attrs={'class':'form-control', 'placeholder':'Escriba un nombre'}))
-    foto = forms.ImageField(required=True,help_text="Debe seleccionar una imágen para la categoría")
+    foto = forms.ImageField(required=True, help_text="Debe seleccionar una imágen para la categoría")
     
     class Meta:
         model = Categoria

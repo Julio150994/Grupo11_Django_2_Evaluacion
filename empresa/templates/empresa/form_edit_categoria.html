@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>{% block title %} SalesEmp Registro de clientes {% endblock %}</title>
+        <title>{% block title %} Formulario de editar categoría {% endblock %}</title>
         <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
         <!-- Font Awesome icons (free version)-->
         <script src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" crossorigin="anonymous"></script>
@@ -18,41 +18,35 @@
         <link href="{% static 'css/form_categoria.css' %}" rel="stylesheet"/>
     </head>
     <body>
-        {% if messages %}
-            {% for error in messages %}
-            <div class="alert alert-danger text-center col-md-5 col-5" id="mensaje_error">
-                {{ error }}
-            </div>
-            {% endfor %}
-        {% endif %}
-
         <div class="panel panel-default" style="margin-top: 1.10%;">
             <div class="panel-heading" id="panel">
                 <div class="container col-md-5 bg-white" id="form">
                     <h2 class="text-center mb-4">Formulario de Categoría</h2>
-                    <form action="{% url 'form_edit_categoria' %}" method="POST">
+                    <form action="{% url 'categorias' %}" method="GET" enctype="multipart/form-data">
                         {% csrf_token %}
-                        
+
                         <div class="form-group">
                             <label for="nombre" class="text-primary">Nombre</label>
                             <div class="input-group mb-3">
                                 <span class="input-group-text"><i class="fas fa-user"></i></span>
-                                <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Escriba un nombre" required>
+                                <input type="text" class="form-control" id="nombre" name="nombre" value="{{ categoria.nombre }}" placeholder="Escriba un nombre de categoría" required>
                             </div>
+                            {{ categoria.nombre.errors }}
                         </div>
 
                         <div class="form-group">
                             <label for="foto" class="text-primary">Foto</label>
                             <div class="input-group mb-3">
                                 <span class="input-group-text"><i class="fas fa-image"></i></span>
-                                <input type="file" class="form-control" id="foto" name="foto" placeholder="Suba una imágen" required>
+                                <input type="file" class="form-control" id="foto" name="foto" value="{{ categoria.foto }}" placeholder="Suba una imágen" required>
                             </div>
                         </div>
+                        {{ categoria.foto.errors }}
 
                         {% if messages %}
-                            {% for empty_data in messages %}
+                            {% for error in messages %}
                             <div class="alert alert-warning text-center col-md-5 col-5" id="mensaje_error">
-                                {{ empty_data }}
+                                {{ error }}
                             </div>
                             {% endfor %}
                         {% endif %}

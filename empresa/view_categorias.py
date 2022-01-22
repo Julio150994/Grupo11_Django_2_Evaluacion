@@ -11,10 +11,12 @@ def mostrar_categorias(request):
     context = { 'categorias':listCategorias }
     return render(request,'empresa/categorias.html',context)
 
+
 def datos_categoria(request,id):
     categoria = Categoria.objects.get(id = id)
     context = {'categoria':categoria}
     return render(request,'empresa/datos_categoria.html',context)
+
 
 def annadir_categorias(request):
     categoria = CategoriaModelForm()
@@ -39,26 +41,79 @@ def annadir_categorias(request):
 
     return render(request, "empresa/form_add_categoria.html",context)
 
+
 def editar_categorias(request,id):
     id_categoria = Categoria.objects.get(id = id)
+    print("ID: "+str(id_categoria))
+    #categoria = CategoriaModelForm(instance=id_categoria) # el error viene del forms.py
+    #print("Categoría: "+str(categoria))
     
+    #categoria = CategoriaModelForm(instance = id_categoria)
+    #print("Test: "+str(categoria))
+    
+    context = {'categoria':id_categoria}
+    
+    return render(request, "empresa/form_edit_categoria.html",context)
+
+
+"""def editar_categorias(request,id):
+    id_categoria = Categoria.objects.get(id = id)
+   
     if request.method == 'GET':
-        categoria = CategoriaModelForm(instance = id_categoria)
-        context = {'categoria': categoria}
+        categoria = CategoriaModelForm(instance=id_categoria)
+        context = {'categoria':categoria}
     else:
-        categoria = CategoriaModelForm(request.POST, request.FILES, instance = id_categoria)
-        context = {'categoria': categoria}
-            
+        categoria = CategoriaModelForm(request.POST, request.FILES, instance=id_categoria)
+        context = {'categoria':categoria}
+        
         if categoria.is_valid():
             categoria.save()
-            #messages.success(request,'Categoría editada correctamente.')
-            #return reverse(redirect('categorias')+"?cat_updated")
+            messages.success(request,'Categoría editada correctamente.')
             return redirect('categorias')
         else:
             messages.warning(request,'Faltan datos por introducir.')
             return redirect('form_edit_categoria')
+        
+    return render(request, "empresa/form_edit_categoria.html",context)"""
+   
+
+"""def editar_categorias(request,id):
+    id_categoria = Categoria.objects.get(id = id)
+    print("Id: "+str(id_categoria))# llega
     
-    return render(request, "empresa/form_edit_categoria.html",context)
+    categoria = CategoriaModelForm(instance = id_categoria)
+    print("Test: "+str(categoria)) #llega
+    context = {'categoria': categoria}
+    print("P: "+str(context))
+    
+    print("P2: "+str(request.POST))
+    print("P3: "+str(request.FILES))
+    
+    if request.POST:
+        print("P4: "+str(request.POST))
+        print("P5: "+str(request.FILES))
+        
+        categoria = CategoriaModelForm(request.POST, request.FILES, instance = id_categoria)
+        print("Test 2: "+str(categoria))
+        context = {'categoria': categoria}
+            
+        if categoria.is_valid():
+            print("Prueba 2")
+            nombre = request.POST.get("nombre")
+            foto = request.FILES.get("foto")
+            
+            if nombre is not None or foto is not None:
+                set_categoria = Categoria(nombre=nombre, foto=foto)
+                print("Prueba 3")
+                set_categoria.save()
+                messages.success(request,'Categoría editada correctamente.')
+                return redirect('categorias')
+        else:
+            messages.warning(request,'Faltan datos por introducir.')
+            return redirect('form_edit_categoria')
+    
+    return render(request, "empresa/form_edit_categoria.html",context)"""
+
 
 def eliminar_categorias(request,id):
     categoria = Categoria.objects.get(id = id)
