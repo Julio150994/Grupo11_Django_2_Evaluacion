@@ -23,19 +23,11 @@
 
         <!-- Masthead-->
         <header class="masthead">
-            {% if messages %}
-                {% for empleado in messages %}
-                <div class="alert alert-primary text-center col-md-5 col-5">
-                    {{ empleado }}
-                </div>
-                {% endfor %}
-            {% endif %}
-
             <div class="px-2 px-lg-5 d-flex h-120 align-items-center justify-content-center">
                 <div class="d-flex justify-content-center">
                     <div class="text-center">
                         {% if request.user.is_authenticated %}
-                        <h1 style="background-color: #C8CACB; padding-top: 20.56%; padding-bottom: 4.56%;">Lista de Empleados</h1>
+                        <h1 style="background-color: #C8CACB; padding-top: 11.58%; padding-bottom: 4.56%;">Lista de Empleados</h1>
 
                         <div class="panel panel-default bg-white text-center" style="border-radius: 20px; padding-bottom: 0.5%; padding-left: 1%; padding-right: 1%;">
                             <a href="{% url 'form_add_empleado' %}" class="btn btn-success text-white" style="margin-top: 1.5%; margin-right: 81.5%; margin-bottom: 0.5%;">
@@ -43,16 +35,12 @@
                                 <span>Añadir empleado</span>
                             </a>
 
-                            {% if empleado %}
-                            <div class="text-center fom-control" id="empleado_alert">
-                                {% if messages %}
-                                    {% for set_empleado in messages %}
-                                    <div class="alert alert-primary text-center col-md-5 col-5">
-                                        {{ set_empleado }}
-                                    </div>
-                                    {% endfor %}
-                                {% endif %}
-                            </div>
+                            {% if messages %}
+                                {% for empleado in messages %}
+                                <div class="alert alert-primary text-center col-md-5 col-5">
+                                    {{ empleado }}
+                                </div>
+                                {% endfor %}
                             {% endif %}
 
                             <table class="table table-bordered text-center">

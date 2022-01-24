@@ -18,14 +18,6 @@
         <link href="{% static 'css/form_categoria.css' %}" rel="stylesheet"/>
     </head>
     <body>
-        {% if messages %}
-            {% for error in messages %}
-            <div class="alert alert-danger text-center col-md-5 col-5" id="mensaje_error">
-                {{ error }}
-            </div>
-            {% endfor %}
-        {% endif %}
-
         <div class="panel panel-default" style="margin-top: 1.10%;">
             <div class="panel-heading" id="panel">
                 <div class="container col-md-5 bg-white" id="form">
@@ -47,14 +39,6 @@
                                     <input type="file" class="form-control" id="foto" name="foto" placeholder="Suba una imágen" required>
                                 </div>
                             </div>
-
-                        {% if messages %}
-                            {% for empty_data in messages %}
-                            <div class="alert alert-warning text-center col-md-5 col-5" id="mensaje_error">
-                                {{ empty_data }}
-                            </div>
-                            {% endfor %}
-                        {% endif %}
                         
                         <a href="{% url 'categorias' %}" class="form-control btn btn-danger text-white" id="categoria">
                             <i class="fas fa-arrow-left"></i>

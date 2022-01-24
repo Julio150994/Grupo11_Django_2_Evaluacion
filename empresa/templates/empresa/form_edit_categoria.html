@@ -22,14 +22,17 @@
             <div class="panel-heading" id="panel">
                 <div class="container col-md-5 bg-white" id="form">
                     <h2 class="text-center mb-4">Formulario de Categoría</h2>
-                    <form action="{% url 'categorias' %}" method="GET" enctype="multipart/form-data">
+                    <form action="{% url 'form_edit_categoria' categoria.id %}" method="POST" enctype="multipart/form-data">
                         {% csrf_token %}
+                        
+                        <input type="hidden" name="{{ categoria.id_categoria }}" value="{{ categoria.id_categoria }}">
 
                         <div class="form-group">
                             <label for="nombre" class="text-primary">Nombre</label>
                             <div class="input-group mb-3">
                                 <span class="input-group-text"><i class="fas fa-user"></i></span>
-                                <input type="text" class="form-control" id="nombre" name="nombre" value="{{ categoria.nombre }}" placeholder="Escriba un nombre de categoría" required>
+                                {{ categoria.nombre }}
+                                <!--<input type="text" class="form-control" id="nombre" name="nombre" value="{{ categoria.nombre }}" placeholder="Escriba un nombre de categoría" required>-->
                             </div>
                             {{ categoria.nombre.errors }}
                         </div>
@@ -38,7 +41,8 @@
                             <label for="foto" class="text-primary">Foto</label>
                             <div class="input-group mb-3">
                                 <span class="input-group-text"><i class="fas fa-image"></i></span>
-                                <input type="file" class="form-control" id="foto" name="foto" value="{{ categoria.foto }}" placeholder="Suba una imágen" required>
+                                {{ categoria.foto }}
+                                <!--<input type="file" class="form-control" id="foto" name="foto" value="{{ categoria.foto }}" placeholder="Suba una imágen" required>-->
                             </div>
                         </div>
                         {{ categoria.foto.errors }}

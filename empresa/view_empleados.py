@@ -74,43 +74,32 @@ def annadir_empleados(request):
                 
     return render(request, "empresa/form_add_empleado.html",context)
 
-def editar_empleados(request,id):
-    id_empleado = Empleado.objects.get(id = id)
+def editar_empleados(request,idUsuario):
+    print("Id: "+str(idUsuario))
     
-    if request.method == 'GET':
-        empleado = EmpleadoModelForm(instance = id_empleado)
-        context = {'empleado':empleado}
-    else:
-        empleado = EmpleadoModelForm(request.POST, instance = id_empleado)
-        context = {'empleado':empleado}
-        
-        if empleado.is_valid():
-            empleado.save()
-            #messages.success(request,'Empleado editado correctamente.')
-            return reverse(redirect('empleados')+"?empleado_updated")
-        else:
-            messages.warning(request,'Faltan datos por introducir.')
-            return redirect('form_edit_empleado') 
-    return render(request, "empresa/form_edit_empleado.html",context)
+    return render(request,'empresa/form_edit_empleado.html')
 
-
-"""def editar_empleado(request,idUsuario):
+"""def editar_empleados(request,idUsuario):
     print("Id de usuario: "+str(idUsuario))
     
     #SELECT u.username, u.password, e.dni, e.nombre, e.apellidos, e.direccion, e.biografia
     # FROM Usuarios u,
     # Empleados e WHERE u.id = e.id_usuario and u.id = e.idUsuario;
     
-    datos_empleado = Empleado.objects.filter(idUsuario=idUsuario)
+    datos_empleado = Empleado.objects.filter(id=idUsuario)
     print("Empleado: "+str(datos_empleado))
     
     datos_usuario = Usuario.objects.get(id=idUsuario)
     print("Usuario: "+str(datos_usuario))
     
-    empleado = EmpleadoModelForm(instance = datos_empleado)
+    
+    #empleado = EmpleadoModelForm(instance = datos_empleado)
     usuario = UsuarioModelForm(instance = datos_usuario)
     
-    context = {'empleado':empleado, 'usuario':usuario}
+    context = {
+        'usuario':usuario,
+        'empleado':datos_empleado
+    }
     
     if request.POST:
         usuario = UsuarioModelForm(request.POST, instance = datos_usuario)
@@ -119,73 +108,50 @@ def editar_empleados(request,id):
             'usuario':usuario,
             'empleado':empleado
         }
-    
-    return render(request,'empresa/form_edit_empleado.html',context)"""
-
-"""def editar_empleado(request,idUsuario):
-    datos_empleado = Empleado.objects.filter(idUsuario=idUsuario)
-    print("Empleado: "+str(datos_empleado))
-    
-    datos_usuario = Usuario.objects.get(id=idUsuario)
-    print("Usuario: "+str(datos_usuario))
-    
-    usuario = UsuarioModelForm(instance = datos_usuario)
-    empleado = EmpleadoModelForm(instance = datos_empleado)
-    context = {
-        'idUsuario':usuario,
-        'empleado':empleado
-    }
-    
-    if request.POST:
-        usuario = UsuarioModelForm(request.POST, instance = datos_usuario)
-        empleado = EmpleadoModelForm(request.POST, instance = datos_empleado)
-        context = {
-            'idUsuario':usuario,
-            'empleado':empleado
-        }
         
         if usuario.is_valid():
             username = request.POST['username']
             pwd = request.POST['password']
             
-            perfil = Usuario(username=username, password=pwd)
-            perfil.password = make_password(perfil.password)
-            perfil.save()
-        
+            nuevo_usuario = Usuario(username=username, password=pwd)
+            nuevo_usuario.password = make_password(nuevo_usuario.password)
+            nuevo_usuario.save()
+            user = User.objects.create_user(username = username, password = pwd)
+            user.save()
+
             if empleado.is_valid():
-                last_id_empleado = Empleado.objects.last()
-                
+                last_id_usuario = Usuario.objects.last()
                 dni = request.POST.get("dni")
                 nombre = request.POST.get("nombre")
                 apellidos = request.POST.get("apellidos")
                 direccion = request.POST.get("direccion")
                 biografia = request.POST.get("biografia")
-                idUsuario = request.POST.get("idUsuario",last_id_empleado)
-                
+                idUsuario = request.POST.get("idUsuario",last_id_usuario)
+                    
                 if dni is not None or nombre is not None or apellidos is not None or direccion is not None or biografia is not None or idUsuario is not None:
-                    set_empleado = Empleado(dni=dni, nombre=nombre, apellidos=apellidos, direccion=direccion,biografia=biografia,idUsuario=idUsuario)
+                    set_empleado = Empleado(dni=dni, nombre=nombre, apellidos=apellidos, direccion=direccion,
+                        biografia=biografia,idUsuario=idUsuario)
                     set_empleado.save()
                     messages.success(request,'Empleado editado correctamente.')
                     return redirect('empleados')
-                else:
-                    messages.warning(request,'Faltan datos por introducir.')
-                    return redirect('form_edit_empleado')
             else:
-                print("No se ha podido editar el empleado")
+                messages.warning(request,'Faltan datos de empleado por introducir.')
+                return redirect('form_edit_empleado')
         else:
-            print("No se ha podido editar el empleado")
-        
+            messages.warning(request,'Faltan datos de usuario por introducir.')
+            return redirect('form_edit_empleado')
+    
     return render(request,'empresa/form_edit_empleado.html',context)"""
 
 
 def eliminar_empleados(request,id):
     empleado = Empleado.objects.get(id = id)
-    context = {'empleado':empleado}
+    usuario = Usuario.objects.get(id = empleado)
+    print(usuario)
+    context = {'usuario':usuario, 'empleado':empleado}
     
-    if empleado is None:
-        messages.warning(request,'No se ha podido eliminar este empleado.')
-    else:
-        empleado.delete()
-        messages.error(request,'Empleado con id '+str(empleado)+' eliminado éxitosamente.')
+    usuario.delete()
+    empleado.delete()
+    messages.error(request,'Empleado con id '+str(empleado)+' eliminado éxitosamente.')
     
     return render(request,'empresa/empleados.html',context)

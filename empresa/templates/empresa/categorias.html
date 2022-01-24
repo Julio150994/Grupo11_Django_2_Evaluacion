@@ -47,16 +47,12 @@
                                 <span>Añadir categoria</span>
                             </a>
 
-                            {% if categoria %}
-                            <div class="text-center fom-control" id="categoria_alert">
-                                {% if messages %}
-                                    {% for set_categoria in messages %}
-                                    <div class="alert alert-primary text-center col-md-5 col-5">
-                                        {{ set_categoria }}
-                                    </div>
-                                    {% endfor %}
-                                {% endif %}
-                            </div>
+                            {% if messages %}
+                                {% for categoria in messages %}
+                                <div class="alert alert-primary text-center col-md-5 col-5" id="mensaje_error">
+                                    {{ categoria }}
+                                </div>
+                                {% endfor %}
                             {% endif %}
 
                             <table class="table table-bordered text-center">

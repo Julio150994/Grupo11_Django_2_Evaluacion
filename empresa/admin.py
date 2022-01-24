@@ -10,13 +10,13 @@ class UsuariosAdmin(admin.ModelAdmin):
 class EmpleadoAdmin(admin.ModelAdmin):
     list_display = ("id","dni","nombre","apellidos","direccion","biografia","idUsuario")
     search_fields = ("dni","nombre")
-    list_filter = ("nombre",)
+    list_filter = ("dni","nombre")
     ordering = ("id",)
     
 class ClienteAdmin(admin.ModelAdmin):
     list_display = ("id","dni","nombre","apellidos","direccion","fechaNacimiento","fechaAlta","activo","idUsuario")
     search_fields = ("dni","nombre")
-    list_filter = ("nombre",)
+    list_filter = ("dni","nombre")
     ordering = ("id",)
     
 class CategoriaAdmin(admin.ModelAdmin):
