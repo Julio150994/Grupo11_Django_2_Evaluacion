@@ -37,7 +37,7 @@
                 <div class="d-flex justify-content-center">
                     <div class="text-center">
                         {% if request.user.is_authenticated %}
-                        <h1 style="background-color: #C8CACB; padding-top: 20.56%; padding-bottom: 4.56%;">Listado de Clientes</h1>
+                        <h1 style="background-color: #C8CACB; padding-top: 10.56%; padding-bottom: 4.56%;">Listado de Clientes</h1>
 
                         <div class="panel panel-default bg-white text-center" style="border-radius: 20px; padding-bottom: 0.5%; padding-left: 1%; padding-right: 1%;">
                             <a href="{% url 'form_add_cliente' %}" class="btn btn-success text-white" style="margin-top: 1.5%; margin-right: 80.5%; margin-bottom: 0.5%;">
@@ -65,10 +65,11 @@
                                         <th>Nombre</th>
                                         <th>Apellidos</th>
                                         <th>Direccion</th>
+                                        <th>Username</th>
                                         <th>Fecha de nacimiento</th>
                                         <th>Fecha de alta</th>
                                         <th>¿Activo?</th>
-                                        <th colspan="2">Acciones </th>
+                                        <th colspan="5">Acciones</th>
                                     </tr>
                                 </thead>
                                 <tbody class="bg-white text-dark">
@@ -79,9 +80,13 @@
                                         <th>{{cliente.nombre}}</th>
                                         <th>{{cliente.apellidos}}</th>
                                         <th>{{cliente.direccion}}</th>
+                                        <th>{{ cliente.idUsuario.username }}</th>
                                         <th>{{cliente.fechaNacimiento}}</th>
                                         <th>{{cliente.fechaAlta}}</th>
                                         <th>{{cliente.activo}}</th>
+                                        <td><a href="{% url 'datos_cliente' cliente.id  %}" class="btn btn-primary text-white"><i class="fas fa-list"></i> <span>Datos</span></a></td>
+                                        <td><a href="#" class="btn btn-success text-white"><i class="fas fa-toggle-off"></i> <span>Activar</span></a></td>
+                                        <td><a href="#" class="btn btn-warning text-white"><i class="fas fa-toggle-on"></i> <span>Desactivar</span></a></td>
                                         <td><a href= "{% url 'delete' cliente.id %}" class="btn btn-danger text-white"><i class="fas fa-times-circle "></i> <span>Eliminar</span></a></td>
                                         <td><a href="{% url 'form_edit_cliente' cliente.id %}" class="btn btn-secondary text-white"><i class="fas fa-exchange-alt "></i> <span>Editar</span></a></td>
                                     </tr>

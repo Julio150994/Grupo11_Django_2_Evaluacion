@@ -143,8 +143,16 @@ def editar_empleados(request,idUsuario):
     
     return render(request,'empresa/form_edit_empleado.html',context)"""
 
-
 def eliminar_empleados(request,id):
+    usuario = Usuario.objects.get(id=id)
+    print(usuario)
+    
+    empleado = Empleado.objects.get(id=id)
+    print(empleado)
+    
+    return render(request,'empresa/empleados.html')
+
+"""def eliminar_empleados(request,id):
     empleado = Empleado.objects.get(id = id)
     usuario = Usuario.objects.get(id = empleado)
     print(usuario)
@@ -154,4 +162,4 @@ def eliminar_empleados(request,id):
     empleado.delete()
     messages.error(request,'Empleado con id '+str(empleado)+' eliminado éxitosamente.')
     
-    return render(request,'empresa/empleados.html',context)
+    return render(request,'empresa/empleados.html',context)"""

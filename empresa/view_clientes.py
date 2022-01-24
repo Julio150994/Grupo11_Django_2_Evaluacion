@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
+from django.contrib.auth.hashers import make_password
 from django.contrib import messages
+from django.contrib.auth.models import User
 from empresa.forms import ClienteModelForm
 from empresa.models import Cliente, Usuario
-from .forms import ClienteModelForm
+from .forms import ClienteModelForm, UsuarioModelForm
 
 
 def mostrar_clientes(request):
@@ -11,35 +13,64 @@ def mostrar_clientes(request):
     context = { 'clientes': listClientes }
     return render(request,'empresa/clientes.html',context)
 
-def annadir_clientes(request):
-    cliente = ClienteModelForm()
+def datos_cliente(request,id):
+    cliente = Cliente.objects.get(id = id)
     context = {'cliente':cliente}
+    return render(request,'empresa/datos_cliente.html',context)
+
+
+def annadir_clientes(request):
+    usuario = UsuarioModelForm()
+    cliente = ClienteModelForm()
+    context = {
+        'usuario':usuario,
+        'cliente':cliente
+    }
 
     if request.POST:
+        usuario = UsuarioModelForm(request.POST)
         cliente = ClienteModelForm(request.POST)
-        context = {'cliente': cliente}
+        context = {
+            'usuario':usuario,
+            'cliente':cliente
+        }
         
-        if cliente.is_valid():
-            last_id_usuario = Usuario.objects.last() 
-            dni = request.POST.get("dni")
-            nombre = request.POST.get("nombre")
-            apellidos = request.POST.get("apellidos")
-            direccion = request.POST.get("direccion")
-            fechaNacimiento = request.POST.get("fechaNacimiento")
-            fechaAlta = request.POST.get("fechaAlta")
-            activo = request.POST.get("activo",'') == 'off'
-            idUsuario = request.POST.get("idUsuario",last_id_usuario)
+        if usuario.is_valid():
+            username = request.POST['username']
+            pwd = request.POST['password']
+            
+            nuevo_usuario = Usuario(username=username, password=pwd)
+            nuevo_usuario.password = make_password(nuevo_usuario.password)
+            nuevo_usuario.save()
+            user = User.objects.create_user(username = username, password = pwd)
+            user.save()
+            
+        
+            if cliente.is_valid():
+                last_id_usuario = Usuario.objects.last() 
+                dni = request.POST.get("dni")
+                nombre = request.POST.get("nombre")
+                apellidos = request.POST.get("apellidos")
+                direccion = request.POST.get("direccion")
+                fechaNacimiento = request.POST.get("fechaNacimiento")
+                fechaAlta = request.POST.get("fechaAlta")
+                activo = request.POST.get("activo",'') == 'off'
+                idUsuario = request.POST.get("idUsuario",last_id_usuario)
 
-            if dni is not None or nombre is not None or apellidos is not None or direccion is not None or fechaNacimiento is not None or fechaAlta is not None or activo is not None or idUsuario:
-                nuevo_cliente = Cliente(dni=dni, nombre=nombre, apellidos=apellidos, direccion=direccion,
-                    fechaNacimiento=fechaNacimiento, fechaAlta=fechaAlta,activo=activo,idUsuario=idUsuario)
-                # print("aqui 1")
-                nuevo_cliente.save()
-                messages.success(request,'Cliente registrado correctamente.')
-                return redirect('clientes')
+                if dni is not None or nombre is not None or apellidos is not None or direccion is not None or fechaNacimiento is not None or fechaAlta is not None or activo is not None or idUsuario:
+                    nuevo_cliente = Cliente(dni=dni, nombre=nombre, apellidos=apellidos, direccion=direccion,
+                        fechaNacimiento=fechaNacimiento, fechaAlta=fechaAlta,activo=activo,idUsuario=idUsuario)
+                    # print("aqui 1")
+                    nuevo_cliente.save()
+                    messages.success(request,'Cliente registrado correctamente.')
+                    return redirect('clientes')
+            else:
+                messages.warning(request,'Faltan datos de cliente por introducir.')
+                #print(cliente.errors)
+                return redirect('form_add_cliente')
         else:
-            messages.warning(request,'Faltan datos por introducir.')
-            print(cliente.errors)
+            messages.warning(request,'Faltan datos de usuario por introducir.')
+            #print(usuario.errors)
             return redirect('form_add_cliente')
 
     return render(request, "empresa/form_add_cliente.html",context)
@@ -67,11 +98,8 @@ def editar_clientes(request,id):
 def eliminar_cliente(request,id):
     cliente = Cliente.objects.get(id = id)
     context = {'cliente':cliente}
-    
-    if cliente is None:
-        messages.warning(request,'No se ha podido eliminar este cliente.')
-    else:
-        cliente.delete()
-        messages.error(request,'Cliente '+str(cliente)+' eliminado éxitosamente.')
+   
+    cliente.delete()
+    messages.error(request,'Cliente '+str(cliente)+' eliminado éxitosamente.')
     
     return render(request,'empresa/clientes.html',context)
