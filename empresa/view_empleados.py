@@ -92,22 +92,27 @@ def editar_empleados(request,id):
             biografia = request.POST.get("biografia")
             idUsuario = request.POST.get("idUsuario")
             username = request.POST.get("username")
-            pwd = request.POST.get("password")
+            password = request.POST.get("password")
                 
             if dni is not None or nombre is not None or apellidos is not None or direccion is not None or biografia is not None or idUsuario is not None:                
                 empleado.save()
                 if empleado.save() != None:
-                    usuario = UsuarioModelForm(request.POST, instance = idUsuario)
+                    print(idUsuario)
+                    print("Username: "+str(username))
+                    print("Password: "+str(password))
                     
-                    if usuario.is_valid():
-                        actualizar_usuario = Usuario(username=username, password=pwd)
-                        actualizar_usuario.password = make_password(actualizar_usuario.password)
-                        actualizar_usuario.save()
-                        user = User.objects.create_user(username = username, password = pwd)
-                        user.save()
+                    actualizar_usuario = Usuario(username=username, password=password)
+                    actualizar_usuario.password = make_password(actualizar_usuario.password)
+                    print("Contraseña encriptada: "+str(actualizar_usuario.password))
                     
-                        messages.success(request,'Empleado editado correctamente.')
-                        return redirect('empleados')
+                    """actualizar_usuario = Usuario(username=username, password=password)
+                    actualizar_usuario.password = make_password(actualizar_usuario.password)
+                    
+                    user = User.objects.create_user(username = username, password = password)
+                    user.save()"""
+                
+                    messages.success(request,'Empleado editado correctamente.')
+                    return redirect('empleados')
         else:
             messages.warning(request,'Faltan datos por introducir.')
             return redirect('form_edit_empleado')
