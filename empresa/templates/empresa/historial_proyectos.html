@@ -5,7 +5,7 @@
         <meta name="description" content="" />
         <meta name="author" content="" />
         <!-- Grayscale - Start Bootstrap Theme -->
-        <title>{% block title %} Listado de Proyectos {% endblock %}</title>
+        <title>{% block title %} Historial de Proyectos {% endblock %}</title>
         <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
         <!-- Font Awesome icons (free version)-->
         <script src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" crossorigin="anonymous"></script>
@@ -21,54 +21,11 @@
         {% include "empresa/navbar_inicio.html" %}
 
         <header class="masthead">
-            {% if 'pry_added' in request.GET %}
-               <div class="alert alert-success">
-                   Proyecto añadido correctamente
-               </div>
-            {% endif %}
-
-            {% if 'pry_updated' in request.GET %}
-               <div class="alert alert-primary">
-                   Proyecto editado correctamente
-               </div>
-            {% endif %}
-
             <div class="px-2 px-lg-5 d-flex h-120 align-items-center justify-content-center">
                 <div class="d-flex justify-content-center">
                     <div class="text-center">
                         {% if request.user.is_authenticated %}
                         <h1 style="background-color: #C8CACB; padding-top: 20.56%; padding-bottom: 4.56%;">Listado de Proyectos</h1>
-
-                        {% if request.user.is_active and request.user.is_staff %}
-                        <div class="panel panel-default bg-white text-center" style="border-radius: 20px; padding-bottom: 0.5%; padding-left: 1%; padding-right: 1%;">
-                            <a href="{% url 'form_add_pry' %}"  class="btn btn-success text-white" style="margin-top: 1.5%; margin-right: 80.5%; margin-bottom: 0.5%;">
-                                <i class="fas fa-user-plus"></i>
-                                <span>Añadir Proyecto</span>
-                            </a>
-                            <a href="{% url 'historial_pry' %}"  class="btn btn-secondary text-white">
-                                <i class="fas fa-tasks"></i>
-                                <span>Ver historial de proyectos</span>
-                            </a>
-
-                        {% elif request.user.is_active and not request.user.is_staff %}
-                        <div class="panel panel-default bg-white text-center" style="border-radius: 20px; padding-bottom: 0.5%; padding-left: 1%; padding-right: 1%;">
-                            <a href="{% url 'form_add_pry' %}"  class="btn btn-success text-white disabled" style="margin-top: 1.5%; margin-right: 80.5%; margin-bottom: 0.5%;">
-                                <i class="fas fa-user-plus"></i>
-                                <span>Añadir Proyecto</span>
-                            </a>
-                        {% endif %}
-                            {% if proyecto %}
-                            <div class="text-center fom-control" id="proyecto_alert">
-                                {% if messages %}
-                                    {% for set_proyecto in messages %}
-                                    <div class="alert alert-primary text-center col-md-5 col-5">
-                                        {{ set_proyecto }}
-                                    </div>
-                                    {% endfor %}
-                                {% endif %}
-                            </div>
-                            {% endif %}
-        
                             <table class="table table-bordered text-center">
                                 <thead class = "bg-black text-white">
                                     <tr>
@@ -96,21 +53,14 @@
                                         <th>{{proyecto.informeFinal}}</th>
                                         <th>{{proyecto.idEmpleado.nombre}} {{proyecto.idEmpleado.apellidos}}</th>
                                         <th>{{proyecto.idCategoria.nombre}}</th>
-                                        {% if request.user.is_active and request.user.is_staff and request.user.id == request.empleados.idUsuario.id %}
-                                            <td><a href="#" class="btn btn-danger text-white"><i class="fas fa-times-circle"></i> <span>Dar de baja</span></a></td>
-                                            <td><a href="#" class="btn btn-secondary text-white"><i class="fas fa-exchange-alt"></i> <span>Editar</span></a></td>
-                                        {% else %}
-                                            <td><a href="#" class="btn btn-danger text-white disabled"><i class="fas fa-times-circle "></i> <span>Dar de baja</span></a></td>
-                                            <td><a href="#" class="btn btn-secondary text-white disabled"><i class="fas fa-exchange-alt "></i> <span>Editar</span></a></td>
-                                        {% endif %}
                                     </tr>
                                 {% endfor %}
                                 </tbody>
                             </table>
                             <div class="text-center">
-                                <a class="btn btn-dark text-white" href="{% url 'page_inicio' %}" style="margin-top: 1%; margin-right: 81%;">
+                                <a class="btn btn-dark text-white" href="{% url 'proyectos' %}" style="margin-top: 1%; margin-right: 81%;">
                                     <i class="fas fa-arrow-left"></i>
-                                    <span>Volver al menú</span>
+                                    <span>Volver a proyectos</span>
                                 </a>
                             </div>
                         </div>

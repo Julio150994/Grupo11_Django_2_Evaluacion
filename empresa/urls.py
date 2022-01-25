@@ -25,6 +25,7 @@ urlpatterns = [
     path('proyectos/',view_pry.mostrar_pry,name="proyectos"),
     path('annadir_proyecto/',view_pry.annadir_proyecto,name="form_add_pry"),
     # path('editar_proyecto/<int:id>/',view_pry.editar_proyecto,name="form_edit_pry"),
+    path('historial_pry',view_pry.ver_historial_proyectos,name="historial_pry"),
 
     path('clientes/',view_clientes.mostrar_clientes,name="clientes"),
     path('cliente/<int:id>/',view_clientes.datos_cliente,name="datos_cliente"),

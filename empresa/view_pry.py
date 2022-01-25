@@ -36,12 +36,15 @@ def annadir_proyecto(request):
                 idCategoria=idCategoria, idEmpleado=idEmpleado)
                 nuevo_proyecto.save()
                 messages.success(request,'Proyecto añadido correctamente.')
-
-                #nueva_proyecto = proyecto(nombre=nombre, foto=foto)
-            
                 return redirect('proyectos')
         else:
             messages.warning(request,'Faltan datos por introducir.')
             return redirect('form_add_pry')
 
     return render(request, "empresa/form_add_pry.html",context)
+
+
+def ver_historial_proyectos(request):
+    historialProyectos = Proyecto.objects.all()
+    context = { 'proyectos': historialProyectos }
+    return render(request,'empresa/historial_proyectos.html',context)
