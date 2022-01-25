@@ -1,8 +1,8 @@
 alert('Prueba de empleado');
 
-eliminarEmpleado() {
+eliminarEmpleado(id) {
     Swal.fire({
-        title: '¿Desea eliminar a este empleado?',
+        title: '¿Desea eliminar el empleado ' + id + '?',
         text: "Empleado",
         icon: 'warning',
         showCancelButton: true,

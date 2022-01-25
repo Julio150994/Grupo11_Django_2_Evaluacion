@@ -12,7 +12,7 @@ urlpatterns = [
     path('empleados/',view_empleados.mostrar_empleados,name="empleados"),
     path('empleado/<int:id>/',view_empleados.datos_empleado,name="datos_empleado"),
     path('annadir_empleado/',view_empleados.annadir_empleados,name="form_add_empleado"),
-    path('editar_empleado/<int:id>/<int:idUsuario>/',view_empleados.editar_empleados,name="form_edit_empleado"),
+    path('editar_empleado/<int:id>',view_empleados.editar_empleados,name="form_edit_empleado"),
     path('eliminar_empleado/<int:id>/<int:idUsuario>/',view_empleados.eliminar_empleados,name="empleados"),
     
     path('categorias/',view_categorias.mostrar_categorias,name="categorias"),

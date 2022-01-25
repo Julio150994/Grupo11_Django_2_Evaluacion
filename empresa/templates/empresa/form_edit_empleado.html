@@ -30,14 +30,16 @@
             <div class="panel-heading" id="panel">
                 <div class="container col-md-5 bg-white" id="form">
                     <h2 class="text-center mb-4">Formulario de Empleado</h2>
-                    <form action="{% url 'form_edit_empleado' empleado.id empleado.idUsuario %}" method="POST">
+                    <form action="{% url 'form_edit_empleado' empleado.id %}" method="POST">
                         {% csrf_token %}
+
+                        <input type="hidden" name="idUsuario" value="{{empleado.idUsuario.id}}">
                         
                         <div class="form-group">
                             <label for="dni" class="text-primary">Dni</label>
                             <div class="input-group mb-3">
                                 <span class="input-group-text"><i class="fas fa-address-card"></i></span>
-                                {{ empleado.dni }}
+                                <input type="text" name="dni" class="form-control" value="{{ empleado.dni }}">
                             </div>
                             {{ empleado.dni.errors }}
                         </div>
@@ -46,7 +48,7 @@
                             <label for="nombre" class="text-primary">Nombre</label>
                             <div class="input-group mb-3">
                                 <span class="input-group-text"><i class="fas fa-id-badge"></i></span>
-                                {{ empleado.nombre }}
+                                <input type="text" name="nombre" class="form-control" value="{{ empleado.nombre }}">
                             </div>
                             {{ empleado.nombre.errors }}
                         </div>
@@ -55,7 +57,7 @@
                             <label for="apellidos" class="text-primary">Apellidos</label>
                             <div class="input-group mb-3">
                                 <span class="input-group-text"><i class="fas fa-id-badge"></i></span>
-                                {{ empleado.apellidos }}
+                                <input type="text" name="apellidos" class="form-control" value="{{ empleado.apellidos }}">
                             </div>
                             {{ empleado.apellidos.errors }}
                         </div>
@@ -64,7 +66,7 @@
                             <label for="direccion" class="text-primary">Direccion</label>
                             <div class="input-group mb-3">
                                 <span class="input-group-text"><i class="fas fa-house-user"></i></span>
-                                {{ empleado.direccion }}
+                                <input type="text" name="direccion" class="form-control" value="{{ empleado.direccion }}">
                             </div>
                             {{ empleado.direccion.errors }}
                         </div>
@@ -73,7 +75,7 @@
                             <label for="username" class="text-primary">Username</label>
                             <div class="input-group mb-3">
                                 <span class="input-group-text"><i class="fas fa-house-user"></i></span>
-                                {{ empleado.idUsuario.username }}
+                                <input type="text" name="username" class="form-control" value="{{ empleado.idUsuario.username }}">
                             </div>
                             {{ empleado.idUsuario.username.errors }}
                         </div>
@@ -82,7 +84,9 @@
                             <label for="password" class="text-primary">Password</label>
                             <div class="input-group mb-3">
                                 <span class="input-group-text"><i class="fas fa-house-user"></i></span>
-                                {{ empleado.idUsuario.password }}
+                                {% if empleado.idUsuario.password != "" %}
+                                <input type="password" name="password" class="form-control" value="password">
+                                {% endif %}
                             </div>
                             {{ empleado.idUsuario.password.errors }}
                         </div>
@@ -91,7 +95,7 @@
                             <label for="biografia" class="text-primary">Biografía</label>
                             <div class="input-group mb-3">
                                 <span class="input-group-text"><i class="fas fa-house-user"></i></span>
-                                {{ empleado.biografia }}
+                                <input type="text" name="biografia" class="form-control" value="{{ empleado.biografia }}">
                             </div>
                             {{ empleado.biografia.errors }}
                         </div>
