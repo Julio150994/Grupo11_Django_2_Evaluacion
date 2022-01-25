@@ -25,7 +25,17 @@
                 <div class="d-flex justify-content-center">
                     <div class="text-center">
                         {% if request.user.is_authenticated %}
-                        <h1 style="background-color: #C8CACB; padding-top: 20.56%; padding-bottom: 4.56%;">Listado de Proyectos</h1>
+                        <h1 style="background-color: #C8CACB; padding-top: 20.56%; padding-bottom: 4.56%;">Historial de Proyectos</h1>
+
+                        {% if request.user.is_active and request.user.is_staff %}
+                        <div class="panel panel-default bg-white text-center" style="border-radius: 20px; padding-bottom: 0.5%; padding-left: 1%; padding-right: 1%;">
+                            <a href="{% url 'inscripcion_proyecto' %}"  class="btn btn-success text-white" style="margin-top: 1.5%; margin-right: 80.5%; margin-bottom: 0.5%;">
+                                <i class="fas fa-user-plus"></i>
+                                <span>Añadir Proyecto</span>
+                            </a>
+                        
+                        {% elif request.user.is_active and not request.user.is_staff %}
+                        <h1 style="background-color: #C8CACB; padding-top: 20.56%; padding-bottom: 4.56%;">Historial de Proyectos</h1>
                             <table class="table table-bordered text-center">
                                 <thead class = "bg-black text-white">
                                     <tr>
@@ -38,7 +48,6 @@
                                         <th>InfoFinal</th>
                                         <th>Nombre y apellidos del empleado</th>
                                         <th>idCategoria</th>
-                                        <th colspan="2">Operaciones</th>
                                     </tr>
                                 </thead>
                                 <tbody class="bg-white text-dark">
