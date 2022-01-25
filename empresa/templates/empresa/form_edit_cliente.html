@@ -29,7 +29,7 @@
             <div class="panel-heading" id="panel">
                 <div class="container col-md-5 bg-white" id="form">
                     <h2 class="text-center mb-4">Formulario de Cliente</h2>
-                    <form action="{% url 'clientes' %}" method="POST">
+                    <form action="{% url 'form_edit_cliente' cliente.id cliente.idUsuario %}" method="POST">
                         {% csrf_token %}
 
                         <div class="form-group">
