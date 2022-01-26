@@ -1,27 +1,19 @@
-alert('Prueba de empleado');
-
-eliminarEmpleado(id) {
+function eliminarEmpleado(username) {
     Swal.fire({
-        title: '¿Desea eliminar el empleado ' + id + '?',
-        text: "Empleado",
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Mensaje de Salesemp!'
+        confirmButtonText: 'Yes, delete it!'
     }).then((result) => {
         if (result.isConfirmed) {
             Swal.fire(
-                'Mensaje de Salesemp!',
-                '¡¡Empleado eliminado éxitosamente!!',
+                'Deleted!',
+                'Your file has been deleted.',
                 'success'
-            );
-        } else {
-            Swal.fire(
-                'Mensaje de Salesemp!',
-                'No has eliminado a este empleado',
-                'warning'
-            );
+            )
         }
     });
 }

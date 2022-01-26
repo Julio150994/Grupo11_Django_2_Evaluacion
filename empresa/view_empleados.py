@@ -103,13 +103,12 @@ def editar_empleados(request,id):
                     
                     actualizar_usuario = Usuario(username=username, password=password)
                     actualizar_usuario.password = make_password(actualizar_usuario.password)
+                    actualizar_usuario.save()
+                    
                     print("Contraseña encriptada: "+str(actualizar_usuario.password))
                     
-                    """actualizar_usuario = Usuario(username=username, password=password)
-                    actualizar_usuario.password = make_password(actualizar_usuario.password)
-                    
-                    user = User.objects.create_user(username = username, password = password)
-                    user.save()"""
+                    user = User.objects.create_user(username = username, password = make_password(actualizar_usuario.password))
+                    user.save()
                 
                     messages.success(request,'Empleado editado correctamente.')
                     return redirect('empleados')
@@ -124,16 +123,17 @@ def eliminar_empleados(request,id,idUsuario):
     empleado = Empleado.objects.filter(id=id)
     print(empleado)
     
-    usuario = Usuario.objects.filter(id=idUsuario)    
+    usuario = Usuario.objects.filter(id=idUsuario)  
     print(usuario)
     
     set_empleado = list(chain(empleado,usuario)) #combinamos las dos consultas haciendolo una#
     print(set_empleado)
     
     usuario.delete()
-    User.objects.get(username=usuario, is_superuser=True).delete() # para eliminar el usuario que sea superusuario #
     empleado.delete()
     
+    #User.objects.get(set_empleado, is_superuser=True).delete() # para eliminar un usuario que sea superusuario #
+
     listEmpleados = Empleado.objects.all()
     context = {'empleados':listEmpleados}
     
