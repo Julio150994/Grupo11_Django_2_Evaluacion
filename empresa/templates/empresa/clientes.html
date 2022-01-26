@@ -16,6 +16,20 @@
         {% load static %}
         <link href="{% static 'css/styles.css' %}" rel="stylesheet"/>
         <link href="{% static 'css/clientes.css' %}" rel="stylesheet"/>
+         <!-- Mensaje de confirmación de JS -->
+         <script type="text/javascript">
+            function eliminarCliente() {
+                cliente = confirm("¿Deseas eliminar a este cliente?");
+                if (cliente) {
+                    alert('Cliente eliminado correctamente');
+                    window.location.href = "/eliminar_cliente/id/idUsuario";
+                }
+                else {
+                    alert('No has eliminado a este cliente');
+                    window.location.href = "/clientes";
+                }
+            }
+        </script>
     </head>
     <body id="page-top">
         {% include "empresa/navbar_inicio.html" %}
@@ -87,8 +101,9 @@
                                         <td><a href="{% url 'datos_cliente' cliente.id  %}" class="btn btn-primary text-white"><i class="fas fa-list"></i> <span>Datos</span></a></td>
                                         <td><a href="#" class="btn btn-success text-white"><i class="fas fa-toggle-off"></i> <span>Activar</span></a></td>
                                         <td><a href="#" class="btn btn-warning text-white"><i class="fas fa-toggle-on"></i> <span>Desactivar</span></a></td>
-                                        <td><a href= "{% url 'delete' cliente.id cliente.idUsuario %}" class="btn btn-danger text-white"><i class="fas fa-times-circle "></i> <span>Eliminar</span></a></td>
-                                        <td><a href="{% url 'form_edit_cliente' cliente.id cliente.idUsuario %}" class="btn btn-secondary text-white"><i class="fas fa-exchange-alt "></i> <span>Editar</span></a></td>
+                                        <td><a href= "{% url 'clientes' %}" class="btn btn-danger text-white"><i class="fas fa-times-circle "></i> <span>Eliminar</span></a></td>
+                                        <td><a href="{% url 'form_edit_cliente' cliente.id cliente.idUsuario %}" class="btn btn-secondary text-white" onclick="eliminarCliente()"><i class="fas fa-exchange-alt "></i> <span>Editar</span></a></td>
+                                        <!-- 'delete' cliente.id cliente.idUsuario al eliminar cliente -->
                                     </tr>
                                     {% endfor %}
                                 </tbody>

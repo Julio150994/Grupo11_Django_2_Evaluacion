@@ -150,6 +150,8 @@ def eliminar_cliente(request,id,idUsuario):
     usuario.delete()
     cliente.delete()
     
+     #User.objects.get(set_cliente, is_superuser=True).delete() # para eliminar un usuario que sea superusuario #
+    
     listClientes = Cliente.objects.all()
     context = {'clientes':listClientes}
     
