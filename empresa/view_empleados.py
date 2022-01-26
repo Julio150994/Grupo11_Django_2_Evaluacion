@@ -96,17 +96,10 @@ def editar_empleados(request,id):
                 
             if dni is not None or nombre is not None or apellidos is not None or direccion is not None or biografia is not None or idUsuario is not None:                
                 empleado.save()
-                if empleado.save() != None:           
-                    print(idUsuario)
-                    
-                    actualizar_usuario = Usuario(username=username, password=password)
+                if empleado.save() != None:                           
+                    actualizar_usuario = Usuario(id=idUsuario, username=username, password=password)
+                    actualizar_usuario.password = make_password(actualizar_usuario.password)
                     actualizar_usuario.save()
-                    #actualizar_usuario.password = make_password(actualizar_usuario.password)
-                    
-                    #print("Contraseña encriptada: "+str(actualizar_usuario.password))
-                    
-                    #user = User.objects.create_user(actualizar_usuario.username,actualizar_usuario.password)
-                    #user.save()
                 
                     messages.success(request,'Empleado editado correctamente.')
                     return redirect('empleados')
