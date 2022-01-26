@@ -17,17 +17,18 @@
         {% load static %}
         <link href="{% static 'css/styles.css' %}" rel="stylesheet"/>
         <link href="{% static 'css/empleados.css' %}" rel="stylesheet"/>
-        <!-- Mensaje de confirmación de JS -->
+        <!-- Mensaje de confirmación con JS -->
         <script type="text/javascript">
             function eliminarEmpleado() {
                 empleado = confirm("¿Deseas eliminar a este empleado?");
                 if (empleado) {
                     alert('Empleado eliminado correctamente');
-                    window.location.href = "/eliminar_empleado/id/idUsuario";
+                    // eliminar_empleado/id/<int:idUsuario>
+                    window.location.href = "empleados/";
                 }
                 else {
                     alert('No has eliminado a este empleado');
-                    window.location.href = "/empleados";
+                    window.location.href = "empleados/";
                 }
             }
         </script>
@@ -82,8 +83,7 @@
                                         <td>{{ empleado.biografia }}</td>
                                         <td><a href="{% url 'datos_empleado' empleado.id  %}" class="btn btn-primary text-white"><i class="fas fa-list"></i> <span>Datos de empleado</span></a></td>
                                         <td><a href="{% url 'form_edit_empleado' empleado.id %}" class="btn btn-secondary text-white"><i class="fas fa-user-edit"></i> <span>Editar</span></a></td>
-                                        <td><a href="{% url 'empleados' %}" class="btn btn-danger text-white" onclick="eliminarEmpleado()"><i class="fas fa-trash-alt"></i> <span>Eliminar</span></a></td>
-                                        <!-- empleado.id empleado.idUsuario -->
+                                        <td><a href="{% url 'empleados' empleado.id empleado.idUsuario %}" class="btn btn-danger text-white" onclick="eliminarEmpleado()"><i class="fas fa-trash-alt"></i> <span>Eliminar</span></a></td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>

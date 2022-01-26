@@ -31,8 +31,7 @@
                             <label for="nombre" class="text-primary">Nombre</label>
                             <div class="input-group mb-3">
                                 <span class="input-group-text"><i class="fas fa-user"></i></span>
-                                {{ categoria.nombre }}
-                                <!--<input type="text" class="form-control" id="nombre" name="nombre" value="{{ categoria.nombre }}" placeholder="Escriba un nombre de categoría" required>-->
+                                <input type="text" class="form-control" id="nombre" name="nombre" value="{{ categoria.nombre }}" placeholder="Escriba un nombre de categoría" required>
                             </div>
                             {{ categoria.nombre.errors }}
                         </div>
@@ -41,9 +40,9 @@
                             <label for="foto" class="text-primary">Foto</label>
                             <div class="input-group mb-3">
                                 <span class="input-group-text"><i class="fas fa-image"></i></span>
-                                {{ categoria.foto }}
-                                <!--<input type="file" class="form-control" id="foto" name="foto" value="{{ categoria.foto }}" placeholder="Suba una imágen" required>-->
+                                <input type="file" class="form-control" id="foto" name="foto" value="{{ categoria.foto }}" placeholder="Suba una imágen" required>
                             </div>
+                            <label for="foto" class="text-primary">Foto actual: {{ categoria.foto }}</label>
                         </div>
                         {{ categoria.foto.errors }}
 
@@ -55,7 +54,7 @@
                             {% endfor %}
                         {% endif %}
                         
-                        <a href="{% url 'categorias' %}" class="form-control btn btn-danger text-white" id="categoria">
+                        <a href="{% url 'categorias' %}" class="form-control btn btn-danger text-white" id="categoria" style="margin-top: 2%;">
                             <i class="fas fa-arrow-left"></i>
                             <span>Cancelar</span>
                         </a>

@@ -17,24 +17,26 @@
         {% load static %}
         <link href="{% static 'css/styles.css' %}" rel="stylesheet"/>
         <link href="{% static 'css/categorias.css' %}" rel="stylesheet"/>
+        <!-- Mensaje de confirmación con JS -->
+        <script type="text/javascript">
+            function eliminarCategoria() {
+                empleado = confirm("¿Deseas eliminar esta categoría?");
+                if (empleado) {
+                    alert('Categoría eliminada correctamente');
+                    window.location.href = "categorias/";
+                }
+                else {
+                    alert('No has eliminado esta categoría');
+                    window.location.href = "categorias/";
+                }
+            }
+        </script>
     </head>
     <body id="page-top">
         {% include "empresa/navbar_inicio.html" %}
         
         <!-- Masthead-->
         <header class="masthead">
-            {% if 'cat_added' in request.GET %}
-               <div class="alert alert-success">
-                   Categoría añadida correctamente
-               </div>
-            {% endif %}
-
-            {% if 'cat_updated' in request.GET %}
-               <div class="alert alert-primary">
-                   Categoría editada correctamente
-               </div>
-            {% endif %}
-
             <div class="px-2 px-lg-5 d-flex h-120 align-items-center justify-content-center">
                 <div class="d-flex justify-content-center">
                     <div class="text-center">
@@ -49,7 +51,7 @@
 
                             {% if messages %}
                                 {% for categoria in messages %}
-                                <div class="alert alert-primary text-center col-md-5 col-5" id="mensaje_error">
+                                <div class="alert alert-primary form-control text-center col-md-5 col-5" id="mensaje_error">
                                     {{ categoria }}
                                 </div>
                                 {% endfor %}
@@ -71,8 +73,8 @@
                                         <td>{{ categoria.nombre }}</td>
                                         <td><img src="{{ categoria.foto.url }}" class="img-circle" width="100" height="100"></td>
                                         <td><a href="{% url 'datos_categoria' categoria.id %}" class="btn btn-primary text-white"><i class="fas fa-list"></i> <span>Datos de categoria</span></a></td>
-                                        <td><a href="{% url 'form_edit_categoria' categoria.id %}" class="btn btn-secondary text-white"><i class="fas fa-user-edit"></i> <span>Editar</span></a></td>
-                                        <td><a href="{% url 'categorias' categoria.id %}" class="btn btn-danger text-white" id="cat"><i class="fas fa-trash-alt"></i> <span>Eliminar</span></a></td>
+                                        <td><a href="{% url 'form_edit_categoria' categoria.id %}" class="btn btn-secondary text-white"><i class="fas fa-exchange-alt"></i> <span>Editar</span></a></td>
+                                        <td><a href="{% url 'categorias' categoria.id %}" class="btn btn-danger text-white" onclick="eliminarCategoria()"><i class="fas fa-trash-alt"></i> <span>Eliminar</span></a></td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>
@@ -96,7 +98,7 @@
         <!-- Core theme JS-->
         <script src="/static/js/scripts.js"></script>
         
-        <script src="{% static 'js/eliminar_empleado.js' %}"></script>
+        <script src="{% static 'js/eliminar_categoria.js' %}"></script>
 
         <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
         <!-- * *                               SB Forms JS                               * *-->

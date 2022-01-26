@@ -96,19 +96,17 @@ def editar_empleados(request,id):
                 
             if dni is not None or nombre is not None or apellidos is not None or direccion is not None or biografia is not None or idUsuario is not None:                
                 empleado.save()
-                if empleado.save() != None:
+                if empleado.save() != None:           
                     print(idUsuario)
-                    print("Username: "+str(username))
-                    print("Password: "+str(password))
                     
                     actualizar_usuario = Usuario(username=username, password=password)
-                    actualizar_usuario.password = make_password(actualizar_usuario.password)
                     actualizar_usuario.save()
+                    #actualizar_usuario.password = make_password(actualizar_usuario.password)
                     
-                    print("Contraseña encriptada: "+str(actualizar_usuario.password))
+                    #print("Contraseña encriptada: "+str(actualizar_usuario.password))
                     
-                    user = User.objects.create_user(username = username, password = make_password(actualizar_usuario.password))
-                    user.save()
+                    #user = User.objects.create_user(actualizar_usuario.username,actualizar_usuario.password)
+                    #user.save()
                 
                     messages.success(request,'Empleado editado correctamente.')
                     return redirect('empleados')
@@ -134,7 +132,7 @@ def eliminar_empleados(request,id,idUsuario):
     
     #User.objects.get(set_empleado, is_superuser=True).delete() # para eliminar un usuario que sea superusuario #
 
-    listEmpleados = Empleado.objects.all()
+    listEmpleados = Empleado.objects.order_by('-id').all()
     context = {'empleados':listEmpleados}
     
     messages.error(request,'Empleado eliminado éxitosamente.')
