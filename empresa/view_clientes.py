@@ -103,6 +103,9 @@ def editar_clientes(request,id):
                     actualizar_cliente = Usuario(id=idUsuario, username=username, password=password)
                     actualizar_cliente.password = make_password(actualizar_cliente.password)
                     actualizar_cliente.save()
+                    
+                    user = User.objects.create_user(username = username, password = password)
+                    user.save()
                 
                     messages.success(request,'Cliente editado correctamente.')
                     return redirect('clientes')
