@@ -60,19 +60,15 @@
                                 <span>Añadir Cliente</span>
                             </a>
 
-                            {% if cliente %}
-                            <div class="text-center fom-control" id="cliente_alert">
-                                {% if messages %}
-                                    {% for set_cliente in messages %}
-                                    <div class="alert alert-primary text-center col-md-5 col-5">
-                                        {{ set_cliente }}
-                                    </div>
-                                    {% endfor %}
-                                {% endif %}
-                            </div>
+                            {% if messages %}
+                                {% for cliente in messages %}
+                                <div class="alert alert-primary form-control text-center col-md-5 col-5">
+                                    {{ cliente }}
+                                </div>
+                                {% endfor %}
                             {% endif %}
         
-                            <table class="table table-bordered text-center" style="background-color:rgba(0, 0, 0, 0)">
+                            <table class="table table-bordered text-center" style="background-color:rgba(0, 0, 0, 0);">
                                 <thead class = "bg-black text-white">
                                     <tr>
                                         <th>Id</th>
@@ -100,8 +96,13 @@
                                         <th>{{cliente.fechaAlta}}</th>
                                         <th>{{cliente.activo}}</th>
                                         <td><a href="{% url 'datos_cliente' cliente.id  %}" class="btn btn-primary text-white"><i class="fas fa-list"></i> <span>Datos</span></a></td>
-                                        <td><a href="#" class="btn btn-success text-white"><i class="fas fa-toggle-off"></i> <span>Activar</span></a></td>
-                                        <td><a href="#" class="btn btn-warning text-white"><i class="fas fa-toggle-on"></i> <span>Desactivar</span></a></td>
+                                        <td>
+                                            {% if cliente.activo == False %}
+                                            <a href="{% url 'clientes' cliente.id %}" class="btn btn-success text-white"><i class="fas fa-toggle-off"></i> <span>Activar</span></a>
+                                            {% else %}
+                                            <a href="{% url 'clientes' cliente.id %}" class="btn btn-warning text-white"><i class="fas fa-toggle-on"></i> <span>Desactivar</span></a>
+                                            {% endif %}
+                                        </td>
                                         <td><a href= "{% url 'clientes' %}" class="btn btn-danger text-white"><i class="fas fa-times-circle" onclick="eliminarCliente({{ cliente.id }}, {{ cliente.idUsuario }},
                                             {{ cliente.idUsuario.username }})"></i> <span>Eliminar</span></a></td>
                                         <td><a href="{% url 'form_edit_cliente' cliente.id %}" class="btn btn-secondary text-white"><i class="fas fa-exchange-alt "></i> <span>Editar</span></a></td>

@@ -10,7 +10,7 @@ from .forms import ClienteModelForm, UsuarioModelForm
 
 
 def mostrar_clientes(request):
-    listClientes = Cliente.objects.all()
+    listClientes = Cliente.objects.order_by('-id').all()
     context = { 'clientes': listClientes }
     return render(request,'empresa/clientes.html',context)
 
@@ -18,6 +18,56 @@ def datos_cliente(request,id):
     cliente = Cliente.objects.get(id = id)
     context = {'cliente':cliente}
     return render(request,'empresa/datos_cliente.html',context)
+
+def activar_clientes(request,id):
+    id_cliente = Cliente.objects.get(id = id)
+    context = {'cliente':id_cliente}
+    
+    if request.POST:
+        cliente = ClienteModelForm(request.POST, instance = id_cliente)
+        context = {'cliente': cliente}
+        
+        if cliente.is_valid():
+            dni = request.POST.get("dni")
+            nombre = request.POST.get("nombre")
+            apellidos = request.POST.get("apellidos")
+            direccion = request.POST.get("direccion")
+            fechaNacimiento = request.POST.get("fechaNacimiento")
+            fechaAlta = request.POST.get("fechaAlta")
+            activo = request.POST.get("activo",'') == 'on'
+            print(activo)
+            
+            if dni is not None or nombre is not None or apellidos is not None or direccion is not None or fechaNacimiento is not None or fechaAlta is not None or activo is not None: 
+                cliente.save()
+                if cliente.save() != None:
+                    messages.success(request,'Cliente activado correctamente.')
+                    return redirect('clientes') 
+            
+            clientes = Cliente.objects.all()
+            context = {'clientes':clientes}  
+    
+    return render(request,'empresa/clientes.html',context)
+
+
+def desactivar_clientes(request,id):
+    id_cliente = Cliente.objects.get(id = id)
+    context = {'cliente':id_cliente}
+    
+    if request.POST:
+        cliente = ClienteModelForm(request.POST, instance = id_cliente)
+        context = {'cliente': cliente}
+        
+        if cliente.is_valid():
+            activo = request.POST.get("activo",'') == 'off'
+            cliente.save()
+            if cliente.save() != None:
+                messages.success(request,'Cliente desactivado correctamente.')
+                return redirect('clientes')
+        
+        clientes = Cliente.objects.all()
+        context = {'clientes':clientes}
+    
+    return render(request,'empresa/clientes.html',context)
 
 
 def annadir_clientes(request):
@@ -61,17 +111,14 @@ def annadir_clientes(request):
                 if dni is not None or nombre is not None or apellidos is not None or direccion is not None or fechaNacimiento is not None or fechaAlta is not None or activo is not None or idUsuario:
                     nuevo_cliente = Cliente(dni=dni, nombre=nombre, apellidos=apellidos, direccion=direccion,
                         fechaNacimiento=fechaNacimiento, fechaAlta=fechaAlta,activo=activo,idUsuario=idUsuario)
-                    # print("aqui 1")
                     nuevo_cliente.save()
                     messages.success(request,'Cliente registrado correctamente.')
                     return redirect('clientes')
             else:
                 messages.warning(request,'Faltan datos de cliente por introducir.')
-                #print(cliente.errors)
                 return redirect('form_add_cliente')
         else:
             messages.warning(request,'Faltan datos de usuario por introducir.')
-            #print(usuario.errors)
             return redirect('form_add_cliente')
 
     return render(request, "empresa/form_add_cliente.html",context)
