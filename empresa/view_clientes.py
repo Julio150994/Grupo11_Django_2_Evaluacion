@@ -125,10 +125,13 @@ def eliminar_cliente(request,id,idUsuario):
     set_cliente = list(chain(cliente,usuario)) #combinamos las dos consultas haciendolo una#
     print(set_cliente)
     
+    username = Usuario.objects.filter(id=idUsuario).values('username')
+    print(username) 
+    
     usuario.delete()
     cliente.delete()
     
-     #User.objects.get(set_cliente, is_superuser=True).delete() # para eliminar un usuario que sea superusuario #
+    User.objects.get(username=username, is_superuser=True).delete() # para eliminar un usuario que sea superusuario #
     
     listClientes = Cliente.objects.all()
     context = {'clientes':listClientes}

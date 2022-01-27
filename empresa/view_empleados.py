@@ -63,6 +63,7 @@ def annadir_empleados(request):
                         biografia=biografia,idUsuario=idUsuario)
                     
                     nuevo_empleado.save()
+                    
                     messages.success(request,'Empleado añadido correctamente.')
                     return redirect('empleados')
             else:
@@ -96,7 +97,7 @@ def editar_empleados(request,id):
                 
             if dni is not None or nombre is not None or apellidos is not None or direccion is not None or biografia is not None or idUsuario is not None:                
                 empleado.save()
-                if empleado.save() != None:                      
+                if empleado.save() != None:                                 
                     actualizar_empleado = Usuario(id=idUsuario, username=username, password=password)
                     actualizar_empleado.password = make_password(actualizar_empleado.password)
                     actualizar_empleado.save()
@@ -113,21 +114,25 @@ def editar_empleados(request,id):
     return render(request,'empresa/form_edit_empleado.html',context)
 
 
-def eliminar_empleados(request,id,idUsuario):
+def eliminar_empleados(request,id,idUsuario):    
     empleado = Empleado.objects.filter(id=id)
     print(empleado)
     
-    usuario = Usuario.objects.filter(id=idUsuario)  
+    usuario = Usuario.objects.filter(id=idUsuario)
     print(usuario)
     
     set_empleado = list(chain(empleado,usuario)) #combinamos las dos consultas haciendolo una#
     print(set_empleado)
     
-    usuario.delete()
-    empleado.delete()
+    #usuario.delete()
+    #empleado.delete()
     
-    #User.objects.get(set_empleado, is_superuser=True).delete() # para eliminar un usuario que sea superusuario #
-
+    
+    #superusuario = User.objects.get(username='sebas67', is_superuser=True)
+    #print(superusuario)
+    
+    #superusuario.delete()
+    
     listEmpleados = Empleado.objects.order_by('-id').all()
     context = {'empleados':listEmpleados}
     
