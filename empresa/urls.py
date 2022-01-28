@@ -33,6 +33,5 @@ urlpatterns = [
     path('annadir_clientes/',view_clientes.annadir_clientes,name="form_add_cliente"),
     path('editar_clientes/<int:id>/',view_clientes.editar_clientes,name="form_edit_cliente"),
     path('eliminar_cliente/<int:id>/<int:idUsuario>/',view_clientes.eliminar_cliente,name="delete"),
-    path('actived/<int:id>/',view_clientes.actived_cliente, name="clientes"),
-    #path('deactived/<int:id>/',view_clientes.actived_cliente, name="clientes"),
+    path('actived/<int:id>/',view_clientes.get_actived, name="clientes"),
 ]

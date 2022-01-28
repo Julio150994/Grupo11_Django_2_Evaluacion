@@ -92,8 +92,8 @@
                                         <th>{{cliente.apellidos}}</th>
                                         <th>{{cliente.direccion}}</th>
                                         <th>{{ cliente.idUsuario.username }}</th>
-                                        <th>{{cliente.fechaNacimiento}}</th>
-                                        <th>{{cliente.fechaAlta}}</th>
+                                        <th>{{cliente.fechaNacimiento|date:"d/m/Y"}}</th>
+                                        <th>{{cliente.fechaAlta|date:"d/m/Y"}}</th>
                                         <th>{{cliente.activo}}</th>
                                         <td><a href="{% url 'datos_cliente' cliente.id  %}" class="btn btn-primary text-white"><i class="fas fa-list"></i> <span>Datos</span></a></td>
                                         <td>
@@ -105,7 +105,7 @@
                                         </td>
                                         <td><a href= "{% url 'clientes' %}" class="btn btn-danger text-white"><i class="fas fa-times-circle" onclick="eliminarCliente({{ cliente.id }}, {{ cliente.idUsuario }},
                                             {{ cliente.idUsuario.username }})"></i> <span>Eliminar</span></a></td>
-                                        <td><a href="{% url 'form_edit_cliente' cliente.id %}" class="btn btn-secondary text-white"><i class="fas fa-exchange-alt "></i> <span>Editar</span></a></td>
+                                        <td><a href="{% url 'form_edit_cliente' cliente.id %}" class="btn btn-secondary text-white"><i class="fas fa-user-edit"></i> <span>Editar</span></a></td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>

@@ -20,32 +20,21 @@ def datos_cliente(request,id):
     context = {'cliente':cliente}
     return render(request,'empresa/datos_cliente.html',context)
 
-def actived_cliente(request,id):
-    id_cliente = Cliente.objects.filter(id=id)
-    context = {'cliente':id_cliente}
+
+def get_actived(request,id):
+    cliente = Cliente.objects.get(id = id)
+    print("Cliente: "+str(cliente))
     
-    if request.POST:
-        cliente = ClienteModelForm(request.POST, instance = id_cliente)
-        context = {'cliente':cliente}
-        
-        if cliente.is_valid():
-            dni = request.POST.get("dni")
-            nombre = request.POST.get("nombre")
-            apellidos = request.POST.get("apellidos")
-            direccion = request.POST.get("direccion")
-            fechaNacimiento = request.POST.get("fechaNacimiento")
-            fechaAlta = request.POST.get("fechaAlta")
-            activo = request.POST.get("activo")
-            
-            if dni is not None or nombre is not None or apellidos is not None or direccion is not None or fechaNacimiento is not None or fechaAlta is not None or activo is not None:
-                if activo == False:
-                    activo = request.POST.get("activo",'') == 'on' #on#                    
-                    cliente.save()
-                    messages.success(request,"Cliente activado corretamente")
-                elif activo == True:
-                    activo = request.POST.get("activo",'') == 'off' #off#
-                    cliente.save()
-                    messages.success(request,"Cliente desactivado corretamente")
+    print("Activo: "+str(cliente.activo))
+    
+    if cliente.activo == False:
+        cliente.activo = True
+        cliente.save()
+        messages.success(request,"Cliente activado corretamente")
+    else:
+        cliente.activo = False
+        cliente.save()
+        messages.success(request,"Cliente desactivado corretamente")
     
     listClientes = Cliente.objects.order_by('-id').all()
     context = {'clientes':listClientes }
@@ -77,7 +66,6 @@ def annadir_clientes(request):
             nuevo_usuario.save()
             user = User.objects.create_user(username = username, password = pwd)
             user.save()
-            
 
             if cliente.is_valid():
                 last_id_usuario = Usuario.objects.last() 
@@ -131,7 +119,7 @@ def editar_clientes(request,id):
                 if cliente.save() != None:
                     actualizar_cliente = Usuario(id=idUsuario, username=username, password=password)
                     actualizar_cliente.password = make_password(actualizar_cliente.password)
-                    actualizar_cliente.save()# aquí da el error
+                    actualizar_cliente.save()
                     
                     user = User.objects.create_user(username = username, password = password)
                     user.save()
@@ -148,19 +136,19 @@ def eliminar_cliente(request,id,idUsuario):
     cliente = Cliente.objects.filter(id=id)
     print(cliente)
     
-    usuario = Usuario.objects.filter(id=idUsuario)    
+    usuario = Usuario.objects.filter(id=idUsuario)
     print(usuario)
     
     set_cliente = list(chain(cliente,usuario)) #combinamos las dos consultas haciendolo una#
     print(set_cliente)
     
     username = Usuario.objects.filter(id=idUsuario).values('username')
-    print(username) 
+    print(username)
     
     usuario.delete()
     cliente.delete()
     
-    User.objects.get(username=username, is_superuser=True).delete() # para eliminar un usuario que sea superusuario #
+    #User.objects.get(username=username, is_superuser=True).delete() # para eliminar un usuario que sea superusuario #
     
     listClientes = Cliente.objects.all()
     context = {'clientes':listClientes}
