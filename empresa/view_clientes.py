@@ -20,36 +20,29 @@ def datos_cliente(request,id):
     context = {'cliente':cliente}
     return render(request,'empresa/datos_cliente.html',context)
 
-def activar_clientes(request, id):
+def actived_cliente(request,id):
     id_usuario = Cliente.objects.filter(id=id)
     context = {'cliente':id_usuario}
     
-    activo = request.POST.get("activo",'') == True
+    dni = request.POST.get("dni")
+    nombre = request.POST.get("nombre")
+    apellidos = request.POST.get("apellidos")
+    direccion = request.POST.get("direccion")
+    fechaNacimiento = request.POST.get("fechaNacimiento")
+    fechaAlta = request.POST.get("fechaAlta")
+    activo = request.POST.get("activo")
     
-    usuario = Cliente(activo=activo)
-    usuario.save()
+    if activo == True:
+        activo = request.POST.get("activo",'') == 'on'
+        messages.success(request,"Cliente activado corretamente")
+    elif activo == False:
+        activo = request.POST.get("activo",'') == 'off'
+        messages.success(request,"Cliente desactivado corretamente") 
     
-    messages.success(request,"Cliente activado corretamente")
-    listClientes = Cliente.objects.all()
-    context = {'clientes':listClientes}
     
-    return render(request,'empresa/datos_cliente.html',context)
-
-
-def desactivar_clientes(request,id):
-    id_usuario = Cliente.objects.filter(id=id)
-    context = {'cliente':id_usuario}
-    
-    activo = request.POST.get("activo",'') == False
-    
-    usuario = Cliente(activo=activo)
-    usuario.save()
-    
-    messages.success(request,"Cliente desactivado corretamente")
-    listClientes = Cliente.objects.all()
-    context = {'clientes':listClientes}
-    
-    return render(request,'empresa/datos_cliente.html',context)
+    listClientes = Cliente.objects.order_by('-id').all()
+    context = {'clientes':listClientes }
+    return render(request,'empresa/clientes.html',context)
 
 
 def annadir_clientes(request):
