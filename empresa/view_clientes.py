@@ -14,60 +14,42 @@ def mostrar_clientes(request):
     context = { 'clientes': listClientes }
     return render(request,'empresa/clientes.html',context)
 
+
 def datos_cliente(request,id):
     cliente = Cliente.objects.get(id = id)
     context = {'cliente':cliente}
     return render(request,'empresa/datos_cliente.html',context)
 
-def activar_clientes(request,id):
-    id_cliente = Cliente.objects.get(id = id)
-    context = {'cliente':id_cliente}
+def activar_clientes(request, id):
+    id_usuario = Cliente.objects.filter(id=id)
+    context = {'cliente':id_usuario}
     
-    if request.POST:
-        cliente = ClienteModelForm(request.POST, instance = id_cliente)
-        context = {'cliente': cliente}
-        
-        if cliente.is_valid():
-            dni = request.POST.get("dni")
-            nombre = request.POST.get("nombre")
-            apellidos = request.POST.get("apellidos")
-            direccion = request.POST.get("direccion")
-            fechaNacimiento = request.POST.get("fechaNacimiento")
-            fechaAlta = request.POST.get("fechaAlta")
-            activo = request.POST.get("activo",'') == 'on'
-            print(activo)
-            
-            if dni is not None or nombre is not None or apellidos is not None or direccion is not None or fechaNacimiento is not None or fechaAlta is not None or activo is not None: 
-                cliente.save()
-                if cliente.save() != None:
-                    messages.success(request,'Cliente activado correctamente.')
-                    return redirect('clientes') 
-            
-            clientes = Cliente.objects.all()
-            context = {'clientes':clientes}  
+    activo = request.POST.get("activo",'') == True
     
-    return render(request,'empresa/clientes.html',context)
+    usuario = Cliente(activo=activo)
+    usuario.save()
+    
+    messages.success(request,"Cliente activado corretamente")
+    listClientes = Cliente.objects.all()
+    context = {'clientes':listClientes}
+    
+    return render(request,'empresa/datos_cliente.html',context)
 
 
 def desactivar_clientes(request,id):
-    id_cliente = Cliente.objects.get(id = id)
-    context = {'cliente':id_cliente}
+    id_usuario = Cliente.objects.filter(id=id)
+    context = {'cliente':id_usuario}
     
-    if request.POST:
-        cliente = ClienteModelForm(request.POST, instance = id_cliente)
-        context = {'cliente': cliente}
-        
-        if cliente.is_valid():
-            activo = request.POST.get("activo",'') == 'off'
-            cliente.save()
-            if cliente.save() != None:
-                messages.success(request,'Cliente desactivado correctamente.')
-                return redirect('clientes')
-        
-        clientes = Cliente.objects.all()
-        context = {'clientes':clientes}
+    activo = request.POST.get("activo",'') == False
     
-    return render(request,'empresa/clientes.html',context)
+    usuario = Cliente(activo=activo)
+    usuario.save()
+    
+    messages.success(request,"Cliente desactivado corretamente")
+    listClientes = Cliente.objects.all()
+    context = {'clientes':listClientes}
+    
+    return render(request,'empresa/datos_cliente.html',context)
 
 
 def annadir_clientes(request):

@@ -29,14 +29,14 @@
             <div class="panel-heading" id="panel">
                 <div class="container col-md-5 bg-white" id="form">
                     <h2 class="text-center mb-4">Formulario de Cliente</h2>
-                    <form action="{% url 'form_edit_cliente' cliente.id cliente.idUsuario %}" method="POST">
+                    <form action="{% url 'form_edit_cliente' cliente.id %}" method="POST">
                         {% csrf_token %}
 
                         <div class="form-group">
                             <label for="dni" class="text-primary">DNI</label>
                             <div class="input-group mb-3">
-                                <span class="input-group-text"><i class="fas fa-user"></i></span>
-                                {{ cliente.dni }}
+                                <span class="input-group-text"><i class="fas fa-address-card"></i></span>
+                                <input type="text" name="dni" class="form-control" value="{{ cliente.dni }}" placeholder="Escriba dni de cliente">
                             </div>
                             {{ cliente.dni.errors }}
                         </div>
@@ -44,8 +44,8 @@
                         <div class="form-group">
                             <label for="nombre" class="text-primary">Nombre</label>
                             <div class="input-group mb-3">
-                                <span class="input-group-text"><i class="fas fa-user"></i></span>
-                                {{ cliente.nombre }}
+                                <span class="input-group-text"><i class="fas fa-id-badge"></i></span>
+                                <input type="text" name="nombre" class="form-control" value="{{ cliente.nombre }}" placeholder="Escriba nombre de cliente">
                             </div>
                             {{ cliente.nombre.errors }}
                         </div>
@@ -53,8 +53,8 @@
                         <div class="form-group">
                             <label for="apellidos" class="text-primary">Apellidos</label>
                             <div class="input-group mb-3">
-                                <span class="input-group-text"><i class="fas fa-user"></i></span>
-                                {{ cliente.apellidos }}
+                                <span class="input-group-text"><i class="fas fa-id-badge"></i></span>
+                                <input type="text" name="apellidos" class="form-control" value="{{ cliente.apellidos }}" placeholder="Escriba apellidos de cliente">
                             </div>
                             {{ cliente.apellidos.errors }}
                         </div>
@@ -62,8 +62,8 @@
                         <div class="form-group">
                             <label for="direccion" class="text-primary">Direccion</label>
                             <div class="input-group mb-3">
-                                <span class="input-group-text"><i class="fas fa-user"></i></span>
-                                {{ cliente.direccion }}
+                                <span class="input-group-text"><i class="fas fa-house-user"></i></span>
+                                <input type="text" name="direccion" class="form-control" value="{{ cliente.direccion }}" placeholder="Escriba dirección de cliente">
                             </div>
                             {{ cliente.direccion.errors }}
                         </div>
@@ -71,8 +71,8 @@
                         <div class="form-group">
                             <label for="username" class="text-primary">Username</label>
                             <div class="input-group mb-3">
-                                <span class="input-group-text"><i class="fas fa-house-user"></i></span>
-                                {{ cliente.idUsuario.username }}
+                                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                <input type="text" name="idUsuario" class="form-control" value="{{ cliente.idUsuario.username }}" placeholder="Escriba su nombre de usuario">
                             </div>
                             {{ cliente.idUsuario.username.errors }}
                         </div>
@@ -80,8 +80,10 @@
                         <div class="form-group">
                             <label for="password" class="text-primary">Password</label>
                             <div class="input-group mb-3">
-                                <span class="input-group-text"><i class="fas fa-house-user"></i></span>
-                                {{ cliente.idUsuario.password }}
+                                <span class="input-group-text"><i class="fas fa-unlock"></i></span>
+                                {% if cliente.idUsuario.password != "" %}
+                                <input type="password" name="password" class="form-control" value="password" placeholder="Escriba su contraseña">
+                                {% endif %}
                             </div>
                             {{ cliente.idUsuario.password.errors }}
                         </div>
@@ -89,8 +91,8 @@
                         <div class="form-group">
                             <label for="fechaNacimiento" class="text-primary">Fecha de Nacimiento</label>
                             <div class="input-group mb-3">
-                                <span class="input-group-text"><i class="fas fa-user"></i></span>
-                                {{ cliente.fechaNacimiento }}
+                                <span class="input-group-text"><i class="fas fa-calendar-day"></i></span>
+                                <input type="date" name="fechaNacimiento" class="form-control" value="{{ cliente.fechaNacimiento }}" placeholder="Escriba su fecha de nacimiento">
                             </div>
                             {{ cliente.fechaNacimiento.errors }}
                         </div>
@@ -98,12 +100,13 @@
                         <div class="form-group">
                             <label for="fechaAlta" class="text-primary">Fecha de Alta</label>
                             <div class="input-group mb-3">
-                                <span class="input-group-text"><i class="fas fa-user"></i></span>
-                                {{ cliente.fechaAlta }}
+                                <span class="input-group-text"><i class="fas fa-calendar-day"></i></span>
+                                <input type="date" name="fechaAlta" class="form-control" value="{{ cliente.fechaAlta }}" placeholder="Escriba su fecha de alta">
                             </div>
                             {{ cliente.fechaAlta.errors }}
                         </div>
 
+                        {% comment %}
                         <div class="form-group">
                             <label for="activo" class="text-primary">Activo</label>
                             <div class="input-group mb-3">
@@ -112,6 +115,7 @@
                             </div>
                             {{ cliente.activo.errors }}
                         </div>
+                        {% endcomment %}
 
                         {% if messages %}
                             {% for empty_data in messages %}

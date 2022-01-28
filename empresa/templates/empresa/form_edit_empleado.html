@@ -83,7 +83,7 @@
                         <div class="form-group">
                             <label for="password" class="text-primary">Password</label>
                             <div class="input-group mb-3">
-                                <span class="input-group-text"><i class="fas fa-house-user"></i></span>
+                                <span class="input-group-text"><i class="fas fa-unlock"></i></span>
                                 {% if empleado.idUsuario.password != "" %}
                                 <input type="password" name="password" class="form-control" value="password">
                                 {% endif %}
@@ -94,7 +94,7 @@
                         <div class="form-group">
                             <label for="biografia" class="text-primary">Biografía</label>
                             <div class="input-group mb-3">
-                                <span class="input-group-text"><i class="fas fa-house-user"></i></span>
+                                <span class="input-group-text"><i class="fas fa-book"></i></span>
                                 <input type="text" name="biografia" class="form-control" value="{{ empleado.biografia }}">
                             </div>
                             {{ empleado.biografia.errors }}
