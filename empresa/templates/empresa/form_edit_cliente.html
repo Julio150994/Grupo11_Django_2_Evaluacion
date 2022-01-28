@@ -32,6 +32,8 @@
                     <form action="{% url 'form_edit_cliente' cliente.id %}" method="POST">
                         {% csrf_token %}
 
+                        <input type="hidden" name="idUsuario" value="{{cliente.idUsuario.id}}">
+
                         <div class="form-group">
                             <label for="dni" class="text-primary">DNI</label>
                             <div class="input-group mb-3">
@@ -72,7 +74,7 @@
                             <label for="username" class="text-primary">Username</label>
                             <div class="input-group mb-3">
                                 <span class="input-group-text"><i class="fas fa-user"></i></span>
-                                <input type="text" name="idUsuario" class="form-control" value="{{ cliente.idUsuario.username }}" placeholder="Escriba su nombre de usuario">
+                                <input type="text" name="username" class="form-control" value="{{ cliente.idUsuario.username }}" placeholder="Escriba su nombre de usuario">
                             </div>
                             {{ cliente.idUsuario.username.errors }}
                         </div>
@@ -105,17 +107,6 @@
                             </div>
                             {{ cliente.fechaAlta.errors }}
                         </div>
-
-                        {% comment %}
-                        <div class="form-group">
-                            <label for="activo" class="text-primary">Activo</label>
-                            <div class="input-group mb-3">
-                                <span class="input-group-text"><i class="fas fa-user"></i></span>
-                                {{ cliente.activo }}
-                            </div>
-                            {{ cliente.activo.errors }}
-                        </div>
-                        {% endcomment %}
 
                         {% if messages %}
                             {% for empty_data in messages %}

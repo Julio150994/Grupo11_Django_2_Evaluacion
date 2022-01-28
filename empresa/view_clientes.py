@@ -21,24 +21,31 @@ def datos_cliente(request,id):
     return render(request,'empresa/datos_cliente.html',context)
 
 def actived_cliente(request,id):
-    id_usuario = Cliente.objects.filter(id=id)
-    context = {'cliente':id_usuario}
+    id_cliente = Cliente.objects.filter(id=id)
+    context = {'cliente':id_cliente}
     
-    dni = request.POST.get("dni")
-    nombre = request.POST.get("nombre")
-    apellidos = request.POST.get("apellidos")
-    direccion = request.POST.get("direccion")
-    fechaNacimiento = request.POST.get("fechaNacimiento")
-    fechaAlta = request.POST.get("fechaAlta")
-    activo = request.POST.get("activo")
-    
-    if activo == True:
-        activo = request.POST.get("activo",'') == 'on'
-        messages.success(request,"Cliente activado corretamente")
-    elif activo == False:
-        activo = request.POST.get("activo",'') == 'off'
-        messages.success(request,"Cliente desactivado corretamente") 
-    
+    if request.POST:
+        cliente = ClienteModelForm(request.POST, instance = id_cliente)
+        context = {'cliente':cliente}
+        
+        if cliente.is_valid():
+            dni = request.POST.get("dni")
+            nombre = request.POST.get("nombre")
+            apellidos = request.POST.get("apellidos")
+            direccion = request.POST.get("direccion")
+            fechaNacimiento = request.POST.get("fechaNacimiento")
+            fechaAlta = request.POST.get("fechaAlta")
+            activo = request.POST.get("activo")
+            
+            if dni is not None or nombre is not None or apellidos is not None or direccion is not None or fechaNacimiento is not None or fechaAlta is not None or activo is not None:
+                if activo == False:
+                    activo = request.POST.get("activo",'') == 'on' #on#                    
+                    cliente.save()
+                    messages.success(request,"Cliente activado corretamente")
+                elif activo == True:
+                    activo = request.POST.get("activo",'') == 'off' #off#
+                    cliente.save()
+                    messages.success(request,"Cliente desactivado corretamente")
     
     listClientes = Cliente.objects.order_by('-id').all()
     context = {'clientes':listClientes }
@@ -124,7 +131,7 @@ def editar_clientes(request,id):
                 if cliente.save() != None:
                     actualizar_cliente = Usuario(id=idUsuario, username=username, password=password)
                     actualizar_cliente.password = make_password(actualizar_cliente.password)
-                    actualizar_cliente.save()
+                    actualizar_cliente.save()# aquí da el error
                     
                     user = User.objects.create_user(username = username, password = password)
                     user.save()
