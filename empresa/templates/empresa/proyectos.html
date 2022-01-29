@@ -41,20 +41,42 @@
 
                         {% if request.user.is_active and request.user.is_staff %}
                         <div class="panel panel-default bg-white text-center" style="border-radius: 20px; padding-bottom: 0.5%; padding-left: 1%; padding-right: 1%;">
-                            <a href="{% url 'form_add_pry' user.id %}"  class="btn btn-success text-white" style="margin-top: 1.5%; margin-right: 80.5%; margin-bottom: 0.5%;">
-                                <i class="fas fa-user-plus"></i>
-                                <span>Añadir Proyecto</span>
-                            </a>
+                            <nav class="navbar navbar-light bg-light justify-content-between">
+                                <a href="{% url 'form_add_pry' user.id %}"  class="btn btn-success text-white" style="margin-top: 1.5%; margin-right: 80.5%; margin-bottom: 0.5%;">
+                                    <i class="fas fa-user-plus"></i>
+                                    <span>Añadir Proyecto</span>
+                                </a>
+                                <a href="{% url 'historial_pry' user.id %}"  class="btn btn-secondary text-white" style="margin-top: ; margin-right: 80.5%;">
+                                    <i class="fas fa-tasks"></i>
+                                    <span>Historial de proyectos</span>
+                                </a>
+                            </nav>
                         {% elif request.user.is_active and not request.user.is_staff %}
                         <div class="panel panel-default bg-white text-center" style="border-radius: 20px; padding-bottom: 0.5%; padding-left: 1%; padding-right: 1%;">
-                            <a href="{% url 'form_add_pry' user.id %}"  class="btn btn-success text-white disabled" style="margin-top: 1.5%; margin-right: 80.5%; margin-bottom: 0.5%;">
-                                <i class="fas fa-user-plus"></i>
-                                <span>Añadir Proyecto</span>
-                            </a>
-                            <a href="{% url 'historial_pry' user.id %}"  class="btn btn-secondary text-white" style="margin-top: 1.5%; margin-right: 80.5%; margin-bottom: 0.5%;">
-                                <i class="fas fa-tasks"></i>
-                                <span>Historial de proyectos</span>
-                            </a>
+                            <nav class="navbar navbar-dark navbar-expand-lg" style="background-color: #1567B5;">
+                                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                                  <span class="navbar-toggler-icon"></span>
+                                </button>
+                                <div class="collapse navbar-collapse" id="navbarText">
+                                    <ul class="navbar-nav mr-auto">
+                                        <li class="nav-item">
+                                            <span class="navbar-brand" style="padding-left: 7%;">Consultar proyectos</span>
+                                        </li>
+                                        <li class="nav-item" style="margin-left: 2.65em;">
+                                            <a href="{% url 'form_add_pry' user.id %}" class="navbar-brand text-white">Añadir</a>
+                                        </li>
+                                        <li class="nav-item" style="margin-left: 1em;">
+                                            <a href="{% url 'historial_pry' user.id %}" class="navbar-brand text-white">Historial</a>
+                                        </li>
+                                        <li class="nav-item" style="margin-left: 30em; margin-top: -1.1%;">
+                                            <form class="my-2 my-lg-0 navbar-brand" action="#" method="POST">
+                                                <input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search">
+                                                <!--<button class="btn btn-sm btn-success text-white" type="submit" style="margin-left: 8em;"><i class="fas fa-search"></i></button>-->
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </nav>
                         {% endif %}
                             {% if proyecto %}
                             <div class="text-center fom-control" id="proyecto_alert">
@@ -68,7 +90,7 @@
                             </div>
                             {% endif %}
         
-                            <table class="table table-bordered text-center">
+                            <table class="table table-bordered text-center" style="margin-top: 1.5em;">
                                 <thead class = "bg-black text-white">
                                     <tr>
                                         <th>Id</th>

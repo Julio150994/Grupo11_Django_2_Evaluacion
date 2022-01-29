@@ -40,8 +40,8 @@ def annadir_categorias(request):
                 messages.success(request,'Categoría añadida correctamente.')
                 return redirect('categorias')
         else:
-            messages.warning(request,'Faltan datos por introducir.')
-            return redirect('form_add_categoria')
+            messages.warning(request,'Error. Faltan datos por introducir o debe ser única.')
+            return render(request,'empresa/form_add_categoria.html')
 
     return render(request, "empresa/form_add_categoria.html",context)
 
@@ -63,7 +63,7 @@ def editar_categorias(request,id):
                 foto_categoria = Categoria.objects.filter(id=id).values_list('foto',flat=True)
                 for imagen in foto_categoria:
                     print(imagen)
-                    os.remove(os.path.join(MEDIA_ROOT+str(imagen))) # para auto eliminar la imágen del directorio#
+                    #os.remove(os.path.join(MEDIA_ROOT+str(imagen))) # para auto eliminar la imágen del directorio#
                 
                 categoria.save()
                 messages.success(request,'Categoría editada correctamente.')
@@ -78,13 +78,13 @@ def editar_categorias(request,id):
 def eliminar_categorias(request,id):
     categoria = Categoria.objects.filter(id=id)
     print(categoria)
-    categoria.delete()
+    #categoria.delete()
     
     foto_categoria = Categoria.objects.filter(id=id).values_list('foto',flat=True)
     
     for imagen in foto_categoria:
         print(imagen)
-        os.remove(os.path.join(MEDIA_ROOT+str(imagen)))
+        #os.remove(os.path.join(MEDIA_ROOT+str(imagen)))
     
     listCategorias = Categoria.objects.all()
     context = {'categorias':listCategorias}

@@ -40,7 +40,7 @@ class Cliente(models.Model):
 
 class Categoria(models.Model):
     id = models.AutoField(primary_key=True)
-    nombre = models.CharField(max_length=150)
+    nombre = models.CharField(max_length=150,unique=True)
     foto = models.ImageField(verbose_name="Foto", upload_to='categorias/', unique=True, null=False, blank=False)
     
     def __str__(self):
