@@ -138,10 +138,8 @@ def eliminar_cliente(request,id,idUsuario):
     usuario = Usuario.objects.filter(id=idUsuario)
     print(usuario)
     
-    #usuario.delete()
-    #cliente.delete()
-    
-    #User.objects.get(username=username, is_superuser=True).delete() # para eliminar un usuario que sea superusuario #
+    usuario.delete()
+    cliente.delete()
     
     listClientes = Cliente.objects.order_by('-id').all()
     context = {'clientes':listClientes}

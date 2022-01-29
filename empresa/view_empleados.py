@@ -124,13 +124,8 @@ def eliminar_empleados(request,id,idUsuario):
     set_empleado = list(chain(empleado,usuario)) #combinamos las dos consultas haciendolo una#
     print(set_empleado)
     
-    #usuario.delete()
-    #empleado.delete()
-    
-    #superusuario = User.objects.get(username='sebas67', is_superuser=True)
-    #print(superusuario)
-    
-    #superusuario.delete()
+    usuario.delete()
+    empleado.delete()
     
     listEmpleados = Empleado.objects.order_by('-id').all()
     context = {'empleados':listEmpleados}
