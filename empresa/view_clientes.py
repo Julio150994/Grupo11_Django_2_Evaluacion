@@ -1,4 +1,3 @@
-from itertools import chain
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.contrib.auth.hashers import make_password
@@ -139,18 +138,12 @@ def eliminar_cliente(request,id,idUsuario):
     usuario = Usuario.objects.filter(id=idUsuario)
     print(usuario)
     
-    set_cliente = list(chain(cliente,usuario)) #combinamos las dos consultas haciendolo una#
-    print(set_cliente)
-    
-    username = Usuario.objects.filter(id=idUsuario).values('username')
-    print(username)
-    
-    usuario.delete()
-    cliente.delete()
+    #usuario.delete()
+    #cliente.delete()
     
     #User.objects.get(username=username, is_superuser=True).delete() # para eliminar un usuario que sea superusuario #
     
-    listClientes = Cliente.objects.all()
+    listClientes = Cliente.objects.order_by('-id').all()
     context = {'clientes':listClientes}
     
     messages.error(request,'Cliente eliminado éxitosamente.')

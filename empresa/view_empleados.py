@@ -127,7 +127,6 @@ def eliminar_empleados(request,id,idUsuario):
     #usuario.delete()
     #empleado.delete()
     
-    
     #superusuario = User.objects.get(username='sebas67', is_superuser=True)
     #print(superusuario)
     

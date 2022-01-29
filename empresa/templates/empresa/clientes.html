@@ -16,38 +16,16 @@
         {% load static %}
         <link href="{% static 'css/styles.css' %}" rel="stylesheet"/>
         <link href="{% static 'css/clientes.css' %}" rel="stylesheet"/>
-         <!-- Mensaje de confirmación de JS -->
-         <script type="text/javascript">
-            function eliminarCliente(id, idUsuario, username) {
-                cliente = confirm("¿Deseas eliminar al cliente "+username+"?");
-                if (cliente) {
-                    alert('Cliente '+username+' eliminado correctamente');
-                    // eliminar_cliente/id/<int:idUsuario>
-                    window.location.href = "clientes/";
-                }
-                else {
-                    alert('No has eliminado a '+username+' de SalesEmp');
-                    window.location.href = "clientes/";
-                }
-            }
-        </script>
+        <!-- Mensaje de confirmación de JS con SweetAlert 2 -->
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="sweetalert2.min.js"></script>
+        <link rel="stylesheet" href="sweetalert2.min.css">
+        <script type="text/javascript" src="{% static 'js/eliminar_cliente.js' %}"></script>
     </head>
     <body id="page-top">
         {% include "empresa/navbar_inicio.html" %}
 
         <header class="masthead">
-            {% if 'cliente_added' in request.GET %}
-               <div class="alert alert-success">
-                   Cliente añadido correctamente
-               </div>
-            {% endif %}
-
-            {% if 'cliente_updated' in request.GET %}
-               <div class="alert alert-primary">
-                   Cliente editado correctamente
-               </div>
-            {% endif %}
-
             <div class="px-2 px-lg-5 d-flex h-120 align-items-center justify-content-center">
                 <div class="d-flex justify-content-center">
                     <div class="text-center">
@@ -59,6 +37,14 @@
                                 <i class="fas fa-user-plus"></i>
                                 <span>Añadir Cliente</span>
                             </a>
+
+                            {% if 'cliente_added' in request.GET %}
+                            <div class="alert alert-success">Cliente añadido correctamente</div>
+                            {% endif %}
+                
+                            {% if 'cliente_updated' in request.GET %}
+                                <div class="alert alert-primary">Cliente editado correctamente</div>
+                            {% endif %}
 
                             {% if messages %}
                                 {% for cliente in messages %}
@@ -79,7 +65,6 @@
                                         <th>Username</th>
                                         <th>Fecha de nacimiento</th>
                                         <th>Fecha de alta</th>
-                                        <th>¿Activo?</th>
                                         <th colspan="5">Acciones</th>
                                     </tr>
                                 </thead>
@@ -94,7 +79,6 @@
                                         <th>{{ cliente.idUsuario.username }}</th>
                                         <th>{{cliente.fechaNacimiento|date:"d/m/Y"}}</th>
                                         <th>{{cliente.fechaAlta|date:"d/m/Y"}}</th>
-                                        <th>{{cliente.activo}}</th>
                                         <td><a href="{% url 'datos_cliente' cliente.id  %}" class="btn btn-primary text-white"><i class="fas fa-list"></i> <span>Datos</span></a></td>
                                         <td>
                                             {% if cliente.activo == False %}
@@ -103,8 +87,8 @@
                                             <a href="{% url 'clientes' cliente.id %}" class="btn btn-warning text-white"><i class="fas fa-toggle-on"></i> <span>Desactivar</span></a>
                                             {% endif %}
                                         </td>
-                                        <td><a href= "{% url 'clientes' %}" class="btn btn-danger text-white"><i class="fas fa-times-circle" onclick="eliminarCliente({{ cliente.id }}, {{ cliente.idUsuario }},
-                                            {{ cliente.idUsuario.username }})"></i> <span>Eliminar</span></a></td>
+                                        <!-- onclick="eliminarCliente({{ cliente.id }}, {{ cliente.idUsuario }},{{ cliente.idUsuario.username }})"  -->
+                                        <td><a href= "{% url 'delete' cliente.id cliente.idUsuario %}" class="btn btn-danger text-white" onclick="eliminarCliente()"><i class="fas fa-times-circle"></i> <span>Eliminar</span></a></td>
                                         <td><a href="{% url 'form_edit_cliente' cliente.id %}" class="btn btn-secondary text-white"><i class="fas fa-user-edit"></i> <span>Editar</span></a></td>
                                     </tr>
                                     {% endfor %}

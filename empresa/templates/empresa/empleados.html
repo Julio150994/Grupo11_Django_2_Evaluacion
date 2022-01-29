@@ -17,21 +17,11 @@
         {% load static %}
         <link href="{% static 'css/styles.css' %}" rel="stylesheet"/>
         <link href="{% static 'css/empleados.css' %}" rel="stylesheet"/>
-        <!-- Mensaje de confirmación con JS -->
-        <script type="text/javascript">
-            function eliminarEmpleado(id, idUsuario, username) {
-                empleado = confirm("¿Deseas eliminar al empleado "+username+"?");
-                if (empleado) {
-                    alert('Empleado '+username+' eliminado correctamente');
-                    // eliminar_empleado/id/<int:idUsuario>
-                    window.location.href = "empleados/";
-                }
-                else {
-                    alert('No has eliminado a '+username+' de SalesEmp');
-                    window.location.href = "empleados/";
-                }
-            }
-        </script>
+        <!-- Mensaje de confirmación de JS con SweetAlert 2 -->
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="sweetalert2.min.js"></script>
+        <link rel="stylesheet" href="sweetalert2.min.css">
+        <script type="text/javascript" src="{% static 'js/eliminar_empleado.js' %}"></script>
     </head>
     <body id="page-top">
         {% include "empresa/navbar_inicio.html" %}
@@ -83,8 +73,9 @@
                                         <td>{{ empleado.biografia }}</td>
                                         <td><a href="{% url 'datos_empleado' empleado.id  %}" class="btn btn-primary text-white"><i class="fas fa-list"></i> <span>Datos de empleado</span></a></td>
                                         <td><a href="{% url 'form_edit_empleado' empleado.id %}" class="btn btn-secondary text-white"><i class="fas fa-user-edit"></i> <span>Editar</span></a></td>
-                                        <td><a href="{% url 'empleados' empleado.id empleado.idUsuario %}" class="btn btn-danger text-white" onclick="eliminarEmpleado({{ empleado.id }}, {{ empleado.idUsuario }},
-                                            {{ empleado.idUsuario.username }})"><i class="fas fa-trash-alt"></i> <span>Eliminar</span></a></td>
+                                        <!-- onclick="eliminarEmpleado({{ empleado.id }}, {{ empleado.idUsuario }},
+                                            {{ empleado.idUsuario.username }}) -->
+                                        <td><a href="{% url 'empleados' empleado.id empleado.idUsuario %}" class="btn btn-danger text-white" onclick="eliminarEmpleado()"><i class="fas fa-trash-alt"></i> <span>Eliminar</span></a></td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>
