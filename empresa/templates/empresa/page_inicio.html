@@ -58,6 +58,7 @@
                             <!-- Para ROL_EMPLEADO y ROL_CLIENTE -->
                             {% else %}
                             <a href="{% url 'proyectos' %}" class="btn btn-primary btn-block text-white"><i class="fas fa-link"></i> <span>Lista de proyectos</span></a>
+                            <a href="{% url 'proyectos_emp' user.id %}" class="btn btn-primary btn-block text-white"><i class="fas fa-link"></i> <span>Listado de clientes de sus proyectos</span></a>
                             {% endif %}
                         </div>
                         {% endif %}
