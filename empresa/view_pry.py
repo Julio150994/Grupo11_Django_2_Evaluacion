@@ -44,7 +44,7 @@ def annadir_proyecto(request, idUsuario):
                 return redirect('proyectos')
         else:
             messages.warning(request,'Faltan datos por introducir.')
-            return redirect('form_add_pry')
+            return render(request,'empresa/form_add_pry.html')
 
     return render(request, "empresa/form_add_pry.html",context)
 
