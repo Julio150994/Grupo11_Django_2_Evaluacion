@@ -42,8 +42,8 @@
                             <div class="form-group">
                                 <label for="descripcion" class="text-primary">Descripcion</label>
                                 <div class="input-group mb-3">
-                                    <span class="input-group-text"><i class="fas fa-comment-dots"></i></span>
-                                    <input type="text" class="form-control" id="descripcion" name="descripcion" placeholder="Breve descripcion del proyecto" required>
+                                    <span class="input-group-text"><i class="fas fa-bookmark"></i></span>
+                                    <textarea rows="10" cols="10" class="form-control" id="descripcion" name="descripcion" placeholder="Breve descripcion del proyecto" required></textarea>
                                 </div>
                             </div>
 
@@ -75,7 +75,7 @@
                                 <label for="informeFinal" class="text-primary">Informe final</label>
                                 <div class="input-group mb-3">
                                     <span class="input-group-text"><i class="fas fa-clipboard-list"></i></span>
-                                    <textarea rows="10" cols="10" class="form-control" id="informeFinal" name="informeFinal" required></textarea>
+                                    <input type="text" class="form-control" id="informeFinal" name="informeFinal" placeholder="Escriba el informe final" required>
                                 </div>
                             </div>
 
@@ -93,8 +93,9 @@
                                 <div class="input-group mb-3">
                                     <span class="input-group-text"><i class="fas fa-list-ol"></i></span>
                                     <select id="idCategoria" name="idCategoria" class="form-control">
+                                        <option value="">Seleccione una categoría</option>
                                         {% for categoria in categorias %}
-                                            <option value="{{ categoria.id }}">{{ categoria.id }}) {{ categoria.nombre }}</option>
+                                            <option value="{{ categoria.id }}">{{ categoria.nombre }}</option>
                                         {% endfor %}
                                     </select>
                                 </div>

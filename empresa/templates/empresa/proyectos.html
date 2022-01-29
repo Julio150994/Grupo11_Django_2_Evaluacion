@@ -39,19 +39,6 @@
                         {% if request.user.is_authenticated %}
                         <h1 style="background-color: #C8CACB; padding-top: 20.56%; padding-bottom: 4.56%;">Listado de Proyectos</h1>
 
-                        {% if request.user.is_active and request.user.is_staff %}
-                        <div class="panel panel-default bg-white text-center" style="border-radius: 20px; padding-bottom: 0.5%; padding-left: 1%; padding-right: 1%;">
-                            <nav class="navbar navbar-light bg-light justify-content-between">
-                                <a href="{% url 'form_add_pry' user.id %}"  class="btn btn-success text-white" style="margin-top: 1.5%; margin-right: 80.5%; margin-bottom: 0.5%;">
-                                    <i class="fas fa-user-plus"></i>
-                                    <span>Añadir Proyecto</span>
-                                </a>
-                                <a href="{% url 'historial_pry' user.id %}"  class="btn btn-secondary text-white" style="margin-top: ; margin-right: 80.5%;">
-                                    <i class="fas fa-tasks"></i>
-                                    <span>Historial de proyectos</span>
-                                </a>
-                            </nav>
-                        {% elif request.user.is_active and not request.user.is_staff %}
                         <div class="panel panel-default bg-white text-center" style="border-radius: 20px; padding-bottom: 0.5%; padding-left: 1%; padding-right: 1%;">
                             <nav class="navbar navbar-dark navbar-expand-lg" style="background-color: #1567B5;">
                                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
@@ -59,25 +46,36 @@
                                 </button>
                                 <div class="collapse navbar-collapse" id="navbarText">
                                     <ul class="navbar-nav mr-auto">
+                                        <!-- ROL_EMPLEADO -->
+                                        {% if request.user.is_active and not request.user.is_staff %}
+                                        <li class="nav-item">
+                                            <span class="navbar-brand" style="padding-left: 7%;">Proyectos de empleado</span>
+                                        </li>
+                                        <li class="nav-item" style="margin-left: 4.65em;">
+                                            <a href="{% url 'form_add_pry' user.id %}" class="navbar-brand text-white">Añadir</a>
+                                        </li>
+                                        <li class="nav-item" style="margin-left: 4.6em;">
+                                            <a href="{% url 'historial_pry' user.id %}" class="navbar-brand text-white">Historial</a>
+                                        </li>
+                                        
+                                        <!-- ROL_CLIENTE -->
+                                        {% elif request.user %}
                                         <li class="nav-item">
                                             <span class="navbar-brand" style="padding-left: 7%;">Consultar proyectos</span>
                                         </li>
-                                        <li class="nav-item" style="margin-left: 2.65em;">
-                                            <a href="{% url 'form_add_pry' user.id %}" class="navbar-brand text-white">Añadir</a>
-                                        </li>
-                                        <li class="nav-item" style="margin-left: 1em;">
+                                        <li class="nav-item" style="margin-left: 4.6em;">
                                             <a href="{% url 'historial_pry' user.id %}" class="navbar-brand text-white">Historial</a>
                                         </li>
-                                        <li class="nav-item" style="margin-left: 30em; margin-top: -1.1%;">
+                                        <li class="nav-item" style="margin-left: 31em; margin-top: -0.8%;">
                                             <form class="my-2 my-lg-0 navbar-brand" action="#" method="POST">
                                                 <input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search">
                                                 <!--<button class="btn btn-sm btn-success text-white" type="submit" style="margin-left: 8em;"><i class="fas fa-search"></i></button>-->
                                             </form>
                                         </li>
+                                        {% endif %}
                                     </ul>
                                 </div>
                             </nav>
-                        {% endif %}
                             {% if proyecto %}
                             <div class="text-center fom-control" id="proyecto_alert">
                                 {% if messages %}
@@ -102,7 +100,9 @@
                                         <th>InfoFinal</th>
                                         <th>Nombre y apellidos del empleado</th>
                                         <th>idCategoria</th>
+                                        {% if request.user.is_active and request.user.is_staff and request.user.id == request.empleados.idUsuario.id %}
                                         <th colspan="2">Operaciones</th>
+                                        {% endif %}
                                     </tr>
                                 </thead>
                                 <tbody class="bg-white text-dark">
@@ -120,9 +120,6 @@
                                         {% if request.user.is_active and request.user.is_staff and request.user.id == request.empleados.idUsuario.id %}
                                             <td><a href="#" class="btn btn-danger text-white"><i class="fas fa-times-circle"></i> <span>Dar de baja</span></a></td>
                                             <td><a href="#" class="btn btn-secondary text-white"><i class="fas fa-exchange-alt"></i> <span>Editar</span></a></td>
-                                        {% else %}
-                                            <td><a href="#" class="btn btn-danger text-white disabled"><i class="fas fa-times-circle "></i> <span>Dar de baja</span></a></td>
-                                            <td><a href="#" class="btn btn-secondary text-white disabled"><i class="fas fa-exchange-alt "></i> <span>Editar</span></a></td>
                                         {% endif %}
                                     </tr>
                                 {% endfor %}

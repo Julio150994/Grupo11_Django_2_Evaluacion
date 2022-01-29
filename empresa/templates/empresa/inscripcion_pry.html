@@ -29,7 +29,7 @@
             <div class="panel-heading" id="panel">
                 <div class="container col-md-5 bg-white" id="form">
                     <h2 class="text-center mb-4">Formulario de inscripción a proyecto</h2>
-                    <form action="{% url 'inscripcion_proyecto' %}" method="POST">
+                    <form action="{% url 'inscripcion_pry' user.id %}" method="POST">
                         {% csrf_token %}
                             <div class="form-group">
                                 <label for="titulo" class="text-primary">Titulo</label>
@@ -106,14 +106,14 @@
                             {% endfor %}
                         {% endif %}
                         
-                        <a href="{% url 'historial_pry' %}" class="form-control btn btn-danger text-white" id="proyecto">
+                        <a href="{% url 'historial_pry' user.id %}" class="form-control btn btn-danger text-white" id="proyecto">
                             <i class="fas fa-arrow-left"></i>
-                            <span>Cancelar</span>
+                            <span>Cancelar Inscripción</span>
                         </a>
 
                         <button type="submit" class="form-control btn btn-success text-white" id="proyecto">
                             <i class="fas fa-plus-circle"></i>
-                            <span>Inscribirse a proyecto</span>
+                            <span>Inscribirse</span>
                         </button>
                     </form>
                 </div>
