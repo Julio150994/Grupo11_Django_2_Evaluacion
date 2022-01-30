@@ -2,53 +2,81 @@ from datetime import datetime
 from django.core.checks import messages
 from django.urls import reverse
 from django.shortcuts import render, redirect
+from django.contrib.auth.hashers import make_password
 from empresa.models import Categoria, Empleado, Proyecto, Usuario
-from .forms import EmpleadoModelForm, ProyectoModelForm
+from .forms import EmpleadoModelForm, ProyectoModelForm, UsuarioModelForm
+from django.contrib.auth.models import User
 from django.contrib import messages
+
 
 def mostrar_pry(request):
     listProyectos = Proyecto.objects.all()
-    context = { 'proyectos': listProyectos }
+    
+    listEmpleados = Empleado.objects.all()
+    print(listEmpleados)
+    
+    context = {'empleados':listEmpleados, 'proyectos': listProyectos }
     return render(request,'empresa/proyectos.html',context)
 
-def annadir_proyecto(request, idEmpleado):
-    id_empleado = Empleado.objects.get(idEmpleado)
-    
-    proyecto = ProyectoModelForm()
+def annadir_proyecto(request,empleado_id):
+    id_emp = Empleado.objects.get(id=empleado_id)
+        
     categoria = Categoria.objects.order_by('id').all()
     print("Categorias mostradas:\n"+str(categoria))
     
-    context = {'proyecto': proyecto, 'categorias':categoria}
+    context = {'empleado':id_emp, 'categorias':categoria }
     
     if request.POST:
-        proyecto = ProyectoModelForm(request.POST, instance = id_empleado)
-        context = {'proyecto': proyecto, 'categorias':categoria}
+        usuario = UsuarioModelForm(request.POST)
+        empleado = EmpleadoModelForm(request.POST)
+        proyecto = ProyectoModelForm(request.POST, instance=id_emp)
         
-        if proyecto.is_valid():
-            #last_id_empleado = Empleado.objects.last()
-            #last_id_usuario = Usuario.objects.last()
-            #print("Id usuario: "+str(last_id_empleado))
+        context = {
+            'usuario': usuario,
+            'empleado': empleado,
+            'proyecto': proyecto,
+            'categorias':categoria
+        }
+        
+        if usuario.is_valid():
+            username = request.POST['username']
+            pwd = request.POST['password']
             
-            titulo = request.POST.get("titulo")
-            descripcion = request.POST.get("descripcion")
-            nivel = request.POST.get("nivel")
-            fechaInicio = request.POST.get("fechaInicio")
-            fechaFin = request.POST.get("fechaFin")
-            informeFinal = request.POST.get("informeFinal")
-            idEmpleado = request.POST.get("idEmpleado",id_empleado)
-            idCategoria  = request.POST.get("idCategoria")
+            usuario_pry = Usuario(username=username, password=pwd)
+            usuario_pry.password = make_password(usuario_pry.password)
+            usuario_pry.save()
+            user = User.objects.create_user(username = username, password = pwd)
+            user.save()
+            
+            if empleado.is_valid():
+                dni = request.POST.get("dni")
+                nombre = request.POST.get("nombre")
+                apellidos = request.POST.get("apellidos")
+                direccion = request.POST.get("direccion")
+                biografia = request.POST.get("biografia")
+                idUsuario = request.POST.get("idUsuario")
+                
+                empleado_pry = Empleado(dni=dni,nombre=nombre,apellidos=apellidos,direccion=direccion,
+                    biografia=biografia, idUsuario=idUsuario)
+        
+                if proyecto.is_valid():
+                    titulo = request.POST.get("titulo")
+                    descripcion = request.POST.get("descripcion")
+                    nivel = request.POST.get("nivel")
+                    fechaInicio = request.POST.get("fechaInicio")
+                    fechaFin = request.POST.get("fechaFin")
+                    informeFinal = request.POST.get("informeFinal")
+                    idEmpleado = request.POST.get("idEmpleado",id_emp)
+                    idCategoria  = request.POST.get("idCategoria")
 
-            if titulo is not None or descripcion is not None or nivel is not None or fechaInicio is not None or fechaFin is not None or informeFinal is not None or idCategoria or idEmpleado:
-                nuevo_proyecto = Proyecto(titulo=titulo, descripcion=descripcion, nivel=nivel, fechaInicio=fechaInicio,
-                fechaFin=fechaFin,informeFinal=informeFinal,idEmpleado=idEmpleado, idCategoria=idCategoria)
-                nuevo_proyecto.save()
-                messages.success(request,'Proyecto añadido correctamente.')
-                return redirect('proyectos')
-        else:
-            messages.warning(request,'Faltan datos por introducir.')
-            return render(request,'empresa/form_add_pry.html')
+                    if titulo is not None or descripcion is not None or nivel is not None or fechaInicio is not None or fechaFin is not None or informeFinal is not None or idEmpleado or idCategoria is not None:
+                        nuevo_proyecto = Proyecto(titulo=titulo, descripcion=descripcion, nivel=nivel, fechaInicio=fechaInicio,
+                        fechaFin=fechaFin,informeFinal=informeFinal,idEmpleado=empleado_pry, idCategoria=idCategoria)
+                        nuevo_proyecto.save()
+                        messages.success(request,'Proyecto añadido correctamente.')
+                        return redirect('proyectos')
 
-    return render(request, "empresa/form_add_pry.html",context)
+    return render(request, "empresa/form_add_pry.html/",context)
 
 
 def ver_historial_proyectos(request, idUsuario):

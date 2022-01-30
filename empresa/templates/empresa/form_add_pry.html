@@ -17,14 +17,6 @@
         <link href="{% static 'css/form_pry.css' %}" rel="stylesheet"/>
     </head>
     <body>
-        {% if messages %}
-            {% for error in messages %}
-            <div class="alert alert-danger text-center col-md-5 col-5" id="mensaje_error">
-                {{ error }}
-            </div>
-            {% endfor %}
-        {% endif %}
-
         <div class="panel panel-default" style="margin-top: 1.10%;">
             <div class="panel-heading" id="panel">
                 <div class="container col-md-5 bg-white" id="form">
@@ -79,15 +71,15 @@
                                 </div>
                             </div>
 
-                            <!--<div class="form-group">
+                            {% comment %}<div class="form-group">
                                 <label for="idEmpleado" class="text-primary">Empleado</label>
                                 <div class="input-group mb-3">
-                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                    
                                 </div>
-                            </div>-->
-                            <input type="text" class="form-control" id="idEmpleado" name="idEmpleado" value="{{ empleado.idUsuario.id }}" readonly="readonly" required>
+                            </div>{% endcomment %}
+                            <input type="hidden" class="form-control" id="idEmpleado" name="idEmpleado" value="{{ empleado.id }}" readonly="readonly" required>
 
-                             <div class="form-group">
+                            <div class="form-group">
                                 <label for="idCategoria" class="text-primary">Categoria</label>
                                 <div class="input-group mb-3">
                                     <span class="input-group-text"><i class="fas fa-list-ol"></i></span>
@@ -100,14 +92,6 @@
                                 </div>
                             </div>
 
-                        {% if messages %}
-                            {% for empty_data in messages %}
-                            <div class="alert alert-warning text-center col-md-5 col-5" id="mensaje_error">
-                                {{ empty_data }}
-                            </div>
-                            {% endfor %}
-                        {% endif %}
-                        
                         <a href="{% url 'proyectos' %}" class="form-control btn btn-danger text-white" id="proyecto" style="margin-top: 2.5%;">
                             <i class="fas fa-arrow-left"></i>
                             <span>Cancelar</span>
