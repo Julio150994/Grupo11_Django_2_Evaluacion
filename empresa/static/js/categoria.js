@@ -12,7 +12,7 @@ function eliminar(id) {
         if (categoria.isConfirmed) {
             window.location = '/eliminar_categoria/' + id;
         } else {
-            window.location = '/categorias';
+            window.location = '/categorias/';
         }
     });
 }

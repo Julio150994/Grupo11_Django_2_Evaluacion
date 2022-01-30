@@ -73,7 +73,7 @@
                                         <td>{{ empleado.biografia }}</td>
                                         <td><a href="{% url 'datos_empleado' empleado.id  %}" class="btn btn-primary text-white"><i class="fas fa-list"></i> <span>Datos de empleado</span></a></td>
                                         <td><a href="{% url 'form_edit_empleado' empleado.id %}" class="btn btn-secondary text-white"><i class="fas fa-user-edit"></i> <span>Editar</span></a></td>
-                                        <td><a href="{% url 'empleados' empleado.id empleado.idUsuario %}" class="btn btn-danger text-white" onclick="eliminar({{ empleado.id }})"><i class="fas fa-trash-alt"></i> <span>Eliminar</span></a></td>
+                                        <td><button class="btn btn-danger text-white" onclick="eliminar({{ empleado.id }})"><i class="fas fa-trash-alt"></i> <span>Eliminar</span></button></td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>

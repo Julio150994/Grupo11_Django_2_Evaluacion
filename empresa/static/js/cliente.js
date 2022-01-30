@@ -10,9 +10,9 @@ function eliminar(id) {
         cancelButtonText: 'No',
     }).then((cliente) => {
         if (cliente.isConfirmed) {
-            window.location = '/eliminar_cliente' + id;
+            window.location = '/eliminar_cliente/' + id;
         } else {
-            window.location = '/clientes';
+            window.location = '/clientes/';
         }
     });
 }

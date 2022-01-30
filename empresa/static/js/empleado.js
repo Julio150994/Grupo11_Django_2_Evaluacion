@@ -12,7 +12,7 @@ function eliminar(id) {
         if (empleado.isConfirmed) {
             window.location = '/eliminar_empleado/' + id;
         } else {
-            window.location = '/empleados';
+            window.location = '/empleados/';
         }
     });
 }

@@ -87,8 +87,7 @@
                                             <a href="{% url 'clientes' cliente.id %}" class="btn btn-warning text-white"><i class="fas fa-toggle-on"></i> <span>Desactivar</span></a>
                                             {% endif %}
                                         </td>
-                                        <!-- onclick="eliminarCliente({{ cliente.id }}, {{ cliente.idUsuario }},{{ cliente.idUsuario.username }})"  -->
-                                        <td><a href= "{% url 'delete' cliente.id cliente.idUsuario %}" class="btn btn-danger text-white" onclick="eliminar({{ cliente.id }})"><i class="fas fa-times-circle"></i> <span>Eliminar</span></a></td>
+                                        <td><button class="btn btn-danger text-white" onclick="eliminar({{ cliente.id }})"><i class="fas fa-times-circle"></i> <span>Eliminar</span></button></td>
                                         <td><a href="{% url 'form_edit_cliente' cliente.id %}" class="btn btn-secondary text-white"><i class="fas fa-user-edit"></i> <span>Editar</span></a></td>
                                     </tr>
                                     {% endfor %}
