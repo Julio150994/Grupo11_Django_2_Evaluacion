@@ -11,9 +11,7 @@ from django.contrib import messages
 
 def mostrar_pry(request):
     listProyectos = Proyecto.objects.all()
-    
     listEmpleados = Empleado.objects.all()
-    print(listEmpleados)
     
     context = {'empleados':listEmpleados, 'proyectos': listProyectos }
     return render(request,'empresa/proyectos.html',context)
@@ -76,7 +74,7 @@ def annadir_proyecto(request,empleado_id):
                         messages.success(request,'Proyecto añadido correctamente.')
                         return redirect('proyectos')
 
-    return render(request, "empresa/form_add_pry.html/",context)
+    return render(request, "empresa/form_add_pry.html",context)
 
 
 def ver_historial_proyectos(request, idUsuario):
