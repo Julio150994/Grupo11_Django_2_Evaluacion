@@ -64,7 +64,7 @@
                                             <span class="navbar-brand" style="padding-left: 7%;">Consultar proyectos</span>
                                         </li>
                                         <li class="nav-item" style="margin-left: 4.6em;">
-                                            <a href="{% url 'historial_pry' user.id %}" class="navbar-brand text-white">Historial</a>
+                                            <a href="{% url 'historial_pry' empleado.idUsuario %}" class="navbar-brand text-white">Historial</a>
                                         </li>
                                         <li class="nav-item" style="margin-left: 31em; margin-top: -0.8%;">
                                             <form class="my-2 my-lg-0 navbar-brand" action="#" method="POST">
@@ -99,6 +99,7 @@
                                         <th>FechaFin</th>
                                         <th>InfoFinal</th>
                                         <th>Nombre y apellidos del empleado</th>
+                                        <th>Usuario</th>
                                         <th>idCategoria</th>
                                         {% if request.user.is_active and request.user.is_staff and request.user.id == request.empleados.idUsuario.id %}
                                         <th colspan="2">Operaciones</th>
@@ -112,10 +113,11 @@
                                         <th>{{proyecto.titulo}}</th>
                                         <th>{{proyecto.descripcion}}</th>
                                         <th>{{proyecto.nivel}}</th>
-                                        <th>{{proyecto.fechaInicio}}</th>
-                                        <th>{{proyecto.fechaFin}}</th>
+                                        <th>{{proyecto.fechaInicio|date:"d/m/Y"}}</th>
+                                        <th>{{proyecto.fechaFin|date:"d/m/Y"}}</th>
                                         <th>{{proyecto.informeFinal}}</th>
                                         <th>{{proyecto.idEmpleado.nombre}} {{proyecto.idEmpleado.apellidos}}</th>
+                                        <th>{{proyecto.idEmpleado.idUsuario.username}}</th>
                                         <th>{{proyecto.idCategoria.nombre}}</th>
                                         {% if request.user.is_active and request.user.is_staff and request.user.id == request.empleados.idUsuario.id %}
                                             <td><a href="#" class="btn btn-danger text-white"><i class="fas fa-times-circle"></i> <span>Dar de baja</span></a></td>

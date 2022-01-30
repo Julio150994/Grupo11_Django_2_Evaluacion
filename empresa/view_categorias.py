@@ -78,7 +78,7 @@ def editar_categorias(request,id):
 def eliminar_categorias(request,id):
     categoria = Categoria.objects.filter(id=id)
     print(categoria)
-    #categoria.delete()
+    categoria.delete()
     
     foto_categoria = Categoria.objects.filter(id=id).values_list('foto',flat=True)
     

@@ -20,7 +20,7 @@
         <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="sweetalert2.min.js"></script>
         <link rel="stylesheet" href="sweetalert2.min.css">
-        <script type="text/javascript" src="{% static 'js/eliminar_cliente.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/cliente.js' %}"></script>
     </head>
     <body id="page-top">
         {% include "empresa/navbar_inicio.html" %}
@@ -88,7 +88,7 @@
                                             {% endif %}
                                         </td>
                                         <!-- onclick="eliminarCliente({{ cliente.id }}, {{ cliente.idUsuario }},{{ cliente.idUsuario.username }})"  -->
-                                        <td><a href= "{% url 'delete' cliente.id cliente.idUsuario %}" class="btn btn-danger text-white" onclick="eliminarCliente()"><i class="fas fa-times-circle"></i> <span>Eliminar</span></a></td>
+                                        <td><a href= "{% url 'delete' cliente.id cliente.idUsuario %}" class="btn btn-danger text-white" onclick="eliminar({{ cliente.id }})"><i class="fas fa-times-circle"></i> <span>Eliminar</span></a></td>
                                         <td><a href="{% url 'form_edit_cliente' cliente.id %}" class="btn btn-secondary text-white"><i class="fas fa-user-edit"></i> <span>Editar</span></a></td>
                                     </tr>
                                     {% endfor %}

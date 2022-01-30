@@ -11,23 +11,23 @@ def mostrar_pry(request):
     context = { 'proyectos': listProyectos }
     return render(request,'empresa/proyectos.html',context)
 
-def annadir_proyecto(request, idUsuario):
-    id_empleado = Empleado.objects.filter(id=idUsuario)
-    print("Id empleado: "+str(id_empleado))
+def annadir_proyecto(request, idEmpleado):
+    id_empleado = Empleado.objects.get(idEmpleado)
     
     proyecto = ProyectoModelForm()
-    
     categoria = Categoria.objects.order_by('id').all()
     print("Categorias mostradas:\n"+str(categoria))
     
     context = {'proyecto': proyecto, 'categorias':categoria}
     
     if request.POST:
-        proyecto = ProyectoModelForm(request.POST, instance=id_empleado)
+        proyecto = ProyectoModelForm(request.POST, instance = id_empleado)
         context = {'proyecto': proyecto, 'categorias':categoria}
         
         if proyecto.is_valid():
-            last_id_empleado = Empleado.objects.last()
+            #last_id_empleado = Empleado.objects.last()
+            #last_id_usuario = Usuario.objects.last()
+            #print("Id usuario: "+str(last_id_empleado))
             
             titulo = request.POST.get("titulo")
             descripcion = request.POST.get("descripcion")
@@ -35,13 +35,12 @@ def annadir_proyecto(request, idUsuario):
             fechaInicio = request.POST.get("fechaInicio")
             fechaFin = request.POST.get("fechaFin")
             informeFinal = request.POST.get("informeFinal")
-            idEmpleado = request.POST.get("idEmpleado",last_id_empleado)
+            idEmpleado = request.POST.get("idEmpleado",id_empleado)
             idCategoria  = request.POST.get("idCategoria")
 
             if titulo is not None or descripcion is not None or nivel is not None or fechaInicio is not None or fechaFin is not None or informeFinal is not None or idCategoria or idEmpleado:
-                nuevo_proyecto = Proyecto(titulo=titulo, descripcion=descripcion, nivel=nivel,
-                fechaInicio=fechaInicio,fechaFin=fechaFin,informeFinal=informeFinal,
-                idEmpleado=idEmpleado, idCategoria=idCategoria)
+                nuevo_proyecto = Proyecto(titulo=titulo, descripcion=descripcion, nivel=nivel, fechaInicio=fechaInicio,
+                fechaFin=fechaFin,informeFinal=informeFinal,idEmpleado=idEmpleado, idCategoria=idCategoria)
                 nuevo_proyecto.save()
                 messages.success(request,'Proyecto añadido correctamente.')
                 return redirect('proyectos')

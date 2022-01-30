@@ -1,4 +1,4 @@
-function eliminarEmpleado() {
+function eliminar(id) {
     Swal.fire({
         title: 'Mensaje de Salesemp',
         text: "¿Desea eliminar este empleado?",
@@ -10,18 +10,9 @@ function eliminarEmpleado() {
         cancelButtonText: 'No',
     }).then((empleado) => {
         if (empleado.isConfirmed) {
-            Swal.fire(
-                'Mensaje',
-                'Empleado eliminado correctamente',
-                'success'
-            )
-        }
-        else {
-            Swal.fire(
-                'Mensaje',
-                'No ha eliminado este empleado',
-                'warning'
-            )
+            window.location = '/eliminar_empleado/' + id;
+        } else {
+            window.location = '/empleados';
         }
     });
 }

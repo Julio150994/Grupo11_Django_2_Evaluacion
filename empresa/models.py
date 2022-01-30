@@ -21,7 +21,7 @@ class Empleado(models.Model):
     idUsuario = models.ForeignKey(Usuario, blank=False, on_delete=models.CASCADE)
     
     def __str__(self):
-        return str(self.id)+" "+str(self.dni)+" "+str(self.nombre)+" "+str(self.apellidos)+" "+str(self.direccion)+" "+str(self.biografia)
+        return str(self.id)
     
     
 class Cliente(models.Model):
@@ -44,7 +44,7 @@ class Categoria(models.Model):
     foto = models.ImageField(verbose_name="Foto", upload_to='categorias/', unique=True, null=False, blank=False)
     
     def __str__(self):
-        return str(self.id)+" "+str(self.nombre)+" "+str(self.foto)
+        return str(self.id)
     
     
 class Proyecto(models.Model):

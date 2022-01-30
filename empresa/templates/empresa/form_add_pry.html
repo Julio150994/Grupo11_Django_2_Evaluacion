@@ -29,7 +29,7 @@
             <div class="panel-heading" id="panel">
                 <div class="container col-md-5 bg-white" id="form">
                     <h2 class="text-center mb-4">Formulario de proyecto</h2>
-                    <form action="{% url 'form_add_pry' user.id %}" method="POST">
+                    <form action="{% url 'form_add_pry' empleado.id %}" method="POST">
                         {% csrf_token %}
                             <div class="form-group">
                                 <label for="titulo" class="text-primary">Titulo</label>
@@ -79,14 +79,13 @@
                                 </div>
                             </div>
 
-                        
-                            <div class="form-group">
+                            <!--<div class="form-group">
                                 <label for="idEmpleado" class="text-primary">Empleado</label>
                                 <div class="input-group mb-3">
                                     <span class="input-group-text"><i class="fas fa-user"></i></span>
-                                    <input type="text" class="form-control" id="idEmpleado" name="idEmpleado" value="{{ user.username }}" readonly="readonly" required>
                                 </div>
-                            </div>
+                            </div>-->
+                            <input type="text" class="form-control" id="idEmpleado" name="idEmpleado" value="{{ empleado.idUsuario.id }}" readonly="readonly" required>
 
                              <div class="form-group">
                                 <label for="idCategoria" class="text-primary">Categoria</label>

@@ -1,4 +1,4 @@
-function eliminarCliente() {
+function eliminar(id) {
     Swal.fire({
         title: 'Mensaje de Salesemp',
         text: "¿Desea eliminar este cliente?",
@@ -10,18 +10,9 @@ function eliminarCliente() {
         cancelButtonText: 'No',
     }).then((cliente) => {
         if (cliente.isConfirmed) {
-            Swal.fire(
-                'Mensaje',
-                'Cliente eliminado correctamente',
-                'success'
-            );
-        }
-        else {
-            Swal.fire(
-                'Mensaje',
-                'No ha eliminado este cliente',
-                'warning'
-            );
+            window.location = '/eliminar_cliente' + id;
+        } else {
+            window.location = '/clientes';
         }
     });
 }
