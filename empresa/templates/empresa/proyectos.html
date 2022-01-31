@@ -60,7 +60,7 @@
                                             <a href="{% url 'form_add_pry' empleado.id %}" class="navbar-brand text-white">Añadir</a>
                                         </li>
                                         <li class="nav-item" style="margin-left: 4.6em;">
-                                            <a href="{% url 'historial_pry' empleado.id %}" class="navbar-brand text-white">Historial</a>
+                                            <a href="{% url 'historial_pry' empleado.id %}" class="navbar-brand text-white">Historial de Empleado</a>
                                         </li>
                                         {% endif %}
                                         {% endfor %}
@@ -71,7 +71,7 @@
                                             <span class="navbar-brand" style="padding-left: 7%;">Consultar proyectos</span>
                                         </li>
                                         <li class="nav-item" style="margin-left: 4.6em;">
-                                            <a href="{% url 'historial_pry' empleado.idUsuario %}" class="navbar-brand text-white">Historial</a>
+                                            <a href="{% url 'historial_pry' empleado.idUsuario %}" class="navbar-brand text-white">Historial de Cliente</a>
                                         </li>
                                         <li class="nav-item" style="margin-left: 31em; margin-top: -0.8%;">
                                             <form class="my-2 my-lg-0 navbar-brand" action="#" method="POST">

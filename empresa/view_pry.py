@@ -113,9 +113,9 @@ def ver_historial_proyectos(request, idUsuario):
     #fecha_actual = datetime.strftime("%Y-%m-%d")
     print("Fecha actual: "+str(fecha))
     
-    historialProyectos = Proyecto.objects.order_by('-fechaInicio').all() #ordenamos por fecha final#
+    historial_proyectos = Proyecto.objects.order_by('-fechaInicio').all() #ordenamos por fecha final#
     
-    context = { 'proyectos': historialProyectos, 'usuario':id_usuario, 'fechaActual':fecha }
+    context = { 'proyectos': historial_proyectos, 'usuario':id_usuario, 'fechaActual':fecha }
       
     return render(request,'empresa/historial_pry.html',context)
 
