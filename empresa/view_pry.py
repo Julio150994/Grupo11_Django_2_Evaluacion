@@ -4,7 +4,7 @@ from django.urls import reverse
 from django.shortcuts import render, redirect
 from django.contrib.auth.hashers import make_password
 from empresa.models import Categoria, Empleado, Proyecto, Usuario
-from .forms import EmpleadoModelForm, ProyectoModelForm, UsuarioModelForm
+from .forms import CategoriaModelForm, EmpleadoModelForm, ProyectoModelForm, UsuarioModelForm
 from django.contrib.auth.models import User
 from django.contrib import messages
 
@@ -19,21 +19,36 @@ def mostrar_pry(request):
 def annadir_proyecto(request,empleado_id):
     id_emp = Empleado.objects.get(id=empleado_id)
         
-    categoria = Categoria.objects.order_by('id').all()
-    print("Categorias mostradas:\n"+str(categoria))
+    categorias = Categoria.objects.order_by('id').all()
+    print("Categorias mostradas:\n"+str(categorias))
     
-    context = {'empleado':id_emp, 'categorias':categoria }
+    usuario = UsuarioModelForm()
+    empleado = EmpleadoModelForm()
+    categoria = CategoriaModelForm()
+    proyecto = ProyectoModelForm()
+    
+    context = {
+        'empleado':id_emp,
+        'categorias':categorias,
+        'usuario':usuario,
+        'emp':empleado,
+        'categoria':categoria,
+        'proyecto':proyecto
+    }
     
     if request.POST:
         usuario = UsuarioModelForm(request.POST)
         empleado = EmpleadoModelForm(request.POST)
-        proyecto = ProyectoModelForm(request.POST, instance=id_emp)
+        categoria = CategoriaModelForm(request.POST,request.FILES)
+        proyecto = ProyectoModelForm(request.POST)
         
         context = {
-            'usuario': usuario,
-            'empleado': empleado,
-            'proyecto': proyecto,
-            'categorias':categoria
+            'empleado':id_emp,
+            'categorias':categorias,
+            'usuario':usuario,
+            'emp':empleado,
+            'categoria':categoria,
+            'proyecto':proyecto
         }
         
         if usuario.is_valid():
@@ -46,33 +61,44 @@ def annadir_proyecto(request,empleado_id):
             user = User.objects.create_user(username = username, password = pwd)
             user.save()
             
-            if empleado.is_valid():
+            if empleado.is_valid() and categoria.is_valid():
+                last_id_usuario = Usuario.objects.last()
+                emp_id = request.POST.get("id")
                 dni = request.POST.get("dni")
                 nombre = request.POST.get("nombre")
                 apellidos = request.POST.get("apellidos")
                 direccion = request.POST.get("direccion")
                 biografia = request.POST.get("biografia")
-                idUsuario = request.POST.get("idUsuario")
+                idUsuario = request.POST.get("idUsuario",last_id_usuario)
                 
-                empleado_pry = Empleado(dni=dni,nombre=nombre,apellidos=apellidos,direccion=direccion,
-                    biografia=biografia, idUsuario=idUsuario)
-        
-                if proyecto.is_valid():
-                    titulo = request.POST.get("titulo")
-                    descripcion = request.POST.get("descripcion")
-                    nivel = request.POST.get("nivel")
-                    fechaInicio = request.POST.get("fechaInicio")
-                    fechaFin = request.POST.get("fechaFin")
-                    informeFinal = request.POST.get("informeFinal")
-                    idEmpleado = request.POST.get("idEmpleado",id_emp)
-                    idCategoria  = request.POST.get("idCategoria")
+                """empleado_pry = Empleado(id=emp_id, dni=dni, nombre=nombre, apellidos=apellidos,
+                    direccion=direccion, biografia=biografia, idUsuario=idUsuario)"""
+                empleado.save()
+                
+                id_cat = request.POST.get("id")
+                nombre = request.POST.get("nombre")
+                foto = request.FILES.get("foto")
+                
+                #categoria_pry = Categoria(id=id_cat, nombre=nombre, foto=foto)
+                categoria.save()
+                
+                if empleado.save() != None and categoria.save() != None:
+                    if proyecto.is_valid():
+                        titulo = request.POST.get("titulo")
+                        descripcion = request.POST.get("descripcion")
+                        nivel = request.POST.get("nivel")
+                        fechaInicio = request.POST.get("fechaInicio")
+                        fechaFin = request.POST.get("fechaFin")
+                        informeFinal = request.POST.get("informeFinal")
+                        idEmpleado = request.POST.get("idEmpleado",id_emp)
+                        idCategoria  = request.POST.get("idCategoria",id_cat)
 
-                    if titulo is not None or descripcion is not None or nivel is not None or fechaInicio is not None or fechaFin is not None or informeFinal is not None or idEmpleado or idCategoria is not None:
-                        nuevo_proyecto = Proyecto(titulo=titulo, descripcion=descripcion, nivel=nivel, fechaInicio=fechaInicio,
-                        fechaFin=fechaFin,informeFinal=informeFinal,idEmpleado=empleado_pry, idCategoria=idCategoria)
-                        nuevo_proyecto.save()
-                        messages.success(request,'Proyecto añadido correctamente.')
-                        return redirect('proyectos')
+                        if titulo is not None or descripcion is not None or nivel is not None or fechaInicio is not None or fechaFin is not None or informeFinal is not None or idEmpleado or idCategoria is not None:
+                            nuevo_proyecto = Proyecto(titulo=titulo, descripcion=descripcion, nivel=nivel, fechaInicio=fechaInicio,
+                            fechaFin=fechaFin,informeFinal=informeFinal,idEmpleado=id_emp, idCategoria=id_cat)
+                            nuevo_proyecto.save()
+                            messages.success(request,'Proyecto añadido correctamente.')
+                            return reverse('proyectos')
 
     return render(request, "empresa/form_add_pry.html",context)
 

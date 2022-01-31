@@ -25,72 +25,74 @@
                 <div class="d-flex justify-content-center">
                     <div class="text-center">
                         {% if request.user.is_authenticated %}
-                            <h1 style="background-color: #C8CACB; padding-top: 20.56%; padding-bottom: 4.56%;">Historial de Proyectos</h1>
+                            <h1 style="background-color: #C8CACB; padding-top: 20.56%; padding-bottom: 4.56%;">Historial de {{ user.username }}</h1>
 
                             <div class="panel panel-default bg-white text-center" style="border-radius: 20px; padding-bottom: 0.5%; padding-left: 1%; padding-right: 1%;">
-                            {% if request.user.is_active and not request.user.is_staff %}
-                            <nav class="navbar navbar-dark navbar-expand-lg" style="background-color: #FFF;">
-                                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-                                  <span class="navbar-toggler-icon"></span>
-                                </button>
-                                <div class="collapse navbar-collapse" id="navbarText">
-                                    <ul class="navbar-nav mr-auto">
-                                        <li class="nav-item">
-                                            <a class="btn btn-dark text-white" href="{% url 'proyectos' %}" style="margin-top: 1%; margin-right: 86%;">
-                                                <i class="fas fa-arrow-left"></i>
-                                                Proyectos
-                                            </a>
-                                        </li>
-                                        <li class="nav-item" style="margin-left: 4.65em;">
-                                            <a href="{% url 'inscripcion_pry' user.id %}"  class="btn btn-success text-white" style="margin-top: 1.5%; margin-right: 80.5%; margin-bottom: 0.5%;">
-                                                <i class="fas fa-user-plus"></i>
-                                                Inscribirse
-                                            </a>
-                                        </li>
-                                    </ul>
+                                <nav class="navbar navbar-dark navbar-expand-lg" style="background-color: #1567B5;">
+                                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                                    <span class="navbar-toggler-icon"></span>
+                                    </button>
+                                    <div class="collapse navbar-collapse" id="navbarText">
+                                        <ul class="navbar-nav mr-auto">
+                                            <li class="nav-item" style="margin-left: 2.65em;">
+                                                <a href="{% url 'proyectos' %}" class="navbar-brand text-white">Volver a Proyectos</a>
+                                            </li>
+                                            <li class="nav-item" style="margin-left: 4.6em;">
+                                                <a href="{% url 'inscripcion_pry' user.id %}" class="navbar-brand text-white">Inscripción</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </nav>
+
+                                <div class="text-center fom-control" id="proyecto_alert">
+                                    {% if messages %}
+                                        {% for set_proyecto in messages %}
+                                        <div class="alert alert-primary text-center col-md-5 col-5">
+                                            {{ set_proyecto }}
+                                        </div>
+                                        {% endfor %}
+                                    {% endif %}
                                 </div>
-                            </nav>
-                            {% endif %}
-                            
-                            {% if request.user.is_active and request.user.is_staff %}
-                                <table class="table table-bordered text-center">
+                                
+                                <table class="table table-bordered text-center" style="margin-top: 2.6em;">
                                     <thead class = "bg-black text-white">
                                         <tr>
-                                            <th>Id</th>
                                             <th>Titulo</th>
-                                            <th>Desc</th>
+                                            <th>Descripción</th>
                                             <th>Nivel</th>
-                                            <th>FechaIn</th>
-                                            <th>FechaFin</th>
+                                            <th>Fecha In</th>
+                                            <th>Fecha Fin</th>
                                             <th>InfoFinal</th>
-                                            <th>Usuario</th>
-                                            <th>idCategoria</th>
+                                            <th>Empleado</th>
+                                            <th>Categoria</th>
                                         </tr>
                                     </thead>
                                     <tbody class="bg-white text-dark">
-                                    {% for proyecto in proyectos %}
+                                        {% for proyecto in proyectos %}
+                                        {% if request.user.username == proyecto.idEmpleado.idUsuario.username %}
                                         <tr>
-                                            <th>{{proyecto.id}}</th>
                                             <th>{{proyecto.titulo}}</th>
                                             <th>{{proyecto.descripcion}}</th>
                                             <th>{{proyecto.nivel}}</th>
-                                            <th>{{proyecto.fechaInicio}}</th>
-                                            <th>{{proyecto.fechaFin}}</th>
+                                            <th>{{proyecto.fechaInicio|date:"d/m/Y"}}</th>
+                                            <th>{{proyecto.fechaFin|date:"d/m/Y"}}</th>
                                             <th>{{proyecto.informeFinal}}</th>
-                                            <th>{{proyecto.idEmpleado.idUsuario.username}}</th>
+                                            <th>{{proyecto.idEmpleado.nombre}} {{proyecto.idEmpleado.apellidos}}</th>
                                             <th>{{proyecto.idCategoria.nombre}}</th>
+                                            {% if request.user.is_active and request.user.is_staff and request.user.id == request.empleados.idUsuario.id %}
+                                                <td><a href="#" class="btn btn-danger text-white"><i class="fas fa-times-circle"></i> <span>Dar de baja</span></a></td>
+                                                <td><a href="#" class="btn btn-secondary text-white"><i class="fas fa-exchange-alt"></i> <span>Editar</span></a></td>
+                                            {% endif %}
                                         </tr>
-                                    {% endfor %}
+                                        {% else %}
+                                            <div class="alert alert-warning" style="margin-top: 1.52%;">{{ user.username }} no dispone de proyectos.</div>
+                                        {% endif %}
+        
+                                        {% endfor %}
                                     </tbody>
                                 </table>
-                                <div class="text-center">
-                                    <a class="btn btn-dark text-white" href="{% url 'proyectos' %}" style="margin-top: 1%; margin-right: 86%;">
-                                        <i class="fas fa-arrow-left"></i>
-                                        <span>Proyectos</span>
-                                    </a>
-                                </div>
                             </div>
-                            {% endif %}
+                        </div>
                         {% endif %}
                     </div>
                 </div>

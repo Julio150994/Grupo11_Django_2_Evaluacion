@@ -35,7 +35,7 @@
                                 <label for="descripcion" class="text-primary">Descripcion</label>
                                 <div class="input-group mb-3">
                                     <span class="input-group-text"><i class="fas fa-bookmark"></i></span>
-                                    <textarea rows="10" cols="10" class="form-control" id="descripcion" name="descripcion" placeholder="Breve descripcion del proyecto" required></textarea>
+                                    <textarea rows="4" class="form-control" id="descripcion" name="descripcion" placeholder="Breve descripcion del proyecto" required></textarea>
                                 </div>
                             </div>
 
@@ -56,7 +56,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label for="fechaFin" class="text-primary">Fecha de finalizacion</label>
+                                <label for="fechaFin" class="text-primary">Fecha de finalización</label>
                                 <div class="input-group mb-3">
                                     <span class="input-group-text"><i class="fas fa-calendar-check"></i></span>
                                     <input type="date" class="form-control" id="fechaFin" name="fechaFin" required>
@@ -71,7 +71,7 @@
                                 </div>
                             </div>
 
-                            <input type="hidden" class="form-control" id="idEmpleado" name="idEmpleado" value="{{ empleado.id }}" readonly="readonly" required>
+                            <input type="hidden" class="form-control" id="idEmpleado" name="{{ empleado.id }}" value="{{ empleado.id }}" readonly="readonly" required>
 
                             <div class="form-group">
                                 <label for="idCategoria" class="text-primary">Categoria</label>

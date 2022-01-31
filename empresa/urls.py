@@ -18,7 +18,7 @@ urlpatterns = [
     path('categorias/',view_categorias.mostrar_categorias,name="categorias"),
     path('categoria/<int:id>/',view_categorias.datos_categoria,name="datos_categoria"),
     path('annadir_categoria/',view_categorias.annadir_categorias,name="form_add_categoria"),
-    path('editar_categoria/<int:id>',view_categorias.editar_categorias,name="form_edit_categoria"),
+    path('editar_categoria/<int:id>/',view_categorias.editar_categorias,name="form_edit_categoria"),
     path('eliminar_categoria/<int:id>/',view_categorias.eliminar_categorias,name="categorias"),
     #path('update_categoria/<int:id_categoria>/',view_categorias.editar_categorias,name="categorias"),
 
