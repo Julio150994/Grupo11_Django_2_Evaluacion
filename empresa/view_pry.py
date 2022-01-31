@@ -71,15 +71,15 @@ def annadir_proyecto(request,empleado_id):
                 biografia = request.POST.get("biografia")
                 idUsuario = request.POST.get("idUsuario",last_id_usuario)
                 
-                """empleado_pry = Empleado(id=emp_id, dni=dni, nombre=nombre, apellidos=apellidos,
-                    direccion=direccion, biografia=biografia, idUsuario=idUsuario)"""
-                empleado.save()
+                empleado_pry = Empleado(id=emp_id, dni=dni, nombre=nombre, apellidos=apellidos,
+                    direccion=direccion, biografia=biografia, idUsuario=idUsuario)
+                empleado_pry.save()
                 
                 id_cat = request.POST.get("id")
                 nombre = request.POST.get("nombre")
                 foto = request.FILES.get("foto")
                 
-                #categoria_pry = Categoria(id=id_cat, nombre=nombre, foto=foto)
+                categoria_pry = Categoria(id=id_cat, nombre=nombre, foto=foto)
                 categoria.save()
                 
                 if empleado.save() != None and categoria.save() != None:
@@ -95,7 +95,7 @@ def annadir_proyecto(request,empleado_id):
 
                         if titulo is not None or descripcion is not None or nivel is not None or fechaInicio is not None or fechaFin is not None or informeFinal is not None or idEmpleado or idCategoria is not None:
                             nuevo_proyecto = Proyecto(titulo=titulo, descripcion=descripcion, nivel=nivel, fechaInicio=fechaInicio,
-                            fechaFin=fechaFin,informeFinal=informeFinal,idEmpleado=id_emp, idCategoria=id_cat)
+                            fechaFin=fechaFin,informeFinal=informeFinal,idEmpleado=empleado_pry, idCategoria=categoria_pry)
                             nuevo_proyecto.save()
                             messages.success(request,'Proyecto añadido correctamente.')
                             return reverse('proyectos')
@@ -105,22 +105,20 @@ def annadir_proyecto(request,empleado_id):
 
 def ver_historial_proyectos(request, idUsuario):
     id_usuario = Usuario.objects.filter(id=idUsuario)
-    print(id_usuario)
-    
-    #Ordenamos por fecha final#
-    historialProyectos = Proyecto.objects.order_by('fechaFin').all()
-    print(historialProyectos)
-
-    context = { 'proyectos': historialProyectos, 'usuario':id_usuario }
     
     # Visualizamos solamente proyectos con fecha final igual a la actual (con formato dd/mm/YYYY) #
-    fecha_actual = datetime.now().strftime('%d/%m/%Y')
-    print("Fecha actual: "+str(fecha_actual))
+    fecha = datetime.now().strftime("%d/%m/%Y")
+    #print("Fecha actual: "+str(fecha))
+        
+    #fecha_actual = datetime.strftime("%Y-%m-%d")
+    print("Fecha actual: "+str(fecha))
     
-    #fecha_fin = "30/01/2022" # fecha de ejemplo #
+    historialProyectos = Proyecto.objects.order_by('fechaFin').all() #ordenamos por fecha final#
     
-    #if fecha_actual == fecha_fin:
+    context = { 'proyectos': historialProyectos, 'usuario':id_usuario, 'fechaActual':fecha }
+      
     return render(request,'empresa/historial_pry.html',context)
+
 
 def annadir_inscripcion(request, idUsuario):
     id_usuario = Usuario.objects.filter(id=idUsuario)

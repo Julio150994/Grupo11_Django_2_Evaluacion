@@ -34,12 +34,13 @@
                                     </button>
                                     <div class="collapse navbar-collapse" id="navbarText">
                                         <ul class="navbar-nav mr-auto">
-                                            <li class="nav-item" style="margin-left: 2.65em;">
-                                                <a href="{% url 'proyectos' %}" class="navbar-brand text-white">Volver a Proyectos</a>
+                                            <li class="nav-item" style="margin-left: 0.65em;">
+                                                <a href="{% url 'proyectos' %}" class="navbar-brand text-white">
+                                                    <i class="fas fa-arrow-left"></i>
+                                                    <span style="margin-left: 2%;">Volver a Proyectos</span>
+                                                </a>
                                             </li>
-                                            <li class="nav-item" style="margin-left: 4.6em;">
-                                                <a href="{% url 'inscripcion_pry' user.id %}" class="navbar-brand text-white">Inscripción</a>
-                                            </li>
+                                            <!-- Inscripción para ROL_CLIENTE solamente -->
                                         </ul>
                                     </div>
                                 </nav>
@@ -63,13 +64,13 @@
                                             <th>Fecha In</th>
                                             <th>Fecha Fin</th>
                                             <th>InfoFinal</th>
-                                            <th>Empleado</th>
+                                            <!--<th>Empleado</th>-->
                                             <th>Categoria</th>
                                         </tr>
                                     </thead>
                                     <tbody class="bg-white text-dark">
                                         {% for proyecto in proyectos %}
-                                        {% if request.user.username == proyecto.idEmpleado.idUsuario.username %}
+                                        {% if request.user.username == proyecto.idEmpleado.idUsuario.username and proyecto.fechaFin|date:"d/m/Y" == fechaActual %}
                                         <tr>
                                             <th>{{proyecto.titulo}}</th>
                                             <th>{{proyecto.descripcion}}</th>
@@ -77,17 +78,19 @@
                                             <th>{{proyecto.fechaInicio|date:"d/m/Y"}}</th>
                                             <th>{{proyecto.fechaFin|date:"d/m/Y"}}</th>
                                             <th>{{proyecto.informeFinal}}</th>
-                                            <th>{{proyecto.idEmpleado.nombre}} {{proyecto.idEmpleado.apellidos}}</th>
                                             <th>{{proyecto.idCategoria.nombre}}</th>
                                             {% if request.user.is_active and request.user.is_staff and request.user.id == request.empleados.idUsuario.id %}
                                                 <td><a href="#" class="btn btn-danger text-white"><i class="fas fa-times-circle"></i> <span>Dar de baja</span></a></td>
                                                 <td><a href="#" class="btn btn-secondary text-white"><i class="fas fa-exchange-alt"></i> <span>Editar</span></a></td>
                                             {% endif %}
                                         </tr>
-                                        {% else %}
-                                            <div class="alert alert-warning" style="margin-top: 1.52%;">{{ user.username }} no dispone de proyectos.</div>
                                         {% endif %}
-        
+                                        {% endfor %}
+
+                                        {% for proyecto in proyectos|slice:":1" %}
+                                        {% if request.user.username != proyecto.idEmpleado.idUsuario.username and proyecto.fechaFin|date:"d/m/Y" != fechaActual %}
+                                        <div class="alert alert-warning" style="margin-top: 1.52%;">{{ user.username }} no tiene proyectos finalizados.</div>
+                                        {% endif %}
                                         {% endfor %}
                                     </tbody>
                                 </table>
