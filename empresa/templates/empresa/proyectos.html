@@ -16,6 +16,12 @@
         {% load static %}
         <link href="{% static 'css/styles.css' %}" rel="stylesheet"/>
         <link href="{% static 'css/proyecto.css' %}" rel="stylesheet"/>
+        <!-- Mensaje de confirmación de JS con SweetAlert 2 -->
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="sweetalert2.min.js"></script>
+        <link rel="stylesheet" href="sweetalert2.min.css">
+        <script type="text/javascript" src="{% static 'js/proyecto.js' %}"></script>
+
     </head>
     <body id="page-top">
         {% include "empresa/navbar_inicio.html" %}
@@ -91,7 +97,7 @@
                             <div class="text-center fom-control" id="proyecto_alert">
                                 {% if messages %}
                                     {% for set_proyecto in messages %}
-                                    <div class="alert alert-primary text-center col-md-5 col-5">
+                                    <div class="alert alert-primary text-center form-control col-md-5 col-5" style="margin-top: 0.56%;">
                                         {{ set_proyecto }}
                                     </div>
                                     {% endfor %}
@@ -109,9 +115,7 @@
                                         <th>InfoFinal</th>
                                         <th>Empleado</th>
                                         <th>Categoria</th>
-                                        {% if request.user.is_active and request.user.is_staff and request.user.id == request.empleados.idUsuario.id %}
                                         <th colspan="2">Operaciones</th>
-                                        {% endif %}
                                     </tr>
                                 </thead>
                                 <tbody class="bg-white text-dark">
@@ -126,10 +130,8 @@
                                         <th>{{proyecto.informeFinal}}</th>
                                         <th>{{proyecto.idEmpleado.nombre}} {{proyecto.idEmpleado.apellidos}}</th>
                                         <th>{{proyecto.idCategoria.nombre}}</th>
-                                        {% if request.user.is_active and request.user.is_staff and request.user.id == request.empleados.idUsuario.id %}
-                                            <td><a href="#" class="btn btn-danger text-white"><i class="fas fa-times-circle"></i> <span>Dar de baja</span></a></td>
-                                            <td><a href="#" class="btn btn-secondary text-white"><i class="fas fa-exchange-alt"></i> <span>Editar</span></a></td>
-                                        {% endif %}
+                                        <td><button class="btn btn-danger text-white" onclick="eliminar({{proyecto.id }})"><i class="fas fa-times-circle"></i> <span>Dar de baja</span></button></td>
+                                        <td><a href="#" class="btn btn-secondary text-white"><i class="fas fa-exchange-alt"></i> <span>Modificar</span></a></td>
                                     </tr>
                                 {% else %}
                                     <div class="alert alert-warning" style="margin-top: 1.52%;">{{ user.username }} no dispone de proyectos.</div>

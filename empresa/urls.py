@@ -20,11 +20,11 @@ urlpatterns = [
     path('annadir_categoria/',view_categorias.annadir_categorias,name="form_add_categoria"),
     path('editar_categoria/<int:id>/',view_categorias.editar_categorias,name="form_edit_categoria"),
     path('eliminar_categoria/<int:id>/',view_categorias.eliminar_categorias,name="categorias"),
-    #path('update_categoria/<int:id_categoria>/',view_categorias.editar_categorias,name="categorias"),
 
     path('proyectos/',view_pry.mostrar_pry,name="proyectos"),
     path('annadir_proyecto/<int:empleado_id>/',view_pry.annadir_proyecto,name="form_add_pry"),
     # path('editar_proyecto/<int:id>/',view_pry.editar_proyecto,name="form_edit_pry"),
+    path('eliminar_proyecto/<int:id>/',view_pry.dar_baja_pry,name="proyectos"),
     path('historial_pry/<int:idUsuario>/',view_pry.ver_historial_proyectos,name="historial_pry"),
     path('inscripcion/<int:idUsuario>/',view_pry.annadir_inscripcion, name="inscripcion_pry"),
     path('clientes_pry/<int:idEmpleado>/',view_participa.mostrar_clientes_pry, name="proyectos_emp"),

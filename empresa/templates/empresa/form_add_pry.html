@@ -77,10 +77,10 @@
                                 <label for="idCategoria" class="text-primary">Categoria</label>
                                 <div class="input-group mb-3">
                                     <span class="input-group-text"><i class="fas fa-list-ol"></i></span>
-                                    <select id="idCategoria" name="idCategoria" class="form-control">
+                                    <select class="form-control" id="idCategoria">
                                         <option value="">Seleccione una categoría</option>
                                         {% for categoria in categorias %}
-                                            <option value="{{ categoria.id }}">{{ categoria.nombre }}</option>
+                                            <option id="idCategoria" name="idCategoria" value="{{ categoria.id }}">{{ categoria.nombre }}</option>
                                         {% endfor %}
                                     </select>
                                 </div>
