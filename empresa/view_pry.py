@@ -2,8 +2,7 @@ from datetime import datetime
 from django.core.checks import messages
 from django.urls import reverse
 from django.shortcuts import render, redirect
-from django.contrib.auth.hashers import make_password
-from empresa.models import Categoria, Empleado, Participa, Proyecto, Usuario
+from empresa.models import Categoria, Cliente, Empleado, Participa, Proyecto, Usuario
 from .forms import CategoriaModelForm, EmpleadoModelForm, ProyectoModelForm, UsuarioModelForm
 from django.contrib import messages
 
@@ -11,10 +10,17 @@ from django.contrib import messages
 def mostrar_pry(request):
     list_proyectos = Proyecto.objects.all()
     list_empleados = Empleado.objects.all()
+    list_clientes = Cliente.objects.all()
     list_proyectos_cliente = Participa.objects.all()
     
-    context = {'empleados':list_empleados, 'proyectos': list_proyectos, 'participas':list_proyectos_cliente }
+    context = {
+        'empleados':list_empleados,
+        'clientes':list_clientes,
+        'proyectos': list_proyectos,
+        'participas':list_proyectos_cliente
+    }
     return render(request,'empresa/proyectos.html',context)
+
 
 def annadir_proyecto(request,empleado_id):
     id_emp = Empleado.objects.get(id=empleado_id)

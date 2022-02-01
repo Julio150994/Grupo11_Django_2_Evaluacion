@@ -59,7 +59,7 @@
                             {% else %}
                             <a href="{% url 'proyectos' %}" class="btn btn-primary btn-block text-white"><i class="fas fa-link"></i> <span>Lista de proyectos</span></a>
                             
-                            <!-- Solamente para ROL_CLIENTE -->
+                            <!-- ROL_CLIENTE -->
                             {% for cliente in clientes %}
                             {% if request.user.username == cliente.idUsuario.username %}
                             <a href="{% url 'inscripcion_pry' cliente.id %}" class="btn btn-primary btn-block text-white"><i class="fas fa-link"></i> <span>Inscribirse a proyecto</span></a>

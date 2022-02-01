@@ -1,4 +1,5 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -27,18 +28,6 @@
         {% include "empresa/navbar_inicio.html" %}
 
         <header class="masthead">
-            {% if 'pry_added' in request.GET %}
-               <div class="alert alert-success">
-                   Proyecto añadido correctamente
-               </div>
-            {% endif %}
-
-            {% if 'pry_updated' in request.GET %}
-               <div class="alert alert-primary">
-                   Proyecto editado correctamente
-               </div>
-            {% endif %}
-
             <div class="px-2 px-lg-5 d-flex h-120 align-items-center justify-content-center">
                 <div class="d-flex justify-content-center">
                     <div class="text-center">
@@ -91,111 +80,112 @@
                                 </div>
                             </nav>
 
-                            {% for proyecto in proyectos|slice:":1" %}
-                            {% if request.user.username != proyecto.idEmpleado.idUsuario.username %}
-                            <div class="alert alert-warning" style="margin-top: 1.52%;">{{ user.username }} no dispone de proyectos.</div>
-                            {% endif %}
-                            {% endfor %}
+                            {% for empleado in empleados|slice:":1" %}
+                                {% for proyecto in proyectos|slice:":1" %}
+                                    {% if request.user.username != empleado.idUsuario.username %}
+                                        <div class="alert alert-warning" style="margin-top: 1.52%;">{{ user.username }} no dispone de proyectos</div>
+                                    {% endif %}
+                                {% endfor %}
 
-                            <div class="text-center fom-control" id="proyecto_alert">
-                                {% if messages %}
-                                    {% for set_proyecto in messages %}
-                                    <div class="alert alert-primary text-center form-control col-md-5 col-5" style="margin-top: 0.56%;">
-                                        {{ set_proyecto }}
-                                    </div>
-                                    {% endfor %}
-                                {% endif %}
-                            </div>
-                            
-                            <table class="table table-bordered text-center" style="margin-top: 1.2em;">
-                                <thead class = "bg-black text-white">
-                                    <tr>
-                                        <th>Titulo</th>
-                                        <th>Descripción</th>
-                                        <th>Nivel</th>
-                                        <th>Fecha Inicio</th>
-                                        <th>Fecha Fin</th>
-                                        <th>Informe Final</th>
-                                        <th>Categoria</th>
-                                        <th colspan="3">Operaciones</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="bg-white text-dark">
-                                {% for proyecto in proyectos %}
-                                {% if request.user.username == proyecto.idEmpleado.idUsuario.username %}
-                                    <tr>
-                                        <th>{{proyecto.titulo}}</th>
-                                        <th>{{proyecto.descripcion}}</th>
-                                        <th>{{proyecto.nivel}}</th>
-                                        <th>{{proyecto.fechaInicio|date:"d/m/Y"}}</th>
-                                        <th>{{proyecto.fechaFin|date:"d/m/Y"}}</th>
-                                        <th>{{proyecto.informeFinal}}</th>
-                                        <th>{{proyecto.idCategoria.nombre}}</th>
-                                        {% for empleado in empleados %}
-                                        {% if request.user.username == empleado.idUsuario.username %}
-                                        <td><a href="{% url 'ver_clientes_empleado' proyecto.id  %}" class="btn btn-primary text-white" style="padding: 4%;"><i class="fas fa-list"></i> Ver clientes</a></td>
-                                        <td><button class="btn btn-danger text-white" onclick="eliminar({{proyecto.id }})" style="padding: 3%;"><i class="fas fa-times-circle"></i> <span>Dar de baja</span></button></td>
-                                        <td><a href="{% url 'form_edit_pry' proyecto.id empleado.id %}" class="btn btn-secondary text-white" style="padding: 4%;"><i class="fas fa-exchange-alt"></i> <span>Modificar</span></a></td>
-                                        {% endif %}
+                                <div class="text-center fom-control" id="proyecto_alert">
+                                    {% if messages %}
+                                        {% for set_proyecto in messages %}
+                                        <div class="alert alert-primary text-center form-control col-md-5 col-5" style="margin-top: 0.56%;">
+                                            {{ set_proyecto }}
+                                        </div>
                                         {% endfor %}
-                                    </tr>
-                                {% endif %}
-                                {% endfor %}
-                                </tbody>
-                            </table>
-
-                            {% for cliente in clientes %}
-                            {% if request.user.username == cliente.idUsuario.username %}
-                            <div class="text-center fom-control" id="proyecto_alert">
-                                {% if messages %}
-                                    {% for set_proyecto in messages %}
-                                    <div class="alert alert-primary text-center form-control col-md-5 col-5" style="margin-top: 0.56%;">
-                                        {{ set_proyecto }}
-                                    </div>
+                                    {% endif %}
+                                </div>
+                            
+                                <table class="table table-bordered text-center" style="margin-top: 1.2em;">
+                                    <thead class = "bg-black text-white">
+                                        <tr>
+                                            <th>Titulo</th>
+                                            <th>Descripción</th>
+                                            <th>Nivel</th>
+                                            <th>Fecha Inicio</th>
+                                            <th>Fecha Fin</th>
+                                            <th>Informe Final</th>
+                                            <th>Categoría</th>
+                                            <th colspan="3">Operaciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="bg-white text-dark">
+                                    {% for proyecto in proyectos %}
+                                        {% if request.user.username == proyecto.idEmpleado.idUsuario.username %}
+                                            <tr>
+                                                <th>{{proyecto.titulo}}</th>
+                                                <th>{{proyecto.descripcion}}</th>
+                                                <th>{{proyecto.nivel}}</th>
+                                                <th>{{proyecto.fechaInicio|date:"d/m/Y"}}</th>
+                                                <th>{{proyecto.fechaFin|date:"d/m/Y"}}</th>
+                                                <th>{{proyecto.informeFinal}}</th>
+                                                <th>{{proyecto.idCategoria.nombre}}</th>
+                                                {% for empleado in empleados %}
+                                                    {% if request.user.username == empleado.idUsuario.username %}
+                                                        <td><a href="{% url 'ver_clientes_empleado' proyecto.id  %}" class="btn btn-primary text-white" style="padding: 4%;"><i class="fas fa-list"></i> Ver clientes</a></td>
+                                                        <td><button class="btn btn-danger text-white" onclick="eliminar({{proyecto.id }})" style="padding: 3%;"><i class="fas fa-times-circle"></i> <span>Dar de baja</span></button></td>
+                                                        <td><a href="{% url 'form_edit_pry' proyecto.id empleado.id %}" class="btn btn-secondary text-white" style="padding: 4%;"><i class="fas fa-exchange-alt"></i> <span>Modificar</span></a></td>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </tr>
+                                        {% endif %}
                                     {% endfor %}
-                                {% endif %}
-                            </div>
-
-                            <table class="table table-bordered text-center" id="clientes">
-                                <thead class="bg-black text-white">
-                                    <tr>
-                                        <th>Titulo</th>
-                                        <th>Descripción</th>
-                                        <th>Nivel</th>
-                                        <th>Fecha Inicio</th>
-                                        <th>Fecha Fin</th>
-                                        <th>Informe Final</th>
-                                        <th>Nombre de Categoria</th>
-                                        <th>Foto de Categoria</th>
-                                        <th>Rol</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="bg-white text-dark">
-                                {% for participa in participas %}
-                                {% if request.user.username == participa.idProyecto.idCliente.idUsuario.username and proyecto.id == participa.idProyecto.id %}
-                                    <tr>
-                                        <th>{{participa.idProyecto.titulo}}</th>
-                                        <th>{{participa.idProyecto.descripcion}}</th>
-                                        <th>{{participa.idProyecto.nivel}}</th>
-                                        <th>{{participa.idProyecto.fechaInicio|date:"d/m/Y"}}</th>
-                                        <th>{{participa.idProyecto.fechaFin|date:"d/m/Y"}}</th>
-                                        <th>{{participa.idProyecto.informeFinal}}</th>
-                                        <th>{{participa.idProyecto.idCategoria.nombre}}</th>
-                                        <th>{{participa.idProyecto.idCategoria.foto}}</th>
-                                        <th>{{participa.rol}}</th>
-                                    </tr>
-                                {% else %}
-                                <div class="alert alert-warning" id="not_project">{{ participa.idProyecto.idCliente.idUsuario.username }} no está participando en proyectos</div>
-                                {% endif %}
-                                {% endfor %}
-                                </tbody>
-                            </table>
-
-                            {% endif %}
+                                    </tbody>
+                                </table>
                             {% endfor %}
 
+                            {% for cliente in clientes|slice:":1" %}
+                                {% for proyecto in proyectos|slice:":1" %}
+                                    {% if request.user.username != cliente.idUsuario.username %}
+                                        <div class="alert alert-warning" style="margin-top: 1.52%;">{{ user.username }} no está participando en ningún proyecto.</div>
+                                    {% endif %}
+                                {% endfor %}
+                                
+                                {% if request.user.username == cliente.idUsuario.username %}
+                                    <div class="text-center fom-control" id="proyecto_alert">
+                                        {% if messages %}
+                                            {% for set_cliente_pry in messages %}
+                                                <div class="alert alert-primary text-center form-control col-md-5 col-5" style="margin-top: 0.56%;">
+                                                    {{ set_cliente_pry }}
+                                                </div>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </div>
+
+                                    <table class="table table-bordered text-center" id="clientes">
+                                        <thead class="bg-black text-white">
+                                            <tr>
+                                                <th>Titulo</th>
+                                                <th>Descripción</th>
+                                                <th>Nivel</th>
+                                                <th>Fecha Inicio</th>
+                                                <th>Fecha Fin</th>
+                                                <th>Informe Final</th>
+                                                <th>Categoria</th>
+                                                <th>Rol</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="bg-white text-dark">
+                                        {% for participa in participas %}
+                                            {% if request.user.username == proyecto.idCliente.idUsuario.username %}
+                                                <tr>
+                                                    <th>{{participa.idProyecto.titulo}}</th>
+                                                    <th>{{participa.idProyecto.descripcion}}</th>
+                                                    <th>{{participa.idProyecto.nivel}}</th>
+                                                    <th>{{participa.idProyecto.fechaInicio|date:"d/m/Y"}}</th>
+                                                    <th>{{participa.idProyecto.fechaFin|date:"d/m/Y"}}</th>
+                                                    <th>{{participa.idProyecto.informeFinal}}</th>
+                                                    <th>{{participa.idProyecto.idCategoria.nombre}}</th>
+                                                    <th>{{participa.rol}}</th>
+                                                </tr>
+                                            {% endif %}
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                {% endif %}
+                            {% endfor %}
                         </div>
-                    {% comment %}{% endif %}{% endcomment %}
                     </div>
                 </div>
             </div>
