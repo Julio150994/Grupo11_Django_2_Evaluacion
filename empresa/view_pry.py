@@ -50,7 +50,8 @@ def annadir_proyecto(request,empleado_id):
         }
         
         if proyecto.is_valid():
-            id_cat = Categoria.objects.last()
+            #id_cat = Categoria.objects.raw('SELECT id FROM categorias WHERE id = ?')<---- consulta SQL
+            id_cat = Categoria.objects.first()
             
             titulo = request.POST.get("titulo")
             descripcion = request.POST.get("descripcion")
@@ -70,6 +71,50 @@ def annadir_proyecto(request,empleado_id):
                 return redirect('proyectos')
             
     return render(request, "empresa/form_add_pry.html",context)
+
+
+def modificar_pry(request,id,empleado_id):
+    id_proyecto = Proyecto.objects.get(id = id)
+    id_emp = Empleado.objects.get(id = empleado_id)
+        
+    categorias = Categoria.objects.order_by('id').all()
+    
+    context = {
+        'proyecto':id_proyecto,
+        'empleado':id_emp,
+        'categorias':categorias
+    }
+    
+    if request.POST:
+        proyecto = ProyectoModelForm(request.POST, instance=id_proyecto)
+        
+        context = {
+            'proyecto':proyecto,
+            'empleado':id_emp,
+            'categorias':categorias
+        }
+        
+        if proyecto.is_valid():
+            id_cat = Categoria.objects.first()
+            
+            titulo = request.POST.get("titulo")
+            descripcion = request.POST.get("descripcion")
+            nivel = request.POST.get("nivel")
+            fechaInicio = request.POST.get("fechaInicio")
+            fechaFin = request.POST.get("fechaFin")
+            informeFinal = request.POST.get("informeFinal")
+            idEmpleado = request.POST.get("idEmpleado",id_emp)
+            idCategoria  = request.POST.get("idCategoria",id_cat)
+            print("Id categoría: "+str(idCategoria))
+
+            if titulo is not None or descripcion is not None or nivel is not None or fechaInicio is not None or fechaFin is not None or informeFinal is not None or idEmpleado or idCategoria is not None:
+                nuevo_proyecto = Proyecto(titulo=titulo, descripcion=descripcion, nivel=nivel, fechaInicio=fechaInicio,
+                fechaFin=fechaFin,informeFinal=informeFinal,idEmpleado=idEmpleado, idCategoria=idCategoria)
+                nuevo_proyecto.save()
+                messages.info(request,'Proyecto modificado correctamente.')
+                return redirect('proyectos')
+            
+    return render(request, "empresa/form_edit_pry.html",context)
 
 
 def dar_baja_pry(request,id):
@@ -95,7 +140,7 @@ def ver_historial_proyectos(request, idUsuario):
     #fecha_actual = datetime.strftime("%Y-%m-%d")
     print("Fecha actual: "+str(fecha))
     
-    historial_proyectos = Proyecto.objects.order_by('-fechaInicio').all() #ordenamos por fecha final#
+    historial_proyectos = Proyecto.objects.order_by('fechaInicio').all() #ordenamos por fecha final#
     
     context = { 'proyectos': historial_proyectos, 'usuario':id_usuario, 'fechaActual':fecha }
       

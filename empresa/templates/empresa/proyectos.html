@@ -43,7 +43,7 @@
                 <div class="d-flex justify-content-center">
                     <div class="text-center">
                         {% if request.user.is_authenticated %}
-                        <h1 style="background-color: #C8CACB; padding-top: 13.38%; padding-bottom: 4.56%;">Listado de Proyectos</h1>
+                        <h1 style="background-color: #C8CACB; padding-top: 10.57%; padding-bottom: 4.56%;">Listado de Proyectos</h1>
 
                         <div class="panel panel-default bg-white text-center" style="border-radius: 20px; padding-bottom: 0.5%; padding-left: 1%; padding-right: 1%;">
                             <nav class="navbar navbar-dark navbar-expand-lg" style="background-color: #1567B5;">
@@ -131,7 +131,11 @@
                                         <th>{{proyecto.idEmpleado.nombre}} {{proyecto.idEmpleado.apellidos}}</th>
                                         <th>{{proyecto.idCategoria.nombre}}</th>
                                         <td><button class="btn btn-danger text-white" onclick="eliminar({{proyecto.id }})"><i class="fas fa-times-circle"></i> <span>Dar de baja</span></button></td>
-                                        <td><a href="#" class="btn btn-secondary text-white"><i class="fas fa-exchange-alt"></i> <span>Modificar</span></a></td>
+                                        {% for empleado in empleados %}
+                                        {% if request.user.username == empleado.idUsuario.username %}
+                                        <td><a href="{% url 'form_edit_pry' proyecto.id empleado.id %}" class="btn btn-secondary text-white"><i class="fas fa-exchange-alt"></i> <span>Modificar</span></a></td>
+                                        {% endif %}
+                                        {% endfor %}
                                     </tr>
                                 {% else %}
                                     <div class="alert alert-warning" style="margin-top: 1.52%;">{{ user.username }} no dispone de proyectos.</div>

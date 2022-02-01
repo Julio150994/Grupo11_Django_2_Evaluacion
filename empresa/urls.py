@@ -23,7 +23,7 @@ urlpatterns = [
 
     path('proyectos/',view_pry.mostrar_pry,name="proyectos"),
     path('annadir_proyecto/<int:empleado_id>/',view_pry.annadir_proyecto,name="form_add_pry"),
-    # path('editar_proyecto/<int:id>/',view_pry.editar_proyecto,name="form_edit_pry"),
+    path('editar_proyecto/<int:id>/<int:empleado_id>/',view_pry.modificar_pry,name="form_edit_pry"),
     path('eliminar_proyecto/<int:id>/',view_pry.dar_baja_pry,name="proyectos"),
     path('historial_pry/<int:idUsuario>/',view_pry.ver_historial_proyectos,name="historial_pry"),
     path('inscripcion/<int:idUsuario>/',view_pry.annadir_inscripcion, name="inscripcion_pry"),
