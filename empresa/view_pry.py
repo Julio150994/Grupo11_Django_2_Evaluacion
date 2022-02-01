@@ -50,8 +50,6 @@ def annadir_proyecto(request,empleado_id):
         }
         
         if proyecto.is_valid():
-            id_cat = Categoria.objects.first()
-            
             titulo = request.POST.get("titulo")
             descripcion = request.POST.get("descripcion")
             nivel = request.POST.get("nivel")
@@ -59,12 +57,11 @@ def annadir_proyecto(request,empleado_id):
             fechaFin = request.POST.get("fechaFin")
             informeFinal = request.POST.get("informeFinal")
             idEmpleado = request.POST.get("idEmpleado",id_emp)
-            idCategoria = request.POST.get("idCategoria",id_cat)
-            print("Id categoría: "+str(idCategoria))
+            idCategoria = request.POST.get("idCategoria")
 
             if titulo is not None or descripcion is not None or nivel is not None or fechaInicio is not None or fechaFin is not None or informeFinal is not None or idEmpleado or idCategoria is not None:
                 nuevo_proyecto = Proyecto(titulo=titulo, descripcion=descripcion, nivel=nivel, fechaInicio=fechaInicio,
-                fechaFin=fechaFin,informeFinal=informeFinal,idEmpleado=idEmpleado, idCategoria=idCategoria)
+                fechaFin=fechaFin,informeFinal=informeFinal,idEmpleado=idEmpleado, idCategoria=Categoria.objects.get(id=idCategoria))
                 nuevo_proyecto.save()
                 messages.success(request,'Proyecto añadido correctamente.')
                 return redirect('proyectos')
@@ -94,8 +91,6 @@ def modificar_pry(request,id,empleado_id):
         }
         
         if proyecto.is_valid():
-            id_cat = Categoria.objects.first()
-            
             titulo = request.POST.get("titulo")
             descripcion = request.POST.get("descripcion")
             nivel = request.POST.get("nivel")
@@ -103,12 +98,11 @@ def modificar_pry(request,id,empleado_id):
             fechaFin = request.POST.get("fechaFin")
             informeFinal = request.POST.get("informeFinal")
             idEmpleado = request.POST.get("idEmpleado",id_emp)
-            idCategoria  = request.POST.get("idCategoria",id_cat)
-            print("Id categoría: "+str(idCategoria))
+            idCategoria  = request.POST.get("idCategoria")
 
             if titulo is not None or descripcion is not None or nivel is not None or fechaInicio is not None or fechaFin is not None or informeFinal is not None or idEmpleado or idCategoria is not None:
                 modificar_pry = Proyecto(titulo=titulo, descripcion=descripcion, nivel=nivel, fechaInicio=fechaInicio,
-                fechaFin=fechaFin,informeFinal=informeFinal,idEmpleado=idEmpleado, idCategoria=idCategoria)
+                fechaFin=fechaFin,informeFinal=informeFinal,idEmpleado=idEmpleado, idCategoria=Categoria.objects.get(id=idCategoria))
                 modificar_pry.save()
                 messages.info(request,'Proyecto modificado correctamente.')
                 return redirect('proyectos')
