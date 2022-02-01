@@ -119,8 +119,6 @@ def modificar_pry(request,id,empleado_id):
 
 def dar_baja_pry(request,id):
     proyecto = Proyecto.objects.filter(id=id)
-    print("Id de proyecto: "+str(proyecto))
-    
     proyecto.delete()
     
     listProyectos = Proyecto.objects.order_by('-fechaInicio').all()
