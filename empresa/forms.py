@@ -74,4 +74,12 @@ class ProyectoModelForm(forms.ModelForm):
         model = Proyecto
         fields = ['titulo','descripcion','nivel','fechaInicio','fechaFin','informeFinal']
     
-        
+     
+class ParticipaModelForm(forms.ModelForm):
+    fechaInscripcion = forms.DateField(required=True, help_text="Introduzca una fecha de inscripción", widget=forms.DateInput(
+        attrs={'class':'form-control','type':'date', 'placeholder':'Escriba fecha de inscripción'}))
+    rol = forms.CharField(required=True, help_text="Introduzca un rol", widget=forms.TextInput(
+        attrs={'class':'form-control', 'placeholder':'Escriba un nombre'}))
+    
+    class Meta:
+        fields = ['fechaInscripcion','rol']

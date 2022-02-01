@@ -26,7 +26,7 @@ urlpatterns = [
     path('editar_proyecto/<int:id>/<int:empleado_id>/',view_pry.modificar_pry,name="form_edit_pry"),
     path('eliminar_proyecto/<int:id>/',view_pry.dar_baja_pry,name="proyectos"),
     path('historial_pry/<int:idUsuario>/',view_pry.ver_historial_proyectos,name="historial_pry"),
-    path('inscripcion/<int:idUsuario>/',view_pry.annadir_inscripcion, name="inscripcion_pry"),
+    path('inscripcion/<int:cliente_id>/',view_participa.annadir_inscripcion_pry, name="inscripcion_pry"),
     path('clientes_pry/<int:id>/',view_participa.mostrar_clientes_pry, name="ver_clientes_empleado"),
 
     path('clientes/',view_clientes.mostrar_clientes,name="clientes"),

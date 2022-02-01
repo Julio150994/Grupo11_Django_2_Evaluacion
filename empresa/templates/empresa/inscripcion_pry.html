@@ -29,74 +29,39 @@
             <div class="panel-heading" id="panel">
                 <div class="container col-md-5 bg-white" id="form">
                     <h2 class="text-center mb-4">Formulario de inscripción a proyecto</h2>
-                    <form action="{% url 'inscripcion_pry' user.id %}" method="POST">
+                    <form action="{% url 'inscripcion_pry' cliente.id %}" method="POST">
                         {% csrf_token %}
-                            <div class="form-group">
-                                <label for="titulo" class="text-primary">Titulo</label>
-                                <div class="input-group mb-3">
-                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
-                                    <input type="text" class="form-control" id="titulo" name="titulo" placeholder="Escriba un nombre" required>
-                                </div>
+                        
+                        <input type="hidden" class="form-control" id="idCliente" name="{{ cliente.id }}" value="{{ cliente.id }}" readonly="readonly" required>
+
+                        <div class="form-group">
+                            <label for="idProyecto" class="text-primary">Proyecto</label>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text"><i class="fas fa-list-ol"></i></span>
+                                <select class="form-control" name="idProyecto" id="idProyecto">
+                                    <option value="">Seleccione un proyecto</option>
+                                    {% for proyecto in proyectos %}
+                                        <option value="{{ proyecto.id }}">{{ proyecto.titulo }}</option>
+                                    {% endfor %}
+                                </select>
                             </div>
-
-                            <div class="form-group">
-                                <label for="descripcion" class="text-primary">Descripcion</label>
-                                <div class="input-group mb-3">
-                                    <span class="input-group-text"><i class="fas fa-comment-dots"></i></span>
-                                    <input type="text" class="form-control" id="descripcion" name="descripcion" placeholder="Breve descripcion del proyecto" required>
-                                </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="fechaFin" class="text-primary">Fecha de Inscripción</label>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text"><i class="fas fa-calendar-check"></i></span>
+                                <input type="date" class="form-control" id="fechaInscripcion" name="fechaInscripcion" required>
                             </div>
+                        </div>
 
-                            <div class="form-group">
-                                <label for="nivel" class="text-primary">Nivel</label>
-                                <div class="input-group mb-3">
-                                    <span class="input-group-text"><i class="fas fa-sort-numeric-up-alt"></i></span>
-                                    <input type="number" min="0" max="10" class="form-control" id="nivel" name="nivel" placeholder="Nivel de importancia del proyecto" required>
-                                </div>
+                        <div class="form-group">
+                            <label for="titulo" class="text-primary">Rol</label>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                <input type="text" class="form-control" id="rol" name="rol" placeholder="Escriba un rol" required>
                             </div>
-
-                            <div class="form-group">
-                                <label for="fechaInicio" class="text-primary">Fecha de inicio</label>
-                                <div class="input-group mb-3">
-                                    <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
-                                    <input type="date" class="form-control" id="fechaInicio" name="fechaInicio" placeholder="Escoja la fecha de inicio del proyecto" required>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="fechaFin" class="text-primary">Fecha de finalizacion</label>
-                                <div class="input-group mb-3">
-                                    <span class="input-group-text"><i class="fas fa-calendar-check"></i></span>
-                                    <input type="date" class="form-control" id="fechaFin" name="fechaFin" required>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="informeFinal" class="text-primary">Informe final</label>
-                                <div class="input-group mb-3">
-                                    <span class="input-group-text"><i class="fas fa-clipboard-list"></i></span>
-                                    {{ proyecto.informeFinal}}
-                                </div>
-                                {{ proyecto.informeFinal.errors}}
-                            </div>
-
-                            <!-- Este campo no debe de aparecer en este formulario -->
-                             {% comment %} <div class="form-group">
-                                <label for="idEmpleado" class="text-primary">Empleado</label>
-                                <div class="input-group mb-3">
-                                    <span class="input-group-text"><i class="fas fa-sort-numeric-up-alt"></i></span>
-                                    <input type="number" class="form-control" id="idEmpleado" name="idCategoria" placeholder="Escriba id de empleado" required>
-                                </div>
-                            </div> {% endcomment %}
-
-                            <!-- Obtener todos los nombres de categorías existentes para poder seleccionar una categoría -->
-                            {% comment %} <div class="form-group">
-                                <label for="idCategoria" class="text-primary">Categoria</label>
-                                <div class="input-group mb-3">
-                                    <span class="input-group-text"><i class="fas fa-sort-numeric-up-alt"></i></span>
-                                    <input type="number" class="form-control" id="idCategoria" name="idCategoria" placeholder="Nivel de importancia del proyecto" required>
-                                </div>
-                            </div> {% endcomment %}
+                        </div>
 
                         {% if messages %}
                             {% for empty_data in messages %}
@@ -106,14 +71,14 @@
                             {% endfor %}
                         {% endif %}
                         
-                        <a href="{% url 'historial_pry' user.id %}" class="form-control btn btn-danger text-white" id="proyecto">
+                        <a href="{% url 'page_inicio' %}" class="form-control btn btn-danger text-white" style="margin-top: 2.56%;">
                             <i class="fas fa-arrow-left"></i>
-                            <span>Cancelar Inscripción</span>
+                            <span>Cancelar</span>
                         </a>
 
-                        <button type="submit" class="form-control btn btn-success text-white" id="proyecto">
+                        <button type="submit" class="form-control btn btn-success text-white" style="margin-top: 3.2%;">
                             <i class="fas fa-plus-circle"></i>
-                            <span>Inscribirse</span>
+                            <span>Inscribirse a proyecto</span>
                         </button>
                     </form>
                 </div>

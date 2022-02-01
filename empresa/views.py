@@ -12,15 +12,12 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 
 # Create your views here.
-"""class InicioEmpresaView(TemplateView):
-    template_name = "empresa/page_inicio.html"
-"""
 
 def mostrar_inicio(request):
     empleados = Empleado.objects.all()
-    print(empleados)
+    clientes = Cliente.objects.all()
     
-    context = {'empleados':empleados}
+    context = {'empleados':empleados, 'clientes':clientes}
     return render(request,"empresa/page_inicio.html",context)
 
     
