@@ -72,21 +72,21 @@
                                 </thead>
                                 <tbody class="bg-white text-dark">
                                 {% for participa in participas %}
-                                {% if request.user.username == participa.idProyecto.idEmpleado.idUsuario.username and proyecto.id == participa.idProyecto.id %}
-                                    <tr>
-                                        <th>{{participa.idCliente.dni}}</th>
-                                        <th>{{participa.idCliente.nombre}}</th>
-                                        <th>{{participa.idCliente.apellidos}}</th>
-                                        <th>{{participa.idCliente.direccion}}</th>
-                                        <th>{{participa.idCliente.fechaNacimiento|date:"d/m/Y"}}</th>
-                                        <th>{{participa.idCliente.fechaAlta|date:"d/m/Y"}}</th>
-                                        <th>{{participa.idCliente.idUsuario.username}}</th>
-                                        <th>{{participa.fechaInscripcion|date:"d/m/Y"}}</th>
-                                        <th>{{participa.rol}}</th>
+                                    {% if request.user.username == participa.idProyecto.idEmpleado.idUsuario.username %}
+                                        <tr>
+                                            <th>{{participa.idCliente.dni}}</th>
+                                            <th>{{participa.idCliente.nombre}}</th>
+                                            <th>{{participa.idCliente.apellidos}}</th>
+                                            <th>{{participa.idCliente.direccion}}</th>
+                                            <th>{{participa.idCliente.fechaNacimiento|date:"d/m/Y"}}</th>
+                                            <th>{{participa.idCliente.fechaAlta|date:"d/m/Y"}}</th>
+                                            <th>{{participa.idCliente.idUsuario.username}}</th>
+                                            <th>{{participa.fechaInscripcion|date:"d/m/Y"}}</th>
+                                            <th>{{participa.rol}}</th>
                                     </tr>
-                                {% else %}
-                                <div class="alert alert-warning" id="not_project">{{ participa.idProyecto.idEmpleado.idUsuario.username }} no tiene clientes en este proyecto</div>
-                                {% endif %}
+                                    {% else %}
+                                    <div class="alert alert-warning" id="not_project">{{ participa.idProyecto.idEmpleado.idUsuario.username }} no tiene clientes en este proyecto</div>
+                                    {% endif %}
                                 {% endfor %}
                                 </tbody>
                             </table>

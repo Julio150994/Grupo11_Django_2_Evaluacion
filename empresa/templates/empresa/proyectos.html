@@ -81,12 +81,6 @@
                             </nav>
 
                             {% for empleado in empleados|slice:":1" %}
-                                {% for proyecto in proyectos|slice:":1" %}
-                                    {% if request.user.username != empleado.idUsuario.username %}
-                                        <div class="alert alert-warning" style="margin-top: 1.52%;">{{ user.username }} no dispone de proyectos</div>
-                                    {% endif %}
-                                {% endfor %}
-
                                 <div class="text-center fom-control" id="proyecto_alert">
                                     {% if messages %}
                                         {% for set_proyecto in messages %}
@@ -135,13 +129,7 @@
                                 </table>
                             {% endfor %}
 
-                            {% for cliente in clientes|slice:":1" %}
-                                {% for proyecto in proyectos|slice:":1" %}
-                                    {% if request.user.username != cliente.idUsuario.username %}
-                                        <div class="alert alert-warning" style="margin-top: 1.52%;">{{ user.username }} no está participando en ningún proyecto.</div>
-                                    {% endif %}
-                                {% endfor %}
-                                
+                            {% for cliente in clientes|slice:":1" %}                                
                                 {% if request.user.username == cliente.idUsuario.username %}
                                     <div class="text-center fom-control" id="proyecto_alert">
                                         {% if messages %}
