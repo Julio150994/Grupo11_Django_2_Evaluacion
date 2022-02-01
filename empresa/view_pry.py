@@ -3,7 +3,7 @@ from django.core.checks import messages
 from django.urls import reverse
 from django.shortcuts import render, redirect
 from django.contrib.auth.hashers import make_password
-from empresa.models import Categoria, Empleado, Proyecto, Usuario
+from empresa.models import Categoria, Empleado, Participa, Proyecto, Usuario
 from .forms import CategoriaModelForm, EmpleadoModelForm, ProyectoModelForm, UsuarioModelForm
 from django.contrib import messages
 

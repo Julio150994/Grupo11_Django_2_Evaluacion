@@ -36,7 +36,7 @@ class Cliente(models.Model):
     idUsuario = models.ForeignKey(Usuario, blank=False, on_delete = models.CASCADE)
     
     def __str__(self):
-        return str(self.id)+" "+str(self.dni)+" "+str(self.nombre)+" "+str(self.apellidos)+" "+str(self.direccion)+" "+str(self.fechaNacimiento)+" "+str(self.fechaAlta)
+        return str(self.id)
 
 class Categoria(models.Model):
     id = models.AutoField(primary_key=True)
@@ -59,14 +59,14 @@ class Proyecto(models.Model):
     idCategoria = models.ForeignKey(Categoria, on_delete = models.CASCADE)
     
     def __str__(self):
-        return str(self.id)+" "+str(self.titulo)+" "+str(self.descripcion)+" "+str(self.nivel)+" "+str(self.fechaInicio)+" "+str(self.fechaFin)+" "+str(self.informeFinal)+" "+str(self.idEmpleado)+" "+str(self.idCategoria)
+        return str(self.id)
     
     
 class Participa(models.Model):
     id = models.AutoField(primary_key=True)
     idCliente = models.ForeignKey(Cliente, on_delete = models.CASCADE)
     idProyecto = models.ForeignKey(Proyecto, on_delete = models.CASCADE)
-    fechaInscripcion = models.DateField(auto_now=True)
+    fechaInscripcion = models.DateField(auto_now=False, verbose_name="Fecha de Inscripción")
     rol = models.CharField(max_length=100)
     
     def __str__(self):

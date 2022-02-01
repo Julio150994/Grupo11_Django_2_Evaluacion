@@ -6,10 +6,14 @@ from empresa.models import Categoria, Empleado, Participa, Proyecto, Usuario
 from .forms import EmpleadoModelForm, ProyectoModelForm
 from django.contrib import messages
 
-def mostrar_clientes_pry(request,idEmpleado):
-    id_empleado = Empleado.objects.filter(id=idEmpleado)
-    print("Id de empleado: "+str(id_empleado))
+
+def mostrar_clientes_pry(request,id):
+    proyecto = Proyecto.objects.get(id = id)
+    print("Id proyecto: "+str(proyecto))
     
-    listParticipas = Participa.objects.order_by('-id').all()
-    context = { 'participas': listParticipas }
-    return render(request,'empresa/proyectos_emp.html',context)
+    #id_emp = Empleado.objects.get(id = empleado_id)
+    
+    listPryClientes = Participa.objects.order_by('-id').all() #primero visualizar los clientes en proyectos del empleado#
+    context = {'proyecto':proyecto, 'participas':listPryClientes}
+    
+    return render(request,"empresa/ver_clientes_empleado.html",context)
