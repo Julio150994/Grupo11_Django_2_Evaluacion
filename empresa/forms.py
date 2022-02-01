@@ -1,5 +1,5 @@
 from django import forms
-from empresa.models import Categoria, Empleado, Proyecto, Usuario, Cliente
+from empresa.models import Categoria, Empleado, Participa, Proyecto, Usuario, Cliente
 
 class UsuarioModelForm(forms.ModelForm):
     username = forms.CharField(required=True, help_text="Debe introducir un nombre de usuario",widget=forms.TextInput(
@@ -82,4 +82,5 @@ class ParticipaModelForm(forms.ModelForm):
         attrs={'class':'form-control', 'placeholder':'Escriba un nombre'}))
     
     class Meta:
+        model=Participa
         fields = ['fechaInscripcion','rol']
