@@ -51,7 +51,7 @@ def annadir_proyecto(request,empleado_id):
         
         if proyecto.is_valid():
             #id_cat = Categoria.objects.raw('SELECT id FROM categorias WHERE id = ?')<---- consulta SQL
-            id_cat = Categoria.objects.first()
+            
             
             titulo = request.POST.get("titulo")
             descripcion = request.POST.get("descripcion")
@@ -108,9 +108,9 @@ def modificar_pry(request,id,empleado_id):
             print("Id categoría: "+str(idCategoria))
 
             if titulo is not None or descripcion is not None or nivel is not None or fechaInicio is not None or fechaFin is not None or informeFinal is not None or idEmpleado or idCategoria is not None:
-                nuevo_proyecto = Proyecto(titulo=titulo, descripcion=descripcion, nivel=nivel, fechaInicio=fechaInicio,
+                modificar_pry = Proyecto(titulo=titulo, descripcion=descripcion, nivel=nivel, fechaInicio=fechaInicio,
                 fechaFin=fechaFin,informeFinal=informeFinal,idEmpleado=idEmpleado, idCategoria=idCategoria)
-                nuevo_proyecto.save()
+                modificar_pry.save()
                 messages.info(request,'Proyecto modificado correctamente.')
                 return redirect('proyectos')
             

@@ -62,11 +62,19 @@
                                         </li>
                                         {% for empleado in empleados %}
                                         {% if request.user.username == empleado.idUsuario.username %}
-                                        <li class="nav-item" style="margin-left: 2.65em;">
+                                        <li class="nav-item" style="margin-left: 4.65em;">
                                             <a href="{% url 'form_add_pry' empleado.id %}" class="navbar-brand text-white">Añadir</a>
                                         </li>
-                                        <li class="nav-item" style="margin-left: 4.6em;">
+                                        <li class="nav-item" style="margin-left: 9.6em; margin-right: 36%;">
                                             <a href="{% url 'historial_pry' empleado.id %}" class="navbar-brand text-white">Historial de Empleado</a>
+                                        </li>
+                                        <li class="nav-item" style="margin-left: 16em; margin-top: -0.8%;">
+                                            <form class="my-2 my-lg-0 navbar-brand" style="padding-right: 10%;" action="{% url 'proyectos' %}" method="POST">
+                                                <input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search">
+                                                <button class="btn btn-sm btn-success text-white" type="submit" style="padding: 5.8%; margin-left: 11.8em; margin-top: -20.7%;">
+                                                    <i class="fas fa-search"></i>
+                                                </button>
+                                            </form>
                                         </li>
                                         {% endif %}
                                         {% endfor %}
@@ -83,10 +91,12 @@
                                         </li>
                                         {% endif %}
                                         {% endfor %}
-                                        <li class="nav-item" style="margin-left: 31em; margin-top: -0.8%;">
-                                            <form class="my-2 my-lg-0 navbar-brand" action="#" method="POST">
+                                        <li class="nav-item" style="margin-left: 16em; margin-top: -0.8%;">
+                                            <form class="my-2 my-lg-0 navbar-brand" style="padding-right: 10%;" action="{% url 'proyectos' %}" method="POST">
                                                 <input class="form-control mr-sm-2" type="search" placeholder="Buscar" aria-label="Search">
-                                                <button class="btn btn-sm btn-success text-white" type="submit" style="margin-left: 8em;"><i class="fas fa-search"></i></button>
+                                                <button class="btn btn-sm btn-success text-white" type="submit" style="padding: 5.8%; margin-left: 11.8em; margin-top: -20.7%;">
+                                                    <i class="fas fa-search"></i>
+                                                </button>
                                             </form>
                                         </li>
                                         {% endif %}
