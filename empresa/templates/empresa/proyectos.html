@@ -42,7 +42,7 @@
             <div class="px-2 px-lg-5 d-flex h-120 align-items-center justify-content-center">
                 <div class="d-flex justify-content-center">
                     <div class="text-center">
-                        {% if request.user.is_authenticated %}
+                        {% comment %}{% if request.user.is_authenticated %} {% endcomment %}
                         <h1 style="background-color: #C8CACB; padding-top: 9.64%; padding-bottom: 1.62%;">Listado de Proyectos</h1>
 
                         <div class="panel panel-default bg-white text-center" style="border-radius: 20px; padding-bottom: 0.5%; padding-left: 1%; padding-right: 1%;">
@@ -53,7 +53,7 @@
                                 <div class="collapse navbar-collapse" id="navbarText">
                                     <ul class="navbar-nav mr-auto">
                                         <!-- ROL_EMPLEADO -->
-                                        {% if request.user.is_active and not request.user.is_staff %}
+                                        {% comment %}{% if request.user.is_active and not request.user.is_staff %}{% endcomment %}
                                         <li class="nav-item">
                                             <a href="{% url 'page_inicio' %}" class="navbar-brand" style="margin-left: 0.65em;">
                                                 <i class="fas fa-arrow-left"></i>
@@ -66,7 +66,16 @@
                                             <a href="{% url 'form_add_pry' empleado.id %}" class="navbar-brand text-white">Añadir</a>
                                         </li>
                                         <li class="nav-item" style="margin-left: 9.6em; margin-right: 36%;">
-                                            <a href="{% url 'historial_pry' empleado.id %}" class="navbar-brand text-white">Historial de Empleado</a>
+                                            <a href="{% url 'historial_pry' empleado.id %}" class="navbar-brand text-white">Historial de proyectos</a>
+                                        </li>
+                                        {% endif %}
+                                        {% endfor %}
+                                        
+                                        <!-- ROL_CLIENTE -->
+                                        {% for cliente in clientes %}
+                                        {% if request.user.username == cliente.idUsuario.username %}
+                                        <li class="nav-item" style="margin-left: 4.6em;">
+                                            <a href="#" class="navbar-brand text-white">Consultar proyectos</a>
                                         </li>
                                         <li class="nav-item" style="margin-left: 9em; margin-top: -0.8%;">
                                             <form class="my-2 my-lg-0 navbar-brand" style="padding-right: 10%;" action="{% url 'proyectos' %}" method="POST">
@@ -78,28 +87,6 @@
                                         </li>
                                         {% endif %}
                                         {% endfor %}
-                                        
-                                        <!-- ROL_CLIENTE -->
-                                        {% elif request.user %}
-                                        <li class="nav-item">
-                                            <span class="navbar-brand" style="padding-left: 7%;">Consultar proyectos</span>
-                                        </li>
-                                        {% for cliente in clientes %}
-                                        {% if request.user.username == cliente.idUsuario.username %}
-                                        <li class="nav-item" style="margin-left: 4.6em;">
-                                            <a href="{% url 'historial_pry' cliente.id %}" class="navbar-brand text-white">Historial de Cliente</a>
-                                        </li>
-                                        {% endif %}
-                                        {% endfor %}
-                                        <li class="nav-item" style="margin-left: 16em; margin-top: -0.8%;">
-                                            <form class="my-2 my-lg-0 navbar-brand" style="padding-right: 6%;" action="{% url 'proyectos' %}" method="POST">
-                                                <input class="form-control mr-sm-2" type="search" placeholder="Buscar por nivel" aria-label="Search">
-                                                <button class="btn btn-sm btn-success text-white" type="submit" style="padding: 5.8%; margin-left: 11.8em; margin-top: -20.7%;">
-                                                    <i class="fas fa-search"></i>
-                                                </button>
-                                            </form>
-                                        </li>
-                                        {% endif %}
                                     </ul>
                                 </div>
                             </nav>
@@ -123,13 +110,12 @@
                             <table class="table table-bordered text-center" style="margin-top: 1.2em;">
                                 <thead class = "bg-black text-white">
                                     <tr>
-                                        <th>Id</th>
                                         <th>Titulo</th>
                                         <th>Descripción</th>
                                         <th>Nivel</th>
-                                        <th>Fecha In</th>
+                                        <th>Fecha Inicio</th>
                                         <th>Fecha Fin</th>
-                                        <th>InfoFinal</th>
+                                        <th>Informe Final</th>
                                         <th>Categoria</th>
                                         <th colspan="3">Operaciones</th>
                                     </tr>
@@ -138,7 +124,6 @@
                                 {% for proyecto in proyectos %}
                                 {% if request.user.username == proyecto.idEmpleado.idUsuario.username %}
                                     <tr>
-                                        <th>{{proyecto.id}}</th>
                                         <th>{{proyecto.titulo}}</th>
                                         <th>{{proyecto.descripcion}}</th>
                                         <th>{{proyecto.nivel}}</th>
@@ -158,8 +143,59 @@
                                 {% endfor %}
                                 </tbody>
                             </table>
+
+                            {% for cliente in clientes %}
+                            {% if request.user.username == cliente.idUsuario.username %}
+                            <div class="text-center fom-control" id="proyecto_alert">
+                                {% if messages %}
+                                    {% for set_proyecto in messages %}
+                                    <div class="alert alert-primary text-center form-control col-md-5 col-5" style="margin-top: 0.56%;">
+                                        {{ set_proyecto }}
+                                    </div>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+
+                            <table class="table table-bordered text-center" id="clientes">
+                                <thead class="bg-black text-white">
+                                    <tr>
+                                        <th>Titulo</th>
+                                        <th>Descripción</th>
+                                        <th>Nivel</th>
+                                        <th>Fecha Inicio</th>
+                                        <th>Fecha Fin</th>
+                                        <th>Informe Final</th>
+                                        <th>Nombre de Categoria</th>
+                                        <th>Foto de Categoria</th>
+                                        <th>Rol</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white text-dark">
+                                {% for participa in participas %}
+                                {% if request.user.username == participa.idProyecto.idCliente.idUsuario.username and proyecto.id == participa.idProyecto.id %}
+                                    <tr>
+                                        <th>{{participa.idProyecto.titulo}}</th>
+                                        <th>{{participa.idProyecto.descripcion}}</th>
+                                        <th>{{participa.idProyecto.nivel}}</th>
+                                        <th>{{participa.idProyecto.fechaInicio|date:"d/m/Y"}}</th>
+                                        <th>{{participa.idProyecto.fechaFin|date:"d/m/Y"}}</th>
+                                        <th>{{participa.idProyecto.informeFinal}}</th>
+                                        <th>{{participa.idProyecto.idCategoria.nombre}}</th>
+                                        <th>{{participa.idProyecto.idCategoria.foto}}</th>
+                                        <th>{{participa.rol}}</th>
+                                    </tr>
+                                {% else %}
+                                <div class="alert alert-warning" id="not_project">{{ participa.idProyecto.idCliente.idUsuario.username }} no está participando en proyectos</div>
+                                {% endif %}
+                                {% endfor %}
+                                </tbody>
+                            </table>
+
+                            {% endif %}
+                            {% endfor %}
+
                         </div>
-                        {% endif %}
+                    {% comment %}{% endif %}{% endcomment %}
                     </div>
                 </div>
             </div>

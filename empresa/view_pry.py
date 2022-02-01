@@ -9,10 +9,11 @@ from django.contrib import messages
 
 
 def mostrar_pry(request):
-    listProyectos = Proyecto.objects.all()
-    listEmpleados = Empleado.objects.all()
+    list_proyectos = Proyecto.objects.all()
+    list_empleados = Empleado.objects.all()
+    list_proyectos_cliente = Participa.objects.all()
     
-    context = {'empleados':listEmpleados, 'proyectos': listProyectos }
+    context = {'empleados':list_empleados, 'proyectos': list_proyectos, 'participas':list_proyectos_cliente }
     return render(request,'empresa/proyectos.html',context)
 
 def annadir_proyecto(request,empleado_id):

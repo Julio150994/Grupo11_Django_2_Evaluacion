@@ -22,6 +22,7 @@ def mostrar_clientes_pry(request,id):
 def annadir_inscripcion_pry(request, cliente_id):
     id_cliente = Cliente.objects.get(id=cliente_id)
     
+    fecha_actual = datetime.now().strftime("%Y-%m-%d")
     proyectos = Proyecto.objects.order_by('id').all()
     
     usuario = UsuarioModelForm()
@@ -56,12 +57,17 @@ def annadir_inscripcion_pry(request, cliente_id):
             idProyecto = request.POST.get("idProyecto")
             fechaInscripcion = request.POST.get("fechaInscripcion")
             rol = request.POST.get("rol")
-
-            if idCliente is not None or idProyecto is not None or fechaInscripcion is not None or rol is not None:
-                participa_pry = Participa(idCliente=idCliente, idProyecto=Proyecto.objects.get(idProyecto), fechaInscripcion=fechaInscripcion, rol=rol)
-                participa_pry.save()
-                messages.success(request,'Se ha inscrito al proyecto correctamente.')
-                return redirect('page_inicio')
+            
+            # Realizamos la comprobación de fechas #
+            if fechaInscripcion < fecha_actual:
+                if idCliente is not None or idProyecto is not None or fechaInscripcion is not None or rol is not None:
+                    participa_pry = Participa(idCliente=idCliente, idProyecto=Proyecto.objects.get(id=idProyecto), fechaInscripcion=fechaInscripcion, rol=rol)
+                    participa_pry.save()
+                    messages.success(request,'Se ha inscrito al proyecto correctamente.')
+                    return redirect('proyectos')
+            else:
+                messages.error(request,'La fecha de inscripción no puede realizarse hoy, ni posteriormente.')
+                return redirect('inscripcion_pry')    
         else:
             messages.warning(request,'Faltan datos por introducir.')
             return redirect('inscripcion_pry')

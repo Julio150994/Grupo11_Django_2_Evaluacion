@@ -17,18 +17,10 @@
         <link href="{% static 'css/form_pry.css' %}" rel="stylesheet"/>
     </head>
     <body>
-        {% if messages %}
-            {% for error in messages %}
-            <div class="alert alert-danger text-center col-md-5 col-5" id="mensaje_error">
-                {{ error }}
-            </div>
-            {% endfor %}
-        {% endif %}
-
         <div class="panel panel-default" style="margin-top: 1.10%;">
             <div class="panel-heading" id="panel">
                 <div class="container col-md-5 bg-white" id="form">
-                    <h2 class="text-center mb-4">Formulario de inscripción a proyecto</h2>
+                    <h2 class="text-center mb-4">Formulario de inscripción</h2>
                     <form action="{% url 'inscripcion_pry' cliente.id %}" method="POST">
                         {% csrf_token %}
                         
@@ -64,11 +56,11 @@
                         </div>
 
                         {% if messages %}
-                            {% for empty_data in messages %}
-                            <div class="alert alert-warning text-center col-md-5 col-5" id="mensaje_error">
-                                {{ empty_data }}
-                            </div>
-                            {% endfor %}
+                        {% for error in messages %}
+                        <div class="alert alert-danger form-control text-center col-md-5 col-5" id="mensaje_error">
+                            {{ error }}
+                        </div>
+                        {% endfor %}
                         {% endif %}
                         
                         <a href="{% url 'page_inicio' %}" class="form-control btn btn-danger text-white" style="margin-top: 2.56%;">
@@ -78,7 +70,7 @@
 
                         <button type="submit" class="form-control btn btn-success text-white" style="margin-top: 3.2%;">
                             <i class="fas fa-plus-circle"></i>
-                            <span>Inscribirse a proyecto</span>
+                            <span>Inscribir</span>
                         </button>
                     </form>
                 </div>
