@@ -50,8 +50,7 @@ def annadir_proyecto(request,empleado_id):
         }
         
         if proyecto.is_valid():
-            #id_cat = Categoria.objects.raw('SELECT id FROM categorias WHERE id = ?')<---- consulta SQL
-            
+            id_cat = Categoria.objects.first()
             
             titulo = request.POST.get("titulo")
             descripcion = request.POST.get("descripcion")
@@ -60,7 +59,7 @@ def annadir_proyecto(request,empleado_id):
             fechaFin = request.POST.get("fechaFin")
             informeFinal = request.POST.get("informeFinal")
             idEmpleado = request.POST.get("idEmpleado",id_emp)
-            idCategoria  = request.POST.get("idCategoria",id_cat)
+            idCategoria = request.POST.get("idCategoria",id_cat)
             print("Id categoría: "+str(idCategoria))
 
             if titulo is not None or descripcion is not None or nivel is not None or fechaInicio is not None or fechaFin is not None or informeFinal is not None or idEmpleado or idCategoria is not None:

@@ -80,7 +80,7 @@
                                     <select class="form-control" id="idCategoria" name="idCategoria">
                                         <option value="">Seleccione una categoría</option>
                                         {% for categoria in categorias %}
-                                            <option name="{{ categoria.id }}" value="{{ categoria.id }}">{{ categoria.nombre }}</option>
+                                            <option id="idCategoria" name="{{ categoria.id }}" value="{{ categoria.id }}">{{ categoria.nombre }}</option>
                                         {% endfor %}
                                     </select>
                                 </div>
