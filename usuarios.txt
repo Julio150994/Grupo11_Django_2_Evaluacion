@@ -1,3 +1,5 @@
-USERNAME    	PASSWORD
-blas21		    1234
-qwerty		    1234
+USERNAME    	PASSWORD        ROL DE USUARIO
+admin           123456789       ROL_ADMIN
+blas21		    1234            ROL_EMPLEADO
+sebas70         1234            ROL_EMPLEADO
+frango1994      1234            ROL_CLIENTE
