@@ -8,12 +8,14 @@ from django.contrib import messages
 
 
 def mostrar_pry(request):
+    list_usuarios = Usuario.objects.all()
     list_proyectos = Proyecto.objects.all()
     list_empleados = Empleado.objects.all()
     list_clientes = Cliente.objects.all()
     list_proyectos_cliente = Participa.objects.all()
     
     context = {
+        'usuarios':list_usuarios,
         'empleados':list_empleados,
         'clientes':list_clientes,
         'proyectos': list_proyectos,
