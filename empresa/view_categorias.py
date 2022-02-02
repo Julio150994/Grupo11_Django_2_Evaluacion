@@ -75,13 +75,7 @@ def editar_categorias(request,id):
 
 def eliminar_categorias(request,id):
     categoria = Categoria.objects.filter(id=id)
-    #categoria.delete()
-    
-    """foto_categoria = Categoria.objects.filter(id=id).values_list('foto',flat=True)
-    
-    for imagen in foto_categoria:
-        print(imagen)
-        fichero_img = 'fotos/'+str(imagen)"""
+    categoria.delete()
     
     messages.error(request,'Categoria eliminada éxitosamente.')
     return redirect('categorias')
