@@ -58,7 +58,7 @@
 
                             {% for participa in participas|slice:":1" %}
                             {% if request.user.username == participa.idProyecto.idEmpleado.idUsuario.username and proyecto.id != participa.idProyecto.id %}
-                            <div class="alert alert-warning" id="not_project">{{ participa.idProyecto.idEmpleado.idUsuario.username }} no tiene clientes en este proyecto</div>
+                            <div class="alert alert-warning" id="not_project">El empleado {{ participa.idProyecto.idEmpleado.idUsuario.username }} no tiene clientes en este proyecto</div>
                             {% endif %}
                             {% endfor %}
                             
