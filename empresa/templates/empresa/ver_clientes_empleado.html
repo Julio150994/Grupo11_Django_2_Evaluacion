@@ -55,6 +55,12 @@
                                     {% endfor %}
                                 {% endif %}
                             </div>
+
+                            {% for participa in participas|slice:":1" %}
+                            {% if request.user.username == participa.idProyecto.idEmpleado.idUsuario.username and proyecto.id != participa.idProyecto.id %}
+                            <div class="alert alert-warning" id="not_project">{{ participa.idProyecto.idEmpleado.idUsuario.username }} no tiene clientes en este proyecto</div>
+                            {% endif %}
+                            {% endfor %}
                             
                             <table class="table table-bordered text-center" id="clientes">
                                 <thead class = "bg-black text-white">
@@ -74,7 +80,7 @@
                                 </thead>
                                 <tbody class="bg-white text-dark">
                                 {% for participa in participas %}
-                                    {% if request.user.username == participa.idProyecto.idEmpleado.idUsuario.username %}
+                                    {% if request.user.username == participa.idProyecto.idEmpleado.idUsuario.username and proyecto.id == participa.idProyecto.id %}
                                         <tr>
                                             <th>{{participa.idCliente.dni}}</th>
                                             <th>{{participa.idCliente.nombre}}</th>
@@ -88,8 +94,6 @@
                                             <th>{{participa.fechaInscripcion|date:"d/m/Y"}}</th>
                                             <th>{{participa.rol}}</th>
                                     </tr>
-                                    {% else %}
-                                    <div class="alert alert-warning" id="not_project">{{ participa.idProyecto.idEmpleado.idUsuario.username }} no tiene clientes en este proyecto</div>
                                     {% endif %}
                                 {% endfor %}
                                 </tbody>

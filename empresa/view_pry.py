@@ -128,13 +128,8 @@ def dar_baja_pry(request,id):
 def ver_historial_proyectos(request, idUsuario):
     id_usuario = Usuario.objects.filter(id=idUsuario)
     
-    # Visualizamos solamente proyectos con fecha final igual a la actual (con formato dd/mm/YYYY) #
     fecha = datetime.now().strftime("%d/%m/%Y")
-    #print("Fecha actual: "+str(fecha))
         
-    #fecha_actual = datetime.strftime("%Y-%m-%d")
-    print("Fecha actual: "+str(fecha))
-    
     historial_proyectos = Proyecto.objects.order_by('fechaInicio').all() #ordenamos por fecha final#
     
     context = { 'proyectos': historial_proyectos, 'usuario':id_usuario, 'fechaActual':fecha }
