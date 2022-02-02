@@ -35,9 +35,7 @@ def get_actived(request,id):
         cliente.save()
         messages.success(request,"Cliente desactivado corretamente")
     
-    listClientes = Cliente.objects.order_by('-id').all()
-    context = {'clientes':listClientes }
-    return render(request,'empresa/clientes.html',context)
+    return redirect('clientes')
 
 
 def annadir_clientes(request):
@@ -141,8 +139,6 @@ def eliminar_cliente(request,id,idUsuario):
     usuario.delete()
     cliente.delete()
     
-    listClientes = Cliente.objects.order_by('-id').all()
-    context = {'clientes':listClientes}
     
     messages.error(request,'Cliente eliminado éxitosamente.')
     return redirect('clientes')
