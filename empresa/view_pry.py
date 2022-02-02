@@ -121,11 +121,8 @@ def dar_baja_pry(request,id):
     proyecto = Proyecto.objects.filter(id=id)
     proyecto.delete()
     
-    listProyectos = Proyecto.objects.order_by('-fechaInicio').all()
-    context = {'proyectos':listProyectos}
-    
     messages.error(request,'Ha podido darse de baja correctamente.')
-    return render(request,"empresa/proyectos.html",context)
+    return redirect('proyectos')
 
 
 def ver_historial_proyectos(request, idUsuario):

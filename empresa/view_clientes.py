@@ -145,4 +145,4 @@ def eliminar_cliente(request,id,idUsuario):
     context = {'clientes':listClientes}
     
     messages.error(request,'Cliente eliminado éxitosamente.')
-    return render(request,'empresa/clientes.html',context)
+    return redirect('clientes')

@@ -1,13 +1,12 @@
 import os
 from django.core.checks import messages
 from django.urls import reverse
-from django.shortcuts import render, redirect, get_object_or_404
-from Grupo11_PSP_RA6.settings import MEDIA_ROOT
+from django.shortcuts import render, redirect
+from django.conf import settings
 from empresa.models import Categoria
-from django.views.generic.edit import UpdateView
-from django.urls import reverse_lazy
 from .forms import CategoriaModelForm
 from django.contrib import messages
+import shutil
 
 
 def mostrar_categorias(request):
@@ -77,17 +76,14 @@ def editar_categorias(request,id):
 
 def eliminar_categorias(request,id):
     categoria = Categoria.objects.filter(id=id)
-    print(categoria)
     categoria.delete()
     
     foto_categoria = Categoria.objects.filter(id=id).values_list('foto',flat=True)
     
     for imagen in foto_categoria:
         print(imagen)
-        #os.remove(os.path.join(MEDIA_ROOT+str(imagen)))
-    
-    listCategorias = Categoria.objects.all()
-    context = {'categorias':listCategorias}
+        fichero_img = 'fotos/'+str(imagen)
+        shutil.rmtree(os.path.dirname(fichero_img))
     
     messages.error(request,'Categoria eliminada éxitosamente.')
-    return render(request,'empresa/categorias.html',context)
+    return redirect('categorias')

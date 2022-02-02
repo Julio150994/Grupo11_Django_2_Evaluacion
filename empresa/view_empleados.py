@@ -127,8 +127,5 @@ def eliminar_empleados(request,id,idUsuario):
     usuario.delete()
     empleado.delete()
     
-    listEmpleados = Empleado.objects.order_by('-id').all()
-    context = {'empleados':listEmpleados}
-    
     messages.error(request,'Empleado eliminado éxitosamente.')
-    return render(request,'empresa/empleados.html',context)
+    return redirect('empleados')
