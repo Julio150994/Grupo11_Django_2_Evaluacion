@@ -153,3 +153,11 @@ def ver_historial_proyectos(request, idUsuario):
     context = { 'proyectos': historial_proyectos, 'usuario':id_usuario, 'fechaActual':fecha }
       
     return render(request,'empresa/historial_pry.html',context)
+
+
+def proyectos_siguiente_lunes(request):
+    # import datetime
+    # today = datetime.date.today()
+    # nextWeek = today + datetime.timedelta(days=-today.weekday(),weeks=1) #DEVUELVE EL LUNES QUE VIENE
+    # print(today)
+    # print(nextWeek)
