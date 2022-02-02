@@ -57,7 +57,18 @@
                             
                             <!-- Para ROL_EMPLEADO y ROL_CLIENTE -->
                             {% else %}
-                            <a href="{% url 'proyectos' %}" class="btn btn-primary btn-block text-white"><i class="fas fa-link"></i> <span>Lista de proyectos</span></a>
+                            {% for empleado in empleados %}
+                            {% if request.user.username == empleado.idUsuario.username %}
+                            <a href="{% url 'proyectos' %}" class="btn btn-primary btn-block text-white"><i class="fas fa-link"></i> <span>Lista de proyectos de empleado</span></a>
+                            {% endif %}
+                            {% endfor %}
+
+                            {% for cliente in clientes %}
+                            {% if request.user.username == cliente.idUsuario.username %}
+                            <a href="{% url 'proyectos_cliente' %}" class="btn btn-primary btn-block text-white"><i class="fas fa-link"></i> <span>Lista de proyectos de cliente</span></a>
+                            {% endif %}
+                            {% endfor %}
+
                             {% endif %}
                         </div>
                         {% endif %}

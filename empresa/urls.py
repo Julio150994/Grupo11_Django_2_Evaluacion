@@ -22,13 +22,15 @@ urlpatterns = [
     path('eliminar_categoria/<int:id>/',view_categorias.eliminar_categorias,name="categorias"),
 
     path('proyectos/',view_pry.mostrar_pry,name="proyectos"),
+    path('proyectos_cli/',view_pry.mostrar_pry_clientes,name="proyectos_cliente"),
     path('annadir_proyecto/<int:empleado_id>/',view_pry.annadir_proyecto,name="form_add_pry"),
     path('editar_proyecto/<int:id>/<int:empleado_id>/',view_pry.modificar_pry,name="form_edit_pry"),
     path('eliminar_proyecto/<int:id>/',view_pry.dar_baja_pry,name="proyectos"),
     path('historial_pry/<int:idUsuario>/',view_pry.ver_historial_proyectos,name="historial_pry"),
     path('inscripcion/<int:cliente_id>/',view_participa.annadir_inscripcion_pry, name="inscripcion_pry"),
     path('clientes_pry/<int:id>/',view_participa.mostrar_clientes_pry, name="ver_clientes_empleado"),
-
+    path('search/',view_participa.buscar_categoria,name="buscar"),
+    
     path('clientes/',view_clientes.mostrar_clientes,name="clientes"),
     path('cliente/<int:id>/',view_clientes.datos_cliente,name="datos_cliente"),
     path('annadir_clientes/',view_clientes.annadir_clientes,name="form_add_cliente"),

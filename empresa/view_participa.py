@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect
 from empresa.models import Categoria, Cliente, Empleado, Participa, Proyecto, Usuario
 from .forms import CategoriaModelForm, ClienteModelForm, ParticipaModelForm, UsuarioModelForm
 from django.contrib import messages
+from django.db.models import Q
 
 
 def mostrar_clientes_pry(request,id):
@@ -73,3 +74,18 @@ def annadir_inscripcion_pry(request, cliente_id):
             return redirect('inscripcion_pry')
 
     return render(request, "empresa/inscripcion_pry.html",context)
+
+
+def buscar_categoria(request):
+    search = request.GET.get('search')
+    
+    if not search:
+        listPryClientes = Participa.objects.order_by('-id').all() #primero visualizar los clientes en proyectos del empleado#
+        context = {'participas':listPryClientes}
+        
+        return redirect('proyectos')
+        
+    post_categoria = Participa.objects.filter(Q(idProyecto_idCategoria_nombre__icontains==search))
+    context = {'post_categoria':post_categoria}
+    
+    return render(request,"empresa/proyectos.html",context)

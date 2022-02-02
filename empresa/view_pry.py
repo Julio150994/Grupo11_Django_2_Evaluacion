@@ -24,6 +24,22 @@ def mostrar_pry(request):
     return render(request,'empresa/proyectos.html',context)
 
 
+def mostrar_pry_clientes(request):
+    list_usuarios = Usuario.objects.all()
+    list_proyectos = Proyecto.objects.all()
+    list_clientes = Cliente.objects.all()
+    list_proyectos_cliente = Participa.objects.all()
+    
+    context = {
+        'usuarios':list_usuarios,
+        'clientes':list_clientes,
+        'proyectos': list_proyectos,
+        'participas':list_proyectos_cliente
+    }
+    
+    return render(request,'empresa/proyectos_cliente.html',context)
+
+
 def annadir_proyecto(request,empleado_id):
     id_emp = Empleado.objects.get(id=empleado_id)
         
