@@ -51,10 +51,10 @@
                                         </li>
                                         {% for empleado in empleados %}
                                         {% if request.user.username == empleado.idUsuario.username %}
-                                        <li class="nav-item" style="margin-left: 4.65em;">
+                                        <li class="nav-item" style="margin-left: 3.65em;">
                                             <a href="{% url 'form_add_pry' empleado.id %}" class="navbar-brand text-white">Añadir</a>
                                         </li>
-                                        <li class="nav-item" style="margin-left: 9.6em; margin-right: 36%;">
+                                        <li class="nav-item" style="margin-left: 5.6em; margin-right: 36%;">
                                             <a href="{% url 'historial_pry' empleado.id %}" class="navbar-brand text-white">Historial de proyectos</a>
                                         </li>
                                         {% endif %}
