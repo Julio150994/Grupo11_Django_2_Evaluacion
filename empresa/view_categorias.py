@@ -56,13 +56,7 @@ def editar_categorias(request,id):
             nombre = request.POST.get("nombre")
             foto = request.FILES.get("foto")
             
-            
             if nombre is not None or foto is not None:
-                foto_categoria = Categoria.objects.filter(id=id).values_list('foto',flat=True)
-                for imagen in foto_categoria:
-                    print(imagen)
-                    #os.remove(os.path.join(MEDIA_ROOT+str(imagen))) # para auto eliminar la imágen del directorio#
-                
                 categoria.save()
                 messages.success(request,'Categoría editada correctamente.')
                 return redirect('categorias')
