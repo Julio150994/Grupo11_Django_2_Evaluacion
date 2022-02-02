@@ -6,7 +6,6 @@ from django.conf import settings
 from empresa.models import Categoria
 from .forms import CategoriaModelForm
 from django.contrib import messages
-import shutil
 
 
 def mostrar_categorias(request):
@@ -76,14 +75,13 @@ def editar_categorias(request,id):
 
 def eliminar_categorias(request,id):
     categoria = Categoria.objects.filter(id=id)
-    categoria.delete()
+    #categoria.delete()
     
-    foto_categoria = Categoria.objects.filter(id=id).values_list('foto',flat=True)
+    """foto_categoria = Categoria.objects.filter(id=id).values_list('foto',flat=True)
     
     for imagen in foto_categoria:
         print(imagen)
-        fichero_img = 'fotos/'+str(imagen)
-        shutil.rmtree(os.path.dirname(fichero_img))
+        fichero_img = 'fotos/'+str(imagen)"""
     
     messages.error(request,'Categoria eliminada éxitosamente.')
     return redirect('categorias')
