@@ -121,16 +121,12 @@ def editar_clientes(request,id):
     
     return render(request, "empresa/form_edit_cliente.html",context)
 
-def eliminar_cliente(request,id,idUsuario):
+def eliminar_cliente(request,id):
     cliente = Cliente.objects.filter(id=id)
     print(cliente)
     
-    usuario = Usuario.objects.filter(id=idUsuario)
-    print(usuario)
-    
-    usuario.delete()
+
     cliente.delete()
-    
     
     messages.error(request,'Cliente eliminado éxitosamente.')
     return redirect('clientes')
