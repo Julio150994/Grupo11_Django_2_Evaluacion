@@ -109,12 +109,12 @@
                                                     <th>{{participa.rol}}</th>
                                                 </tr>
                                             {% endif %}
+                                        {% empty %}
+                                            <div class="alert alert-warning" style="margin-top: 1.56%;">No se han encontrado proyectos para esta categoría y/o no existe esta categoría.</div> 
                                         {% endfor %}
                                         </tbody>
                                     </table>
                                 {% endif %}
-                                {% empty %}
-                                <div class="alert alert-warning" style="margin-top: 1.56%;">No se han encontrado proyectos para esta categoría y/o no existe esta categoría.</div>
                                 {% endfor %}
                         </div>
                     </div>
