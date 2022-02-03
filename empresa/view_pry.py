@@ -106,12 +106,11 @@ def modificar_pry(request,id,empleado_id):
         'categorias':categorias
     }
     
-    if request.POST:
+    if request.method == 'POST':
         proyecto = ProyectoModelForm(request.POST, instance=id_proyecto)
         
         context = {
             'proyecto':proyecto,
-            'empleado':id_emp,
             'categorias':categorias
         }
         
@@ -122,15 +121,14 @@ def modificar_pry(request,id,empleado_id):
             fechaInicio = request.POST.get("fechaInicio")
             fechaFin = request.POST.get("fechaFin")
             informeFinal = request.POST.get("informeFinal")
-            idEmpleado = request.POST.get("idEmpleado",id_emp)
             idCategoria  = request.POST.get("idCategoria")
 
             if titulo is not None or descripcion is not None or nivel is not None or fechaInicio is not None or fechaFin is not None or informeFinal is not None or idEmpleado or idCategoria is not None:
-                modificar_pry = Proyecto(titulo=titulo, descripcion=descripcion, nivel=nivel, fechaInicio=fechaInicio,
-                fechaFin=fechaFin,informeFinal=informeFinal,idEmpleado=idEmpleado, idCategoria=Categoria.objects.get(id=idCategoria))
-                modificar_pry.save()
-                messages.info(request,'Proyecto modificado correctamente.')
+                proyecto.save()
+                messages.success(request,'Proyecto modificado correctamente.')
                 return redirect('proyectos')
+            
+    
             
     return render(request, "empresa/form_edit_pry.html",context)
 
