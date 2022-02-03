@@ -56,12 +56,12 @@
                                 </div>
 
                                 {% for proyecto in proyectos|slice:":1" %}
-                                {% if request.user.username == proyecto.idEmpleado.idUsuario.username and proyecto.fechaFin|date:"d/m/Y" != fechaActual %}
+                                {% if request.user.username != proyecto.idEmpleado.idUsuario.username and proyecto.fechaFin|date:"d/m/Y" != fechaActual %}
                                 <div class="alert alert-warning" style="margin-top: 1.52%;">{{ user.username }} no tiene proyectos finalizados.</div>
                                 {% endif %}
                                 {% endfor %}
                                 
-                                <table class="table table-bordered text-center" style="margin-top: 0.3em;">
+                                <table class="table table-bordered text-center" style="margin-top: 1.6em;">
                                     <thead class = "bg-black text-white">
                                         <tr>
                                             <th>Titulo</th>

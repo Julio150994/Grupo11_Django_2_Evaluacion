@@ -173,7 +173,7 @@ def dar_baja_pry(request,id):
 def ver_historial_proyectos(request, idUsuario):
     id_usuario = Usuario.objects.filter(id=idUsuario)
     
-    fecha = datetime.now().strftime("%d/%m/%Y")
+    fecha = datetime.datetime.now().strftime("%d/%m/%Y")
         
     historial_proyectos = Proyecto.objects.order_by('fechaInicio').all() #ordenamos por fecha final#
     
