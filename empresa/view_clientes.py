@@ -95,8 +95,8 @@ def editar_clientes(request,id):
     id_cliente = Cliente.objects.get(id = id)
     context = {'cliente':id_cliente}
     
-    if request.POST:
-        cliente = ClienteModelForm(request.POST, instance = id_cliente)
+    if request.method == 'POST':
+        cliente = ClienteModelForm(request.POST, instance=id_cliente)
         context = {'cliente': cliente}
         
         if cliente.is_valid(): 
@@ -111,21 +111,13 @@ def editar_clientes(request,id):
             username = request.POST.get("username")
             password = request.POST.get("password")
 
-            if dni is not None or nombre is not None or apellidos is not None or direccion is not None or fechaNacimiento is not None or fechaAlta is not None or activo is not None or idUsuario:
+            if dni is not None or nombre is not None or apellidos is not None or direccion is not None or fechaNacimiento is not None or fechaAlta is not None or activo is not None or idUsuario is not None:
                 cliente.save()
-                if cliente.save() != None:
-                    actualizar_cliente = Usuario(id=idUsuario, username=username, password=password)
-                    actualizar_cliente.password = make_password(actualizar_cliente.password)
-                    actualizar_cliente.save()
-                    
-                    user = User.objects.create_user(username = username, password = password)
-                    user.save()
-                
-                    messages.success(request,'Cliente editado correctamente.')
-                    return redirect('clientes')
+                messages.success(request,'Cliente editado correctamente.')
+                return redirect('clientes')
         else:
             messages.warning(request,'Faltan datos de usuario por introducir.')
-            return redirect('form_edit_cliente')
+            return redirect('clientes')
     
     return render(request, "empresa/form_edit_cliente.html",context)
 
