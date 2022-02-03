@@ -79,7 +79,7 @@ def editar_empleados(request,id):
     id_empleado = Empleado.objects.get(id = id)
     context = {'empleado':id_empleado}
     
-    if request.POST:
+    if request.method == 'POST':
         empleado = EmpleadoModelForm(request.POST, instance = id_empleado)
         context = {
             'empleado': empleado
@@ -96,35 +96,24 @@ def editar_empleados(request,id):
             password = request.POST.get("password")
                 
             if dni is not None or nombre is not None or apellidos is not None or direccion is not None or biografia is not None or idUsuario is not None:                
-                empleado.save()
-                if empleado.save() != None:                                 
-                    actualizar_empleado = Usuario(id=idUsuario, username=username, password=password)
-                    actualizar_empleado.password = make_password(actualizar_empleado.password)
-                    actualizar_empleado.save()
-                    
-                    user = User.objects.create_user(username = username, password = password)
-                    user.save()
-                
-                    messages.success(request,'Empleado editado correctamente.')
-                    return redirect('empleados')
+                empleado.save()         
+                messages.success(request,'Empleado editado correctamente.')
+                return redirect('empleados')
         else:
             messages.warning(request,'Faltan datos por introducir.')
-            return redirect('form_edit_empleado')
+            return redirect('empleados')
             
     return render(request,'empresa/form_edit_empleado.html',context)
 
 
-def eliminar_empleados(request,id,idUsuario):    
+def eliminar_empleados(request,id):    
     empleado = Empleado.objects.filter(id=id)
     print(empleado)
     
-    usuario = Usuario.objects.filter(id=idUsuario)
-    print(usuario)
     
-    set_empleado = list(chain(empleado,usuario)) #combinamos las dos consultas haciendolo una#
-    print(set_empleado)
+    # set_empleado = list(chain(empleado,usuario)) #combinamos las dos consultas haciendolo una#
+    # print(set_empleado)
     
-    usuario.delete()
     empleado.delete()
     
     messages.error(request,'Empleado eliminado éxitosamente.')
