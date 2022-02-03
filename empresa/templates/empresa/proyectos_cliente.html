@@ -17,11 +17,6 @@
         {% load static %}
         <link href="{% static 'css/styles.css' %}" rel="stylesheet"/>
         <link href="{% static 'css/proyecto.css' %}" rel="stylesheet"/>
-        <!-- Mensaje de confirmación de JS con SweetAlert 2 -->
-        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-        <script src="sweetalert2.min.js"></script>
-        <link rel="stylesheet" href="sweetalert2.min.css">
-        <script type="text/javascript" src="{% static 'js/proyecto.js' %}"></script>
 
     </head>
     <body id="page-top">
@@ -56,9 +51,8 @@
                                             <a href="{% url 'pry_lunes' %}" class="navbar-brand text-white">Consultar proyectos semana que viene</a>
                                         </li>
                                         <li class="nav-item" style="margin-left: 5.6em; margin-top: -0.8%;">
-                                            <form class="my-2 my-lg-0 navbar-brand" action="{% url 'buscar' %}" method="POST">
-                                                {% csrf_token %}
-                                                <input class="form-control mr-sm-2" type="search" placeholder="Buscar por categoría" aria-label="Search">
+                                            <form class="my-2 my-lg-0 navbar-brand" method="GET">
+                                                <input class="form-control mr-sm-2" type="text" placeholder="Buscar por categoría" name="search" aria-label="Search">
                                                 <button class="btn btn-sm btn-success text-white" type="submit" style="padding: 2.8%; padding-left: 4.3%; padding-right: 4.3%; margin-left: 16.8em; margin-top: -27%; margin-right: -1.6em;">
                                                     <i class="fas fa-search"></i>
                                                 </button>
@@ -119,6 +113,8 @@
                                         </tbody>
                                     </table>
                                 {% endif %}
+                                {% empty %}
+                                <div class="alert alert-warning" style="margin-top: 1.56%;">No se han encontrado proyectos para esta categoría y/o no existe esta categoría.</div>
                                 {% endfor %}
                         </div>
                     </div>

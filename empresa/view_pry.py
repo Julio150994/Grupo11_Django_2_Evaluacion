@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from empresa.models import Categoria, Cliente, Empleado, Participa, Proyecto, Usuario
 from .forms import CategoriaModelForm, EmpleadoModelForm, ProyectoModelForm, UsuarioModelForm
 from django.contrib import messages
-
+from django.db.models import Q
 
 def mostrar_pry(request):
     list_usuarios = Usuario.objects.all()
@@ -25,6 +25,9 @@ def mostrar_pry(request):
 
 
 def mostrar_pry_clientes(request):
+    nombre_categoria = request.GET.get("search")
+    print("Nombre de categoría: "+str(nombre_categoria))
+    
     list_usuarios = Usuario.objects.all()
     list_proyectos = Proyecto.objects.all()
     list_clientes = Cliente.objects.all()
@@ -37,7 +40,37 @@ def mostrar_pry_clientes(request):
         'participas':list_proyectos_cliente
     }
     
+    if nombre_categoria:
+        list_categorias = Categoria.objects.all().values('nombre')
+        print("Categorías: "+str(list_categorias))
+        
+        for nombre in list_categorias:
+            print(nombre)
+        
+        #__icontains: es para buscar por categoría, sin errores por Case Sensitive#
+
+        list_categoria_proyecto = Participa.objects.filter(
+            Q(nombre==nombre_categoria), 
+            #Q(Categoria.objects.filter(nombre=nombre_categoria)==nombre_categoria)
+        )
+        
+        """list_categoria_proyecto = Participa.objects.filter(
+            Q(idProyecto=Proyecto.objects.filter(
+              Q(idCategoria=Categoria.objects.filter(
+                  Q(nombre__icontains=nombre_categoria) | Q(nombre__icontains=nombre_categoria)
+              ))
+            ))
+        )"""
+        
+        context = {
+            'usuarios':list_usuarios,
+            'clientes':list_clientes,
+            'proyectos': list_proyectos,
+            'participas':list_categoria_proyecto
+        }
+    
     return render(request,'empresa/proyectos_cliente.html',context)
+
 
 
 def annadir_proyecto(request,empleado_id):
