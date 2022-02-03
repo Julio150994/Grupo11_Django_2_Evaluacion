@@ -123,7 +123,7 @@ def modificar_pry(request,id,empleado_id):
             informeFinal = request.POST.get("informeFinal")
             idCategoria  = request.POST.get("idCategoria")
 
-            if titulo is not None or descripcion is not None or nivel is not None or fechaInicio is not None or fechaFin is not None or informeFinal is not None or idEmpleado or idCategoria is not None:
+            if titulo is not None or descripcion is not None or nivel is not None or fechaInicio is not None or fechaFin is not None or informeFinal is not None or idCategoria is not None:
                 proyecto.save()
                 messages.success(request,'Proyecto modificado correctamente.')
                 return redirect('proyectos')
