@@ -53,9 +53,9 @@
                                             <a href="{% url 'inscripcion_pry' cliente.id %}" class="navbar-brand text-white">Inscripción a proyecto</a>
                                         </li>
                                         <li class="nav-item" style="margin-left: 3.6em;">
-                                            <a href="{% url 'pry_lunes' %}" class="navbar-brand text-white">Consultar proyectos</a>
+                                            <a href="{% url 'pry_lunes' %}" class="navbar-brand text-white">Consultar proyectos de los clientes</a>
                                         </li>
-                                        <li class="nav-item" style="margin-left: 11.5em; margin-top: -0.8%;">
+                                        <li class="nav-item" style="margin-left: 5.6em; margin-top: -0.8%;">
                                             <form class="my-2 my-lg-0 navbar-brand" action="{% url 'buscar' %}" method="POST">
                                                 {% csrf_token %}
                                                 <input class="form-control mr-sm-2" type="search" placeholder="Buscar por categoría" aria-label="Search">
@@ -88,7 +88,7 @@
                                     {% endif %}
                                     {% endfor %}
 
-                                    <table class="table table-bordered text-center" id="clientes">
+                                    <table class="table table-bordered text-center" style="margin-top: 1.2%; margin-bottom: 2.5%;">
                                         <thead class="bg-black text-white">
                                             <tr>
                                                 <th>Titulo</th>

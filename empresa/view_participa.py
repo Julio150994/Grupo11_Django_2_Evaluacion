@@ -77,15 +77,4 @@ def annadir_inscripcion_pry(request, cliente_id):
 
 
 def buscar_categoria(request):
-    search = request.GET.get('search')
-    
-    if not search:
-        listPryClientes = Participa.objects.order_by('-id').all() #primero visualizar los clientes en proyectos del empleado#
-        context = {'participas':listPryClientes}
-        
-        return redirect('proyectos')
-        
-    post_categoria = Participa.objects.filter(Q(idProyecto_idCategoria_nombre__icontains==search))
-    context = {'post_categoria':post_categoria}
-    
-    return render(request,"empresa/proyectos.html",context)
+    return
