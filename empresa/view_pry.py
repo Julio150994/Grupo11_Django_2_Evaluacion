@@ -167,4 +167,5 @@ def proyectos_siguiente_lunes(request):
     context = { 
         'proyectos': proyectos_semanales,
     }
+    
     return render(request,'empresa/proyectos_Lunes.html',context)

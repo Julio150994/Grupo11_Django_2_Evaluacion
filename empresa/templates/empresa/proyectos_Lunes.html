@@ -1,30 +1,86 @@
-<a>Hola</a>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <!-- Grayscale - Start Bootstrap Theme -->
+        <title>{% block title %} Listado de Proyectos de Cliente {% endblock %}</title>
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <!-- Font Awesome icons (free version)-->
+        <script src="https://use.fontawesome.com/releases/v5.15.4/js/all.js" crossorigin="anonymous"></script>
+        <!-- Google fonts-->
+        <link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        {% load static %}
+        <link href="{% static 'css/styles.css' %}" rel="stylesheet"/>
+        <link href="{% static 'css/proyecto.css' %}" rel="stylesheet"/>
+        <!-- Mensaje de confirmación de JS con SweetAlert 2 -->
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="sweetalert2.min.js"></script>
+        <link rel="stylesheet" href="sweetalert2.min.css">
+        <script type="text/javascript" src="{% static 'js/proyecto.js' %}"></script>
 
-<table class="table table-bordered text-center">
-    <thead class="bg-black text-white">
-        <tr>
-            <th>Titulo</th>
-            <th>Descripción</th>
-            <th>Nivel</th>
-            <th>Fecha Inicio</th>
-            <th>Fecha Fin</th>
-            <th>Informe Final</th>
-            <th>Categoria</th>
-        </tr>
-    </thead>
-    <tbody class="bg-white text-dark">
-    {% for proyecto in proyectos %}
-        {% comment %} {% if request.user.username == participa.idCliente.idUsuario.username %} {% endcomment %}
-            <tr>
-                <th>{{proyecto.titulo}}</th>
-                <th>{{proyecto.descripcion}}</th>
-                <th>{{proyecto.nivel}}</th>
-                <th>{{proyecto.fechaInicio|date:"d/m/Y"}}</th>
-                <th>{{proyecto.fechaFin|date:"d/m/Y"}}</th>
-                <th>{{proyecto.informeFinal}}</th>
-                <th>{{proyecto.idCategoria.nombre}}</th>
-            </tr>
-        {% comment %} {% endif %} {% endcomment %}
-    {% endfor %}
-    </tbody>
-</table>
+    </head>
+    <body id="page-top">
+        {% include "empresa/navbar_inicio.html" %}
+
+        <header class="masthead">
+            <div class="px-2 px-lg-5 d-flex h-120 align-items-center justify-content-center">
+                <div class="d-flex justify-content-center">
+                    <div class="text-center">
+                        {% comment %}{% if request.user.is_authenticated %} {% endcomment %}
+                        <h1 style="background-color: #C8CACB; padding-top: 9.64%; padding-bottom: 1.62%;">Proyectos de la semana que viene</h1>
+
+                        <div class="panel panel-default bg-white text-center" style="border-radius: 20px; padding-bottom: 0.5%; padding-left: 1%; padding-right: 1%;">
+                            <nav class="navbar navbar-dark navbar-expand-lg" style="background-color: #1567B5;">
+                                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+                                  <span class="navbar-toggler-icon"></span>
+                                </button>
+                                <div class="collapse navbar-collapse" id="navbarText">
+                                    <ul class="navbar-nav mr-auto">
+                                        <li class="nav-item">
+                                            <a href="{% url 'proyectos_cliente' %}" class="navbar-brand" style="margin-left: 0.65em;">
+                                                <i class="fas fa-arrow-left"></i>
+                                                <span style="margin-left: 2%;">Volver a los proyectos</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </nav>
+                            <table class="table table-bordered text-center">
+                                <thead class="bg-black text-white">
+                                    <tr>
+                                        <th>Titulo</th>
+                                        <th>Descripción</th>
+                                        <th>Nivel</th>
+                                        <th>Fecha Inicio</th>
+                                        <th>Fecha Fin</th>
+                                        <th>Informe Final</th>
+                                        <th>Categoria</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white text-dark">
+                                {% for proyecto in proyectos %}
+                                    {% comment %} {% if request.user.username == participa.idCliente.idUsuario.username %} {% endcomment %}
+                                        <tr>
+                                            <th>{{proyecto.titulo}}</th>
+                                            <th>{{proyecto.descripcion}}</th>
+                                            <th>{{proyecto.nivel}}</th>
+                                            <th>{{proyecto.fechaInicio|date:"d/m/Y"}}</th>
+                                            <th>{{proyecto.fechaFin|date:"d/m/Y"}}</th>
+                                            <th>{{proyecto.informeFinal}}</th>
+                                            <th>{{proyecto.idCategoria.nombre}}</th>
+                                        </tr>
+                                    {% comment %} {% endif %} {% endcomment %}
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+    </body>
+</html>
