@@ -41,17 +41,13 @@ def mostrar_pry_clientes(request):
     }
     
     if nombre_categoria:
-        list_categorias = Categoria.objects.all().values('nombre')
+        list_categorias = Categoria.objects.filter(nombre=nombre_categoria)
         print("Categorías: "+str(list_categorias))
-        
-        for nombre in list_categorias:
-            print(nombre)
         
         #__icontains: es para buscar por categoría, sin errores por Case Sensitive#
 
         list_categoria_proyecto = Participa.objects.filter(
-            Q(nombre==nombre_categoria), 
-            #Q(Categoria.objects.filter(nombre=nombre_categoria)==nombre_categoria)
+            Q(list_categorias==nombre_categoria)
         )
         
         """list_categoria_proyecto = Participa.objects.filter(
