@@ -1,4 +1,4 @@
-from datetime import datetime
+import datetime
 from django.core.checks import messages
 from django.urls import reverse
 from django.shortcuts import render, redirect
@@ -156,8 +156,15 @@ def ver_historial_proyectos(request, idUsuario):
 
 
 def proyectos_siguiente_lunes(request):
-    # import datetime
-    # today = datetime.date.today()
-    # nextWeek = today + datetime.timedelta(days=-today.weekday(),weeks=1) #DEVUELVE EL LUNES QUE VIENE
-    # print(today)
-    # print(nextWeek)
+       
+    today = datetime.date.today() # SE QUEDA EN INGLES PARA FACILITAR EL USO DE LA MISMA
+    semana_Siguiente = today + datetime.timedelta(days=-today.weekday(),weeks=1) # DEVUELVE EL LUNES QUE VIENE
+    semana_Que_Viene = today + datetime.timedelta(days=-today.weekday(),weeks=2) # DEVUELVE EL LUNES SIGUIENTE
+    
+    proyectos_semanales = Proyecto.objects.order_by('fechaInicio').filter(fechaInicio__gte=semana_Siguiente).filter(fechaInicio__lt=semana_Que_Viene)
+    
+    
+    context = { 
+        'proyectos': proyectos_semanales,
+    }
+    return render(request,'empresa/proyectos_Lunes.html',context)
