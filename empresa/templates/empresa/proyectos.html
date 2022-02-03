@@ -76,9 +76,9 @@
                                     </div>
 
                                     {% for proyecto in proyectos|slice:":1" %}
-                                        {% if request.user.username != empleado.idUsuario.username and request.empleado.id == proyecto.idEmpleado.id %}
-                                            <div class="alert alert-warning" style="margin-top: 1.52%;">{{ user.username }} no dispone de proyectos</div>
-                                        {% endif %}
+                                    {% if request.user.username != proyecto.idEmpleado.idUsuario.username  %}
+                                    <div class="alert alert-warning" style="margin-top: 1.52%;">{{ user.username }} no dispone de proyectos</div>
+                                    {% endif %}
                                     {% endfor %}
                                 
                                     <table class="table table-bordered text-center" style="margin-top: 1.2em;">
