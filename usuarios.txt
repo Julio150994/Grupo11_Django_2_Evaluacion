@@ -4,3 +4,4 @@ blas21		    1234            ROL_EMPLEADO
 sebas70         1234            ROL_EMPLEADO
 frango1994      1234            ROL_CLIENTE
 casillas45      1234            ROL_EMPLEADO
+marta89         1234            ROL_CLIENTE
