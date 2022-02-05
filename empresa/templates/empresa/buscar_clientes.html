@@ -85,7 +85,7 @@
                                         </thead>
                                         <tbody class="bg-white text-dark">
                                         {% for participa in participas %}
-                                            {% if request.user.username == participa.idProyecto.idEmpleado.idUsuario.username %}
+                                            {% if request.user.username == participa.idProyecto.idEmpleado.idUsuario.username and participa.idProyecto.fechaFin|date:"d/m/Y" <= fechaActual %}
                                                 <tr>
                                                     <th>{{participa.idProyecto.titulo}}</th>
                                                     <th>{{participa.idProyecto.descripcion}}</th>
@@ -100,7 +100,7 @@
                                                 </tr>
                                             {% endif %}
                                         {% empty %}
-                                            <div class="alert alert-warning" style="margin-top: 1.56%;">No se han encontrado proyectos de clientes con este rol.</div> 
+                                            <div class="alert alert-warning" style="margin-top: 1.56%;">No se han encontrado proyectos con este rol y/o terminados.</div> 
                                         {% endfor %}
                                         </tbody>
                                     </table>

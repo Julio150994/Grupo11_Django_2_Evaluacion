@@ -78,6 +78,7 @@ def annadir_inscripcion_pry(request, cliente_id):
 
 def buscar_clientes_pry(request):
     nombre_rol = request.GET.get("search")
+    fecha_actual = datetime.now().strftime("%d/%m/%Y")
     
     list_usuarios = Usuario.objects.all()
     list_empleados = Empleado.objects.all()
@@ -88,9 +89,11 @@ def buscar_clientes_pry(request):
         'usuarios':list_usuarios,
         'empleados':list_empleados,
         'proyectos':list_proyectos,
-        'participas':list_clientes_emp
+        'participas':list_clientes_emp,
+        'fechaActual':fecha_actual
     }
     
+
     if nombre_rol:
         #__icontains = para evitar errores de tipo case sensitive#
         resultado = Participa.objects.filter(Q(rol__icontains=nombre_rol))
@@ -99,7 +102,8 @@ def buscar_clientes_pry(request):
             'usuarios':list_usuarios,
             'empleados':list_empleados,
             'proyectos':list_proyectos,
-            'participas':resultado
+            'participas':resultado,
+            'fechaActual':fecha_actual
         }
     
     return render(request,"empresa/buscar_clientes.html",context)
