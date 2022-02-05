@@ -66,6 +66,7 @@
                             {% for cliente in clientes %}
                             {% if request.user.username == cliente.idUsuario.username %}
                             <a href="{% url 'proyectos_cliente' %}" class="btn btn-primary btn-block text-white"><i class="fas fa-link"></i> <span>Lista de proyectos de cliente</span></a>
+                            <a href="{% url 'buscar_clientes' %}" class="btn btn-primary btn-block text-white"><i class="fas fa-link"></i> <span>Clientes de sus proyectos</span></a>
                             {% endif %}
                             {% endfor %}
 

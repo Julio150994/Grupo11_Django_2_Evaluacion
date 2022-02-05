@@ -76,5 +76,30 @@ def annadir_inscripcion_pry(request, cliente_id):
     return render(request, "empresa/inscripcion_pry.html",context)
 
 
-def buscar_categoria(request):
-    return
+def buscar_clientes_pry(request):
+    nombre_rol = request.GET.get("search")
+    
+    list_usuarios = Usuario.objects.all()
+    list_empleados = Empleado.objects.all()
+    list_proyectos = Proyecto.objects.all()
+    list_clientes_emp = Participa.objects.all()
+    
+    context = {
+        'usuarios':list_usuarios,
+        'empleados':list_empleados,
+        'proyectos':list_proyectos,
+        'participas':list_clientes_emp
+    }
+    
+    if nombre_rol:
+        #__icontains = para evitar errores de tipo case sensitive#
+        resultado = Participa.objects.filter(Q(rol__icontains=nombre_rol))
+        
+        context = {
+            'usuarios':list_usuarios,
+            'empleados':list_empleados,
+            'proyectos':list_proyectos,
+            'participas':resultado
+        }
+    
+    return render(request,"empresa/buscar_clientes.html",context)

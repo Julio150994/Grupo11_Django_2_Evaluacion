@@ -38,4 +38,6 @@ urlpatterns = [
     path('editar_clientes/<int:id>/',view_clientes.editar_clientes,name="form_edit_cliente"),
     path('eliminar_cliente/<int:id>/',view_clientes.eliminar_cliente,name="delete"),
     path('actived/<int:id>/',view_clientes.get_actived, name="clientes"),
+    
+    path('buscar_cli/',view_participa.buscar_clientes_pry,name="buscar_clientes"),
 ]
