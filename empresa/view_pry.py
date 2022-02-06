@@ -42,11 +42,9 @@ def mostrar_pry_clientes(request):
     
     if nombre_categoria:
         #__icontains: es para buscar por categoría, sin errores por Case Sensitive#
-        list_categoria_proyecto = Participa.objects.filter(Q(rol=nombre_categoria))
-        
-        #list_categoria_proyecto = Participa.objects.filter(
-        #    Q(idProyecto=)
-        #)
+        list_categoria_proyecto = Participa.objects.filter(
+            Q(idProyecto__idCategoria__nombre__icontains=nombre_categoria)
+        )
         
         context = {
             'usuarios':list_usuarios,
