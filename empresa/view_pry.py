@@ -3,7 +3,7 @@ from django.core.checks import messages
 from django.urls import reverse
 from django.shortcuts import render, redirect
 from empresa.models import Categoria, Cliente, Empleado, Participa, Proyecto, Usuario
-from .forms import CategoriaModelForm, EmpleadoModelForm, ProyectoModelForm, UsuarioModelForm
+from .forms import CategoriaModelForm, EmpleadoModelForm, FinProyectoModelForm, ProyectoModelForm, UsuarioModelForm
 from django.contrib import messages
 from django.db.models import Case, Q
 
@@ -186,24 +186,26 @@ def proyectos_siguiente_lunes(request):
     return render(request,'empresa/proyectos_Lunes.html',context)
 
 def finalizar_proyectos(request,id):
-    id_proyecto = Proyecto.objects.get(id = id)
+    id_pry = Proyecto.objects.get(id = id)
     hoy = datetime.date.today()
-
-    context = { 'proyecto':id_proyecto }
-    
+    print(hoy)
+    context = { 'proyecto': id_pry }
 
     if request.method == 'POST':
-        proyecto = ProyectoModelForm(request.POST, instance=id_proyecto)
-    
+        proyecto = ProyectoModelForm(request.POST, instance=id_pry)
+        print("primer if")
+        
         context = { 'proyecto':proyecto }
-    
+        
         if proyecto.is_valid():
             fechaFin = hoy
             informeFinal = request.POST.get("informeFinal")
+            print("hola")
 
             if informeFinal is not None and fechaFin is not None:
-                proyecto.save(update_fields=['fechaFin','informeFinal'])
+                proyecto.save()
                 messages.success(request,'Proyecto modificado correctamente.')
+                print("adios")
                 return redirect('proyectos')
-
-    return render(request, 'empresa/finalizar_proyecto.html',context)
+            
+    return render(request,'empresa/finalizar_proyecto.html',context)

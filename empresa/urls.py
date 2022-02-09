@@ -29,8 +29,8 @@ urlpatterns = [
     path('historial_pry/<int:idUsuario>/',view_pry.ver_historial_proyectos,name="historial_pry"),
     path('inscripcion/<int:cliente_id>/',view_participa.annadir_inscripcion_pry, name="inscripcion_pry"),
     path('clientes_pry/<int:id>/',view_participa.mostrar_clientes_pry, name="ver_clientes_empleado"),
-    path('proyectosLunes/',view_pry.proyectos_siguiente_lunes,name="pry_lunes"),
-    path('finalizar_proyectos/<int:id>/',view_pry.finalizar_proyectos,name="pry_fin"),
+    path('proyectosLunes/',view_pry.proyectos_siguiente_lunes, name="pry_lunes"),
+    path('finalizar_proyecto/<int:id>/',view_pry.finalizar_proyectos, name="pry_fin"),
 
     path('clientes/',view_clientes.mostrar_clientes,name="clientes"),
     path('cliente/<int:id>/',view_clientes.datos_cliente,name="datos_cliente"),
