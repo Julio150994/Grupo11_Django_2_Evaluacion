@@ -91,7 +91,7 @@
                                                 <th>Fecha Fin</th>
                                                 <th>Informe Final</th>
                                                 <th>Categoría</th>
-                                                <th colspan="3">Operaciones</th>
+                                                <th colspan="4">Operaciones</th>
                                             </tr>
                                         </thead>
                                         <tbody class="bg-white text-dark">
@@ -110,6 +110,7 @@
                                                             <td><a href="{% url 'ver_clientes_empleado' proyecto.id  %}" class="btn btn-primary text-white" style="padding: 4%;"><i class="fas fa-list"></i> Ver clientes</a></td>
                                                             <td><button class="btn btn-danger text-white" onclick="eliminar({{proyecto.id }})" style="padding: 3%;"><i class="fas fa-times-circle"></i> <span>Dar de baja</span></button></td>
                                                             <td><a href="{% url 'form_edit_pry' proyecto.id empleado.id %}" class="btn btn-secondary text-white" style="padding: 4%;"><i class="fas fa-exchange-alt"></i> <span>Modificar</span></a></td>
+                                                            <td><a href="{% url 'pry_fin' proyecto.id %}" class="btn btn-danger text-white" style="padding: 4%;"><i class="fas fa-flag-checkered"></i> <span>Finalizar</span></a></td>
                                                         {% endif %}
                                                     {% endfor %}
                                                 </tr>

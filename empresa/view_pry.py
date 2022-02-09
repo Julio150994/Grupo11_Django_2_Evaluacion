@@ -184,3 +184,26 @@ def proyectos_siguiente_lunes(request):
     }
     
     return render(request,'empresa/proyectos_Lunes.html',context)
+
+def finalizar_proyectos(request,id):
+    id_proyecto = Proyecto.objects.get(id = id)
+    hoy = datetime.date.today()
+
+    context = { 'proyecto':id_proyecto }
+    
+
+    if request.method == 'POST':
+        proyecto = ProyectoModelForm(request.POST, instance=id_proyecto)
+    
+        context = { 'proyecto':proyecto }
+    
+        if proyecto.is_valid():
+            fechaFin = hoy
+            informeFinal = request.POST.get("informeFinal")
+
+            if informeFinal is not None and fechaFin is not None:
+                proyecto.save(update_fields=['fechaFin','informeFinal'])
+                messages.success(request,'Proyecto modificado correctamente.')
+                return redirect('proyectos')
+
+    return render(request, 'empresa/finalizar_proyecto.html',context)
