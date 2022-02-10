@@ -106,7 +106,7 @@
                                         </thead>
                                         <tbody class="bg-white text-dark">
                                         {% for participa in participas %}
-                                            {% if request.user.username == participa.idCliente.idUsuario.username and participa.idProyecto.fechaFin|date:"d/m/Y" <= date %}
+                                            {% if request.user.username == participa.idCliente.idUsuario.username %}
                                                 <tr>
                                                     <th>{{participa.idProyecto.id}}</th>
                                                     <th>{{participa.idProyecto.titulo}}</th>
