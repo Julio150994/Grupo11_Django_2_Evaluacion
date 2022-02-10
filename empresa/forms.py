@@ -86,12 +86,10 @@ class ParticipaModelForm(forms.ModelForm):
         fields = ['fechaInscripcion','rol']
 
 class FinProyectoModelForm(forms.ModelForm):
-    fechaFin = forms.DateField(required=True, help_text="Introduzca nombre del proyecto", widget=forms.DateInput(
-        attrs={'class':'form-control', 'type':'date', 'placeholder':'Escriba fecha fin'}))
     informeFinal = forms.CharField(required=True, help_text="Introduzca el informe final", widget=forms.Textarea(
         attrs={'class':'form-control', 'placeholder':'Escriba un informe'}))
 
     class Meta:
         model = Proyecto
-        fields = ['fechaFin','informeFinal']
+        fields = ['informeFinal']
    

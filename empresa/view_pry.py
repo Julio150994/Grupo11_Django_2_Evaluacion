@@ -188,27 +188,24 @@ def proyectos_siguiente_lunes(request):
 def finalizar_proyectos(request,id):
     id_pry = Proyecto.objects.get(id = id)
     hoy = datetime.date.today()
-    print(hoy)
+
     context = { 'proyecto': id_pry }
 
     if request.method == 'POST':
         proyecto = FinProyectoModelForm(request.POST, instance=id_pry)
-        print("primer if")
         
         context = { 'proyecto': proyecto }
         
         if proyecto.is_valid():
-            fechaFin = request.POST.get("fechaFin")
             informeFinal = request.POST.get("informeFinal")
-            print("hola")
 
-            if informeFinal is not None and fechaFin is not None:
+            if informeFinal is not None:
+                Proyecto.objects.update(fechaFin=hoy) # Aqui actualiza todos
+                # Proyecto.objects.all().filter(id__exact = id).update(fechaFin=hoy) y este deberia funcionar pero no
                 proyecto.save()
                 messages.success(request,'Proyecto modificado correctamente.')
-                print("adios")
                 return redirect('proyectos')
         else:
-            print("da error aqui")
             print(proyecto.errors)
             
     return render(request,'empresa/finalizar_proyecto.html',context)
