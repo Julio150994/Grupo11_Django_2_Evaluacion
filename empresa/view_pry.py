@@ -200,9 +200,7 @@ def finalizar_proyectos(request,id):
             informeFinal = request.POST.get("informeFinal")
 
             if informeFinal is not None:
-                Proyecto.objects.update(fechaFin=hoy) # Aqui actualiza todos
-                # Proyecto.objects.all().filter(id__exact = id).update(fechaFin=hoy) y este deberia funcionar pero no
-                proyecto.save()
+                Proyecto.objects.all().filter(id__exact = id).update(fechaFin=hoy,informeFinal = informeFinal)
                 messages.success(request,'Proyecto modificado correctamente.')
                 return redirect('proyectos')
         else:
