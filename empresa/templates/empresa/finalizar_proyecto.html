@@ -25,6 +25,15 @@
                         {% csrf_token %}
 
                         <div class="form-group">
+                            <label for="fechaFin" class="text-primary">Fecha de finalización</label>
+                            <div class="input-group mb-3">
+                                <span class="input-group-text"><i class="fas fa-calendar-check"></i></span>
+                                <input type="date" class="form-control" id="fechaFin" name="fechaFin" value="{{ proyecto.fechaFin }}" required>
+                            </div>
+                            {{ proyecto.fechaFin.errors }}
+                        </div>
+
+                        <div class="form-group">
                             <label for="informeFinal" class="text-primary">Informe final</label>
                             <div class="input-group mb-3">
                                 <span class="input-group-text"><i class="fas fa-clipboard-list"></i></span>

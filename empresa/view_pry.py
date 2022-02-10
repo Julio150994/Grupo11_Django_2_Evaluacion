@@ -192,13 +192,13 @@ def finalizar_proyectos(request,id):
     context = { 'proyecto': id_pry }
 
     if request.method == 'POST':
-        proyecto = ProyectoModelForm(request.POST, instance=id_pry)
+        proyecto = FinProyectoModelForm(request.POST, instance=id_pry)
         print("primer if")
         
-        context = { 'proyecto':proyecto }
+        context = { 'proyecto': proyecto }
         
         if proyecto.is_valid():
-            fechaFin = hoy
+            fechaFin = request.POST.get("fechaFin")
             informeFinal = request.POST.get("informeFinal")
             print("hola")
 
@@ -207,5 +207,8 @@ def finalizar_proyectos(request,id):
                 messages.success(request,'Proyecto modificado correctamente.')
                 print("adios")
                 return redirect('proyectos')
+        else:
+            print("da error aqui")
+            print(proyecto.errors)
             
     return render(request,'empresa/finalizar_proyecto.html',context)
