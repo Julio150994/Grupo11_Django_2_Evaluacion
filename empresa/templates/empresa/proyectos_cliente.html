@@ -47,13 +47,21 @@
                                         <li class="nav-item" style="margin-left: 3.6em;">
                                             <a href="{% url 'inscripcion_pry' cliente.id %}" class="navbar-brand text-white">Inscripción a proyecto</a>
                                         </li>
-                                        <li class="nav-item" style="margin-left: 3.6em;">
+                                        <li class="nav-item" style="margin-left: 2.8em;">
                                             <a href="{% url 'pry_lunes' %}" class="navbar-brand text-white">Proyectos de la semana que viene</a>
                                         </li>
-                                        <li class="nav-item" style="margin-left: 5.6em; margin-top: -0.8%;">
+                                        <!-- Enlace para el informe pdf de datos y todos los proyectos que esté el cliente -->
+                                        <li class="nav-item" style="margin-left: 2em;">
+                                            <a href="{% url 'pdf' cliente.id %}" class="navbar-brand text-white">
+                                                <i class="fas fa-file-pdf"></i>
+                                                Informe Cliente
+                                            </a>
+                                        </li>
+
+                                        <li class="nav-item" style="margin-left: 5.6em; margin-top: -0.6%;">
                                             <form class="my-2 my-lg-0 navbar-brand" method="GET">
                                                 <input class="form-control mr-sm-2" type="text" placeholder="Buscar por categoría" name="search" aria-label="Search">
-                                                <button class="btn btn-sm btn-success text-white" type="submit" style="padding: 2.8%; padding-left: 4.3%; padding-right: 4.3%; margin-left: 16.8em; margin-top: -27%; margin-right: -1.6em;">
+                                                <button class="btn btn-sm btn-success text-white" type="submit" style="padding: 2.8%; padding-left: 4.3%; padding-right: 4.3%; margin-left: 16.8em; margin-top: -26%; margin-right: -1.6em;">
                                                     <i class="fas fa-search"></i>
                                                 </button>
                                             </form>
@@ -94,8 +102,6 @@
                                                 <th>Informe Final</th>
                                                 <th>Categoria</th>
                                                 <th>Rol</th>
-                                                <th>Id cliente</th>
-                                                <th>Operaciones</th>
                                             </tr>
                                         </thead>
                                         <tbody class="bg-white text-dark">
@@ -111,8 +117,7 @@
                                                     <th>{{participa.idProyecto.informeFinal}}</th>
                                                     <th>{{participa.idProyecto.idCategoria.nombre}}</th>
                                                     <th>{{participa.rol}}</th>
-                                                    <th>{{participa.idCliente.id}}</th>
-                                                    <th><a href="{% url 'pdf' %}" class="btn btn-info" style="padding: 2%;"><i class="fas fa-file-pdf"></i>Informe Cliente</a></th>
+                                                    <!-- Para enviar el id de cliente es necesario llamar al id de cliente actual -->
                                                 </tr>
                                             {% endif %}
                                         {% empty %}
