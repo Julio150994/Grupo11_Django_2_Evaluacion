@@ -85,6 +85,7 @@
                                     <table class="table table-bordered text-center" style="margin-top: 1.2%; margin-bottom: 2.5%;">
                                         <thead class="bg-black text-white">
                                             <tr>
+                                                <th>Id Proyecto</th>
                                                 <th>Titulo</th>
                                                 <th>Descripción</th>
                                                 <th>Nivel</th>
@@ -93,12 +94,15 @@
                                                 <th>Informe Final</th>
                                                 <th>Categoria</th>
                                                 <th>Rol</th>
+                                                <th>Id cliente</th>
+                                                <th>Operaciones</th>
                                             </tr>
                                         </thead>
                                         <tbody class="bg-white text-dark">
                                         {% for participa in participas %}
                                             {% if request.user.username == participa.idCliente.idUsuario.username %}
                                                 <tr>
+                                                    <th>{{participa.idProyecto.id}}</th>
                                                     <th>{{participa.idProyecto.titulo}}</th>
                                                     <th>{{participa.idProyecto.descripcion}}</th>
                                                     <th>{{participa.idProyecto.nivel}}</th>
@@ -107,6 +111,8 @@
                                                     <th>{{participa.idProyecto.informeFinal}}</th>
                                                     <th>{{participa.idProyecto.idCategoria.nombre}}</th>
                                                     <th>{{participa.rol}}</th>
+                                                    <th>{{participa.idCliente.id}}</th>
+                                                    <th><a href="{% url 'pdf' %}" class="btn btn-info" style="padding: 2%;"><i class="fas fa-file-pdf"></i>Informe Cliente</a></th>
                                                 </tr>
                                             {% endif %}
                                         {% empty %}

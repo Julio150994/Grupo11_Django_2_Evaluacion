@@ -6,6 +6,11 @@ from empresa.models import Categoria, Cliente, Empleado, Participa, Proyecto, Us
 from .forms import CategoriaModelForm, ClienteModelForm, ParticipaModelForm, UsuarioModelForm
 from django.contrib import messages
 from django.db.models import Q
+from django.conf import settings
+from io import BytesIO
+from django.http import HttpResponse
+from reportlab.pdfgen import canvas
+from django.views.generic import View
 
 
 def mostrar_clientes_pry(request,id):
@@ -107,3 +112,30 @@ def buscar_clientes_pry(request):
         }
     
     return render(request,"empresa/buscar_clientes.html",context)
+
+def mostrar_informe_pdf(request):
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="datos_cliente.pdf"'
+
+    #Utilizamos el almacenamiento temporal BytesIO#
+    almacenamiento = BytesIO()
+    #Utilizamos canvas para las coordenadas que nos sirven para situar cada elemento #
+    dependencia = canvas.Canvas(almacenamiento)
+    #self.header(cliente_pdf)
+    #ejeY = 600
+    #self.tabla(cliente_pdf, ejeY) <------- esto cuando funcione el informe PDF
+    #cliente_pdf.showPage()
+    #cliente_pdf.save()
+    cliente_pdf = canvas.Canvas(response)
+    logo_salesianos = settings.MEDIA_ROOT+'\logo_informe.png'
+    cliente_pdf.drawImage(logo_salesianos, 40, 750, 120, 90, preserveAspectRatio=True)
+    cliente_pdf.setFont("Helvetica", 16)
+    cliente_pdf.drawString(230, 790, u"DATOS Y PROYECTOS DE CLIENTE")
+    cliente_pdf.setFont("Helvetica", 14)
+    cliente_pdf.showPage()
+    cliente_pdf.save()
+    
+    #Utilizamos canvas para las coordenadas que nos sirven para situar cada elemento #
+    #ejeY = 600
+    #self.tabla(cliente_pdf, ejeY) <------- esto cuando funcione el informe PDF
+    return response
