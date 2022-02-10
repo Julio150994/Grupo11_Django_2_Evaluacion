@@ -19,10 +19,12 @@ def mostrar_clientes_pry(request,id):
     proyecto = Proyecto.objects.get(id = id)
     print("Id proyecto: "+str(proyecto))
     
+    hoy = datetime.now().strftime('%d/%M/%Y')
+    
     #id_emp = Empleado.objects.get(id = empleado_id)
     
     listPryClientes = Participa.objects.order_by('-id').all() #primero visualizar los clientes en proyectos del empleado#
-    context = {'proyecto':proyecto, 'participas':listPryClientes}
+    context = {'proyecto':proyecto, 'participas':listPryClientes, 'date':hoy }
     
     return render(request,"empresa/ver_clientes_empleado.html",context)
 
