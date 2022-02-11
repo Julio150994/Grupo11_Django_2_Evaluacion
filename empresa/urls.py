@@ -1,6 +1,7 @@
 """Rutas para la aplicación empresa."""
 from django.urls import path
 from empresa import view_clientes, view_participa, view_pry, views, view_empleados, view_categorias
+from empresa.view_participa import InformeClientePDFView
 
 urlpatterns = [
     path('',views.mostrar_inicio, name="page_inicio"),
@@ -37,5 +38,6 @@ urlpatterns = [
     path('actived/<int:id>/',view_clientes.get_actived, name="clientes"),
     
     path('buscar_cli/',view_participa.buscar_clientes_pry,name="buscar_clientes"),
-    path('informe_cli/<int:cliente_id>',view_participa.mostrar_informe_pdf, name="pdf"),
+    #path('informe_cli/<int:cliente_id>',view_participa.mostrar_informe_pdf, name="pdf"),
+    path('informe_cli/<int:cliente_id>/',InformeClientePDFView.as_view(), name="pdf"),
 ]

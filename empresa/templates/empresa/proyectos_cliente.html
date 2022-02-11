@@ -53,12 +53,11 @@
                                         <!-- Enlace para el informe pdf de datos y todos los proyectos que esté el cliente -->
                                         <li class="nav-item" style="margin-left: 2em;">
                                             <a href="{% url 'pdf' cliente.id %}" class="navbar-brand text-white">
-                                                <i class="fas fa-file-pdf"></i>
-                                                Informe Cliente
+                                                Informe PDF Cliente
                                             </a>
                                         </li>
 
-                                        <li class="nav-item" style="margin-left: 5.6em; margin-top: -0.6%;">
+                                        <li class="nav-item" style="margin-left: 4em; margin-top: -0.6%;">
                                             <form class="my-2 my-lg-0 navbar-brand" method="GET">
                                                 <input class="form-control mr-sm-2" type="text" placeholder="Buscar por categoría" name="search" aria-label="Search">
                                                 <button class="btn btn-sm btn-success text-white" type="submit" style="padding: 2.8%; padding-left: 4.3%; padding-right: 4.3%; margin-left: 16.8em; margin-top: -26%; margin-right: -1.6em;">
@@ -93,7 +92,6 @@
                                     <table class="table table-bordered text-center" style="margin-top: 1.2%; margin-bottom: 2.5%;">
                                         <thead class="bg-black text-white">
                                             <tr>
-                                                <th>Id Proyecto</th>
                                                 <th>Titulo</th>
                                                 <th>Descripción</th>
                                                 <th>Nivel</th>
@@ -108,7 +106,6 @@
                                         {% for participa in participas %}
                                             {% if request.user.username == participa.idCliente.idUsuario.username %}
                                                 <tr>
-                                                    <th>{{participa.idProyecto.id}}</th>
                                                     <th>{{participa.idProyecto.titulo}}</th>
                                                     <th>{{participa.idProyecto.descripcion}}</th>
                                                     <th>{{participa.idProyecto.nivel}}</th>
@@ -117,7 +114,6 @@
                                                     <th>{{participa.idProyecto.informeFinal}}</th>
                                                     <th>{{participa.idProyecto.idCategoria.nombre}}</th>
                                                     <th>{{participa.rol}}</th>
-                                                    <!-- Para enviar el id de cliente es necesario llamar al id de cliente actual -->
                                                 </tr>
                                             {% endif %}
                                         {% empty %}

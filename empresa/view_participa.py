@@ -1,4 +1,5 @@
 from datetime import datetime
+from msilib import Table
 from django.core.checks import messages
 from django.urls import reverse
 from django.shortcuts import render, redirect
@@ -10,9 +11,8 @@ from django.conf import settings
 from io import BytesIO
 from django.http import HttpResponse
 from reportlab.pdfgen import canvas
-from reportlab.platypus import Table, TableStyle
-from reportlab.lib import colors
 from django.views.generic import View
+
 
 
 def mostrar_clientes_pry(request,id):
@@ -119,7 +119,58 @@ def buscar_clientes_pry(request):
 
 
 """-------Métodos que realizan las funciones requeridas para nuestro informe PDF-------"""
-def mostrar_informe_pdf(request, cliente_id):
+class InformeClientePDFView(View):
+    
+    def header(self, cliente_pdf):
+        logo_salesianos = settings.MEDIA_ROOT+'\logo_informe.png'
+        cliente_pdf.drawImage(logo_salesianos, 20, 765, 40, 70, preserveAspectRatio=True)
+        cliente_pdf.setFont("Helvetica", 18)
+        cliente_pdf.drawString(195, 790, u"INFORME PDF DE SALESEMP")
+        cliente_pdf.drawString(10, 690, u"DATOS DE CLIENTE") #cambiar el color de este texto
+    
+    def tabla_datos_cliente(self, cliente_pdf, posicion_y):
+        campos = ("Dni","Nombre","Apellidos","Dirección","Fecha de Nacimiento","Fecha de Alta","Usuario")
+        # Llamamos a los datos del cliente que estamos utilizando #
+        # id_cliente #
+        resultado = [(cliente.dni, cliente.nombre, cliente.apellidos, cliente.direccion,
+                    cliente.fechaNacimiento, cliente.fechaAlta, cliente.idUsuario.username) for cliente in Cliente.objects.all() ]
+        ver_tabla_cliente = Table([campos] + resultado) #colWidths=[5, 5, 5]#
+        
+        # Aplicamos estilos para nuestras celdas #
+        ver_tabla_cliente.setStyle(TableStyle(
+            [
+                #Campos de tabla cliente#
+                ('ALIGN',(0,0),(3,0),'CENTER'),
+                ('GRID',(0,0), (-1, -1), 1, colors.red),
+                ('FONTSIZE',(0, 0),(-1, -1), 10),
+            ]
+        ))
+        
+        ver_tabla_cliente.wrapOn(cliente_pdf, 500, 350) # anchura y altura de la tabla#
+        ver_tabla_cliente.drawOn(cliente_pdf, 10, posicion_y) # coordenada que se mostrará en la tabla#
+        return ver_tabla_cliente
+        
+    def get(self, *args, **kwargs):
+        response = HttpResponse(content_type='application/pdf')
+        response['Content-Disposition'] = 'attachment; filename="datos_cliente.pdf"' #nombre del archivo descargado    
+        
+        buffer = BytesIO()
+        #pagesize=portrait(A4)#
+        cliente_pdf = canvas.Canvas(buffer)
+        
+        self.header(cliente_pdf)
+        posicion_y = 640
+        self.tabla_datos_cliente(cliente_pdf,posicion_y)
+        
+        cliente_pdf.showPage()
+        cliente_pdf.save()
+        
+        cliente_pdf = buffer.getvalue()
+        buffer.close()
+        response.write(cliente_pdf)
+        return response
+
+"""def mostrar_informe_pdf(request, cliente_id):
     # Obtenemos el id del cliente con el que hemos iniciado sesión
     id_cliente = Cliente.objects.filter(id=cliente_id)
     
@@ -152,7 +203,6 @@ def mostrar_informe_pdf(request, cliente_id):
 def tabla_datos_cliente(cliente_pdf, eje_y, id_cliente):
     campos = ("Dni","Nombre","Apellidos","Dirección","Fecha de Nacimiento","Fecha de Alta","Usuario")
     # Llamamos a los datos del cliente que estamos utilizando #
-    # for cliente in Cliente.objects.all() #
     resultado = [(cliente.dni, cliente.nombre, cliente.apellidos, cliente.direccion,
                 cliente.fechaNacimiento, cliente.fechaAlta, cliente.idUsuario.username) for cliente in id_cliente ]
     ver_tabla_cliente = Table([campos] + resultado) #colWidths=[5, 5, 5]#
@@ -167,4 +217,4 @@ def tabla_datos_cliente(cliente_pdf, eje_y, id_cliente):
     ))
     
     ver_tabla_cliente.wrapOn(cliente_pdf, 500, 350) # anchura y altura de la tabla#
-    ver_tabla_cliente.drawOn(cliente_pdf, 10, eje_y) # coordenada que se mostrará en la tabla#
+    ver_tabla_cliente.drawOn(cliente_pdf, 10, eje_y) # coordenada que se mostrará en la tabla#"""
