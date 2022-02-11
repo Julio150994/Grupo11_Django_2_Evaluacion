@@ -1,5 +1,4 @@
 from datetime import datetime
-from msilib import Table
 from django.core.checks import messages
 from django.urls import reverse
 from django.shortcuts import render, redirect
@@ -11,6 +10,9 @@ from django.conf import settings
 from io import BytesIO
 from django.http import HttpResponse
 from reportlab.pdfgen import canvas
+from reportlab.platypus import Table, TableStyle
+from reportlab.lib import colors
+#from reportlab.lib.pagesizes import cm
 from django.views.generic import View
 
 
@@ -128,13 +130,13 @@ class InformeClientePDFView(View):
         cliente_pdf.drawString(195, 790, u"INFORME PDF DE SALESEMP")
         cliente_pdf.drawString(10, 690, u"DATOS DE CLIENTE") #cambiar el color de este texto
     
-    def tabla_datos_cliente(self, cliente_pdf, posicion_y):
+    def tabla_datos_cliente(self, cliente_pdf, posicion_y, cliente_id):
         campos = ("Dni","Nombre","Apellidos","Dirección","Fecha de Nacimiento","Fecha de Alta","Usuario")
-        # Llamamos a los datos del cliente que estamos utilizando #
-        # id_cliente #
+        
+        #Cliente.objects.all()#
         resultado = [(cliente.dni, cliente.nombre, cliente.apellidos, cliente.direccion,
-                    cliente.fechaNacimiento, cliente.fechaAlta, cliente.idUsuario.username) for cliente in Cliente.objects.all() ]
-        ver_tabla_cliente = Table([campos] + resultado) #colWidths=[5, 5, 5]#
+                    cliente.fechaNacimiento, cliente.fechaAlta, cliente.idUsuario.username) for cliente in cliente_id ]
+        ver_tabla_cliente = Table([campos] + resultado)
         
         # Aplicamos estilos para nuestras celdas #
         ver_tabla_cliente.setStyle(TableStyle(
@@ -150,17 +152,18 @@ class InformeClientePDFView(View):
         ver_tabla_cliente.drawOn(cliente_pdf, 10, posicion_y) # coordenada que se mostrará en la tabla#
         return ver_tabla_cliente
         
-    def get(self, *args, **kwargs):
+    def get(self, request, cliente_id, *args, **kwargs):
         response = HttpResponse(content_type='application/pdf')
         response['Content-Disposition'] = 'attachment; filename="datos_cliente.pdf"' #nombre del archivo descargado    
         
         buffer = BytesIO()
-        #pagesize=portrait(A4)#
-        cliente_pdf = canvas.Canvas(buffer)
+        cliente_pdf = canvas.Canvas(buffer,)
         
         self.header(cliente_pdf)
+        
+        id_cliente = Cliente.objects.filter(id=cliente_id)
         posicion_y = 640
-        self.tabla_datos_cliente(cliente_pdf,posicion_y)
+        self.tabla_datos_cliente(cliente_pdf,posicion_y, id_cliente)
         
         cliente_pdf.showPage()
         cliente_pdf.save()
@@ -169,52 +172,3 @@ class InformeClientePDFView(View):
         buffer.close()
         response.write(cliente_pdf)
         return response
-
-"""def mostrar_informe_pdf(request, cliente_id):
-    # Obtenemos el id del cliente con el que hemos iniciado sesión
-    id_cliente = Cliente.objects.filter(id=cliente_id)
-    
-    response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename="datos_cliente.pdf"' #nombre del archivo descargado
-
-    #almacenamiento = BytesIO()
-    #dep_canvas = canvas.Canvas(almacenamiento)
-   
-    cliente_pdf = canvas.Canvas(response)
-    logo_salesianos = settings.MEDIA_ROOT+'\logo_informe.png'
-    cliente_pdf.drawImage(logo_salesianos, 20, 765, 40, 70, preserveAspectRatio=True)
-    cliente_pdf.setFont("Helvetica", 18)
-    cliente_pdf.drawString(195, 790, u"INFORME PDF DE SALESEMP")
-    
-    cliente_pdf.drawString(10, 690, u"DATOS DE CLIENTE") #cambiar el color de este texto
-    #self.header(cliente_pdf)
-    eje_y = 640
-    tabla_datos_cliente(cliente_pdf, eje_y, id_cliente)
-    
-    cliente_pdf.showPage()
-    cliente_pdf.save()
-    
-    #pdf = buffer.getvalue()
-    #buffer.close()
-    #response.write(pdf)
-    return response
-
-
-def tabla_datos_cliente(cliente_pdf, eje_y, id_cliente):
-    campos = ("Dni","Nombre","Apellidos","Dirección","Fecha de Nacimiento","Fecha de Alta","Usuario")
-    # Llamamos a los datos del cliente que estamos utilizando #
-    resultado = [(cliente.dni, cliente.nombre, cliente.apellidos, cliente.direccion,
-                cliente.fechaNacimiento, cliente.fechaAlta, cliente.idUsuario.username) for cliente in id_cliente ]
-    ver_tabla_cliente = Table([campos] + resultado) #colWidths=[5, 5, 5]#
-    # Aplicamos estilos para nuestras celdas #
-    ver_tabla_cliente.setStyle(TableStyle(
-        [
-            #Campos de tabla cliente#
-            ('ALIGN',(0,0),(3,0),'CENTER'),
-            ('GRID',(0,0), (-1, -1), 1, colors.red),
-            ('FONTSIZE',(0, 0),(-1, -1), 10),
-        ]
-    ))
-    
-    ver_tabla_cliente.wrapOn(cliente_pdf, 500, 350) # anchura y altura de la tabla#
-    ver_tabla_cliente.drawOn(cliente_pdf, 10, eje_y) # coordenada que se mostrará en la tabla#"""
