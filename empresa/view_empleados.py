@@ -17,11 +17,6 @@ def mostrar_empleados(request):
     context = { 'empleados':listEmpleados }
     return render(request,'empresa/empleados.html',context)
 
-def datos_empleado(request,id):
-    empleado = Empleado.objects.get(id = id)
-    context = {'empleado':empleado}
-    return render(request,'empresa/datos_empleado.html',context)
-
 
 def annadir_empleados(request):
     usuario = UsuarioModelForm()

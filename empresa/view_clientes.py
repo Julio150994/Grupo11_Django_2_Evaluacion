@@ -14,12 +14,6 @@ def mostrar_clientes(request):
     return render(request,'empresa/clientes.html',context)
 
 
-def datos_cliente(request,id):
-    cliente = Cliente.objects.get(id = id)
-    context = {'cliente':cliente}
-    return render(request,'empresa/datos_cliente.html',context)
-
-
 def get_actived(request,id):
     cliente = Cliente.objects.get(id = id)
     print("Cliente: "+str(cliente))

@@ -14,12 +14,6 @@ def mostrar_categorias(request):
     return render(request,'empresa/categorias.html',context)
 
 
-def datos_categoria(request,id):
-    categoria = Categoria.objects.get(id = id)
-    context = {'categoria':categoria}
-    return render(request,'empresa/datos_categoria.html',context)
-
-
 def annadir_categorias(request):
     categoria = CategoriaModelForm()
     context = {'categoria':categoria}
