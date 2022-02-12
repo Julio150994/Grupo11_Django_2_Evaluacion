@@ -12,7 +12,7 @@ from django.http import HttpResponse
 from reportlab.pdfgen import canvas
 from reportlab.platypus import Table, TableStyle
 from reportlab.lib import colors
-from reportlab.lib.pagesizes import A4
+from reportlab.lib.pagesizes import A1, A2, A3, A4
 from django.views.generic import View
 
 
@@ -123,11 +123,11 @@ class InformeClientePDFView(View):
     
     def header(self, cliente_pdf):
         logo_salesianos = settings.MEDIA_ROOT+'\logo_informe.png'
-        cliente_pdf.drawImage(logo_salesianos, 20, 765, 40, 70, preserveAspectRatio=True)
+        cliente_pdf.drawImage(logo_salesianos, 20, 1613, 40, 70, preserveAspectRatio=True)
         
         cliente_pdf.setFont("Helvetica-Bold", 25)
         cliente_pdf.setFillColorRGB(0.29296875, 0.453125, 0.609375)
-        cliente_pdf.drawString(136, 790, u"INFORME PDF DE SALESEMP")
+        cliente_pdf.drawString(136, 1637, u"INFORME PDF DE SALESEMP")
         
         cliente_pdf.setFont('Times-Roman',17)
         cliente_pdf.setFillColorRGB(0.21, 0.139, 0.37)
@@ -135,7 +135,7 @@ class InformeClientePDFView(View):
         
         cliente_pdf.setFont('Times-Roman',17)
         cliente_pdf.setFillColorRGB(0.21, 0.139, 0.37)
-        cliente_pdf.drawString(10, 570, u"PROYECTOS DEL CLIENTE")
+        cliente_pdf.drawString(10, 532, u"PROYECTOS EN LOS QUÉ PARTICIPA EL CLIENTE")
     
     def tabla_datos_cliente(self, cliente_pdf, posicion_y, cliente_id):
         campos = ("Dni","Nombre","Apellidos","Dirección","Fecha de Nacimiento","Fecha de Alta","Usuario")
@@ -159,16 +159,18 @@ class InformeClientePDFView(View):
         return ver_tabla_cliente
     
     def tabla_proyectos_cliente(self, cliente_pdf, posicion_y, cliente_id):
-        campos = ("Titulo","Descripción","Nivel","Fecha de Inicio", "Fecha Fin", "Informe final")
+        campos = ("Id cliente", "Id usuario", "Usuario cliente","Titulo","Descripción","Nivel","Fecha de Inicio", "Fecha Fin", "Informe final",
+            "Fecha de inscripción", "Rol")
         
-        proyectos_cliente = [(proyecto.titulo, proyecto.descripcion, proyecto.nivel, proyecto.fechaInicio,
-                    proyecto.fechaFin, proyecto.informeFinal) for proyecto in Proyecto.objects.order_by('-id').all()]
+        proyectos_cliente = [(participa.idCliente.id, participa.idCliente.idUsuario.id, participa.idCliente.idUsuario.username, participa.idProyecto.titulo, participa.idProyecto.descripcion,
+            participa.idProyecto.nivel, participa.idProyecto.fechaInicio,participa.idProyecto.fechaFin, participa.idProyecto.informeFinal,
+            participa.fechaInscripcion, participa.rol) for participa in Participa.objects.order_by('-id').all()]
+        
         ver_tabla_proyectos = Table([campos] + proyectos_cliente)
-        
         ver_tabla_proyectos.setStyle(TableStyle(
             [
                 ('ALIGN',(0,0),(3,0),'CENTER'),
-                ('GRID',(0,0), (-2, -1), 1, colors.blue),
+                ('GRID',(0,0), (-1, -1), 1, colors.blue),
                 ('FONTSIZE',(0, 0),(-1, -1), 10),
             ]
         ))
@@ -180,10 +182,10 @@ class InformeClientePDFView(View):
     
     def get(self, request, cliente_id, *args, **kwargs):
         response = HttpResponse(content_type='application/pdf')
-        response['Content-Disposition'] = 'attachment; filename="informe.pdf"' #nombre del archivo descargado    
+        response['Content-Disposition'] = 'attachment; filename="informe_cliente.pdf"'    
         
         buffer = BytesIO()
-        cliente_pdf = canvas.Canvas(buffer, pagesize=A4)
+        cliente_pdf = canvas.Canvas(buffer, pagesize=A2)
         
         self.header(cliente_pdf)
         
@@ -191,7 +193,8 @@ class InformeClientePDFView(View):
         posicion_cliente_y = 640
         self.tabla_datos_cliente(cliente_pdf,posicion_cliente_y, id_cliente)
         
-        posicion_proyectos_y = 340
+        
+        posicion_proyectos_y = 430
         self.tabla_proyectos_cliente(cliente_pdf,posicion_proyectos_y, id_cliente)
         
         cliente_pdf.showPage()
