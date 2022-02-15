@@ -1,4 +1,5 @@
 from datetime import datetime
+import datetime
 from django.core.checks import messages
 from django.urls import reverse
 from django.shortcuts import render, redirect
@@ -136,44 +137,18 @@ class InformeClientePDFView(View):
         
         cliente_pdf.setFont('Times-Roman',17)
         cliente_pdf.setFillColorRGB(0.21, 0.139, 0.37)
-        cliente_pdf.drawString(10, 318, u"PROYECTOS EN LOS QUE PARTICIPA EL CLIENTE")
+        cliente_pdf.drawString(10, 410, u"PROYECTOS EN LOS QUE PARTICIPA EL CLIENTE")
     
-    def tabla_datos_cliente(self, cliente_pdf, posicion_y, cliente_id):
-        #campos = ("Dni","Nombre","Apellidos","Dirección","Fecha de Nacimiento","Fecha de Alta","Usuario")
-        
-        clientes = []
-        
-        """ver_tabla_cliente = Table([
-            ['Dni',cliente.dni],
-            ['Nombre',cliente.nombre],
-            ['Apellidos',cliente.apellidos],
-            ['Dirección',cliente.direccion],
-            ['Fecha de Nacimiento', cliente.fechaNacimiento],
-            ['Fecha de Alta', cliente.fechaAlta],
-            ['Usuario',cliente.idUsuario.username],
-            
-        ] for cliente in cliente_id)"""
-        
-        
-        datos_cliente = [(cliente.dni, cliente.nombre, cliente.apellidos, cliente.direccion,
-                   cliente.fechaNacimiento, cliente.fechaAlta, cliente.idUsuario.username) for cliente in cliente_id ]
-        #ver_tabla_cliente = Table([campos],datos_cliente)
-        
+    def tabla_datos_cliente(self, cliente_pdf, posicion_y, cliente_id):        
+        #Leyenda de la tabla: Table([nombre de los campos], datos del cliente actual)#
         ver_tabla_cliente = Table([
-            ['Dni'],
-            ['Nombre'],
-            ['Apellidos'],
-            ['Dirección'],
-            ['Fecha de Nacimiento'],
-            ['Fecha de Alta'],
-            ['Usuario'],
-            [(cliente.dni) for cliente in cliente_id],
-            [(cliente.nombre) for cliente in cliente_id],
-            [(cliente.apellidos) for cliente in cliente_id],
-            [(cliente.direccion) for cliente in cliente_id],
-            [(cliente.fechaNacimiento) for cliente in cliente_id],
-            [(cliente.fechaAlta) for cliente in cliente_id],
-            [(cliente.idUsuario.username) for cliente in cliente_id],
+            ['Dni',"".join([(cliente.dni) for cliente in cliente_id])],
+            ['Nombre', "".join([(cliente.nombre) for cliente in cliente_id])],
+            ['Apellidos', "".join([(cliente.apellidos) for cliente in cliente_id])],
+            ['Dirección', "".join([(cliente.direccion) for cliente in cliente_id])],
+            ['Fecha de Nacimiento', "".join([(cliente.fechaNacimiento).strftime('%d/%m/%Y') for cliente in cliente_id])],
+            ['Fecha de Alta', "".join([(cliente.fechaAlta).strftime('%d/%m/%Y') for cliente in cliente_id])],
+            ['Usuario', "".join([(cliente.idUsuario.username) for cliente in cliente_id])],
         ])
         
         ver_tabla_cliente.setStyle(TableStyle(
@@ -200,16 +175,16 @@ class InformeClientePDFView(View):
             participa.fechaInscripcion, participa.rol) for participa in Participa.objects.order_by('-id').all()]"""
         
         ver_tabla_proyectos = Table([
-            ['Id cliente'],
-            ['Id usuario'],
-            ['Título'],
-            ['Descripción'],
-            ['Nivel'],
-            ['Fecha de Inicio'],
-            ['Fecha Fin'],
-            ['Informe Final'],
-            ['Fecha de Inscripción'],
-            ['Rol'],
+            ['Id cliente',"".join([str((participa.idCliente.id)) for participa in Participa.objects.order_by('-id').all()]),],
+            ['Id usuario',"".join([str((participa.idCliente.idUsuario.id)) for participa in Participa.objects.order_by('-id').all()]),],
+            ['Título',"".join([str((participa.idProyecto.titulo)) for participa in Participa.objects.order_by('-id').all()]),],
+            ['Descripción',"".join([str((participa.idProyecto.descripcion)) for participa in Participa.objects.order_by('-id').all()]),],
+            ['Nivel',"".join([str((participa.idProyecto.nivel)) for participa in Participa.objects.order_by('-id').all()]),],
+            ['Fecha de Inicio',"".join([(participa.idProyecto.fechaInicio).strftime('%d/%m/%Y') for participa in Participa.objects.order_by('-id').all()]),],
+            ['Fecha Fin',"".join([(participa.idProyecto.fechaFin).strftime('%d/%m/%Y') for participa in Participa.objects.order_by('-id').all()]),],
+            #['Informe Final',"".join([(participa.idProyecto.informeFinal) for participa in Participa.objects.order_by('-id').all()])],
+            ['Fecha de Inscripción',"".join([(participa.fechaInscripcion).strftime('%d/%m/%Y') for participa in Participa.objects.order_by('-id').all()]),],
+            ['Rol',"".join([str((participa.rol)) for participa in Participa.objects.order_by('-id').all()]),],
         ])
         
         #ver_tabla_proyectos = Table([campos] + proyectos_cliente)
@@ -240,11 +215,11 @@ class InformeClientePDFView(View):
         self.header(cliente_pdf)
         
         id_cliente = Cliente.objects.filter(id=cliente_id)
-        posicion_cliente_y = 390
+        posicion_cliente_y = 511
         self.tabla_datos_cliente(cliente_pdf,posicion_cliente_y, id_cliente)
         
         
-        posicion_proyectos_y = 125
+        posicion_proyectos_y = 215
         self.tabla_proyectos_cliente(cliente_pdf,posicion_proyectos_y)
         
         cliente_pdf.showPage()
