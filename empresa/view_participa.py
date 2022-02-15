@@ -175,16 +175,16 @@ class InformeClientePDFView(View):
             participa.fechaInscripcion, participa.rol) for participa in Participa.objects.order_by('-id').all()]"""
         
         ver_tabla_proyectos = Table([
-            ['Id cliente',"".join([str((participa.idCliente.id)) for participa in Participa.objects.order_by('-id').all()]),],
-            ['Id usuario',"".join([str((participa.idCliente.idUsuario.id)) for participa in Participa.objects.order_by('-id').all()]),],
-            ['Título',"".join([str((participa.idProyecto.titulo)) for participa in Participa.objects.order_by('-id').all()]),],
-            ['Descripción',"".join([str((participa.idProyecto.descripcion)) for participa in Participa.objects.order_by('-id').all()]),],
-            ['Nivel',"".join([str((participa.idProyecto.nivel)) for participa in Participa.objects.order_by('-id').all()]),],
-            ['Fecha de Inicio',"".join([(participa.idProyecto.fechaInicio).strftime('%d/%m/%Y') for participa in Participa.objects.order_by('-id').all()]),],
-            ['Fecha Fin',"".join([(participa.idProyecto.fechaFin).strftime('%d/%m/%Y') for participa in Participa.objects.order_by('-id').all()]),],
-            #['Informe Final',"".join([(participa.idProyecto.informeFinal) for participa in Participa.objects.order_by('-id').all()])],
-            ['Fecha de Inscripción',"".join([(participa.fechaInscripcion).strftime('%d/%m/%Y') for participa in Participa.objects.order_by('-id').all()]),],
-            ['Rol',"".join([str((participa.rol)) for participa in Participa.objects.order_by('-id').all()]),],
+            ['Id cliente',"".join([str((participa.idCliente.id)) for participa in Participa.objects.order_by('-id').all()])],
+            ['Id usuario',"".join([str((participa.idCliente.idUsuario.id)) for participa in Participa.objects.order_by('-id').all()])],
+            ['Título',"".join([str((participa.idProyecto.titulo)) for participa in Participa.objects.order_by('-id').all()])],
+            ['Descripción',"".join([str((participa.idProyecto.descripcion)) for participa in Participa.objects.order_by('-id').all()])],
+            ['Nivel',"".join([str((participa.idProyecto.nivel)) for participa in Participa.objects.order_by('-id').all()])],
+            ['Fecha de Inicio',"".join([(participa.idProyecto.fechaInicio).strftime('%d/%m/%Y') for participa in Participa.objects.order_by('-id').all()])],
+            ['Fecha Fin',"".join([(participa.idProyecto.fechaFin).strftime('%d/%m/%Y') for participa in Participa.objects.order_by('-id').all()])],
+            ['Informe Final',"".join([(participa.idProyecto.informeFinal) for participa in Participa.objects.order_by('-id').all()])],
+            ['Fecha de Inscripción',"".join([(participa.fechaInscripcion).strftime('%d/%m/%Y') for participa in Participa.objects.order_by('-id').all()])],
+            ['Rol',"".join([str((participa.rol)) for participa in Participa.objects.order_by('-id').all()])],
         ])
         
         #ver_tabla_proyectos = Table([campos] + proyectos_cliente)
@@ -219,7 +219,7 @@ class InformeClientePDFView(View):
         self.tabla_datos_cliente(cliente_pdf,posicion_cliente_y, id_cliente)
         
         
-        posicion_proyectos_y = 215
+        posicion_proyectos_y = 236
         self.tabla_proyectos_cliente(cliente_pdf,posicion_proyectos_y)
         
         cliente_pdf.showPage()
