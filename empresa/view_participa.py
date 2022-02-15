@@ -12,7 +12,8 @@ from django.http import HttpResponse
 from reportlab.pdfgen import canvas
 from reportlab.platypus import Table, TableStyle
 from reportlab.lib import colors
-from reportlab.lib.pagesizes import A1, A2, A3, A4
+#from reportlab.lib.pagesizes import A1, A2, A3, A4
+from reportlab.lib.pagesizes import A4
 from django.views.generic import View
 
 
@@ -123,34 +124,67 @@ class InformeClientePDFView(View):
     
     def header(self, cliente_pdf):
         logo_salesianos = settings.MEDIA_ROOT+'\logo_informe.png'
-        cliente_pdf.drawImage(logo_salesianos, 20, 1613, 40, 70, preserveAspectRatio=True)
+        cliente_pdf.drawImage(logo_salesianos, 10, 770, 40, 70, preserveAspectRatio=True)
         
         cliente_pdf.setFont("Helvetica-Bold", 25)
         cliente_pdf.setFillColorRGB(0.29296875, 0.453125, 0.609375)
-        cliente_pdf.drawString(136, 1637, u"INFORME PDF DE SALESEMP")
+        cliente_pdf.drawString(150, 795, u"INFORME PDF DE SALESEMP")
         
         cliente_pdf.setFont('Times-Roman',17)
         cliente_pdf.setFillColorRGB(0.21, 0.139, 0.37)
-        cliente_pdf.drawString(10, 690, u"DATOS DE CLIENTE")
+        cliente_pdf.drawString(10, 650, u"DATOS DE CLIENTE")
         
         cliente_pdf.setFont('Times-Roman',17)
         cliente_pdf.setFillColorRGB(0.21, 0.139, 0.37)
-        cliente_pdf.drawString(10, 532, u"PROYECTOS EN LOS QUÉ PARTICIPA EL CLIENTE")
+        cliente_pdf.drawString(10, 318, u"PROYECTOS EN LOS QUE PARTICIPA EL CLIENTE")
     
     def tabla_datos_cliente(self, cliente_pdf, posicion_y, cliente_id):
-        campos = ("Dni","Nombre","Apellidos","Dirección","Fecha de Nacimiento","Fecha de Alta","Usuario")
+        #campos = ("Dni","Nombre","Apellidos","Dirección","Fecha de Nacimiento","Fecha de Alta","Usuario")
+        
+        clientes = []
+        
+        """ver_tabla_cliente = Table([
+            ['Dni',cliente.dni],
+            ['Nombre',cliente.nombre],
+            ['Apellidos',cliente.apellidos],
+            ['Dirección',cliente.direccion],
+            ['Fecha de Nacimiento', cliente.fechaNacimiento],
+            ['Fecha de Alta', cliente.fechaAlta],
+            ['Usuario',cliente.idUsuario.username],
+            
+        ] for cliente in cliente_id)"""
+        
         
         datos_cliente = [(cliente.dni, cliente.nombre, cliente.apellidos, cliente.direccion,
-                    cliente.fechaNacimiento, cliente.fechaAlta, cliente.idUsuario.username) for cliente in cliente_id ]
-        ver_tabla_cliente = Table([campos] + datos_cliente)
+                   cliente.fechaNacimiento, cliente.fechaAlta, cliente.idUsuario.username) for cliente in cliente_id ]
+        #ver_tabla_cliente = Table([campos],datos_cliente)
         
-        # Aplicamos estilos para nuestras celdas #
+        ver_tabla_cliente = Table([
+            ['Dni'],
+            ['Nombre'],
+            ['Apellidos'],
+            ['Dirección'],
+            ['Fecha de Nacimiento'],
+            ['Fecha de Alta'],
+            ['Usuario'],
+            [(cliente.dni) for cliente in cliente_id],
+            [(cliente.nombre) for cliente in cliente_id],
+            [(cliente.apellidos) for cliente in cliente_id],
+            [(cliente.direccion) for cliente in cliente_id],
+            [(cliente.fechaNacimiento) for cliente in cliente_id],
+            [(cliente.fechaAlta) for cliente in cliente_id],
+            [(cliente.idUsuario.username) for cliente in cliente_id],
+        ])
+        
         ver_tabla_cliente.setStyle(TableStyle(
             [
-                #Campos de tabla cliente#
-                ('ALIGN',(0,0),(3,0),'CENTER'),
-                ('GRID',(0,0), (-1, -1), 1, colors.red),
-                ('FONTSIZE',(0, 0),(-1, -1), 10),
+                ('ALIGN',(0,0),(3,16),'CENTER'),
+                ('GRID',(0,0), (-1, -1), 2,colors.blue),
+                ('FONTSIZE',(0, 0),(-1, -1), 12),
+                ('BACKGROUND', (0, 0), (0, 7), colors.Color(20, 121, 195)),
+                ('BOX',(0, 0),(-1, -1),1.25,colors.black),
+                ('GRID',(0,0),(-1,-1),0.5,colors.black),
+                ('TEXTCOLOR', (0, 0), (0, 6), colors.blue),
             ]
         ))
         
@@ -158,25 +192,41 @@ class InformeClientePDFView(View):
         ver_tabla_cliente.drawOn(cliente_pdf, 10, posicion_y) # coordenada que se mostrará en la tabla#
         return ver_tabla_cliente
     
-    def tabla_proyectos_cliente(self, cliente_pdf, posicion_y, cliente_id):
-        campos = ("Id cliente", "Id usuario", "Usuario cliente","Titulo","Descripción","Nivel","Fecha de Inicio", "Fecha Fin", "Informe final",
-            "Fecha de inscripción", "Rol")
+    def tabla_proyectos_cliente(self, cliente_pdf, posicion_y):
+        #campos = ("Id cliente", "Id usuario", "Usuario cliente","Titulo","Descripción","Nivel","Fecha de Inicio", "Fecha Fin", "Informe final","Fecha de inscripción", "Rol")
         
-        proyectos_cliente = [(participa.idCliente.id, participa.idCliente.idUsuario.id, participa.idCliente.idUsuario.username, participa.idProyecto.titulo, participa.idProyecto.descripcion,
+        """proyectos_cliente = [(participa.idCliente.id, participa.idCliente.idUsuario.id, participa.idCliente.idUsuario.username, participa.idProyecto.titulo, participa.idProyecto.descripcion,
             participa.idProyecto.nivel, participa.idProyecto.fechaInicio,participa.idProyecto.fechaFin, participa.idProyecto.informeFinal,
-            participa.fechaInscripcion, participa.rol) for participa in Participa.objects.order_by('-id').all()]
+            participa.fechaInscripcion, participa.rol) for participa in Participa.objects.order_by('-id').all()]"""
         
-        ver_tabla_proyectos = Table([campos] + proyectos_cliente)
+        ver_tabla_proyectos = Table([
+            ['Id cliente'],
+            ['Id usuario'],
+            ['Título'],
+            ['Descripción'],
+            ['Nivel'],
+            ['Fecha de Inicio'],
+            ['Fecha Fin'],
+            ['Informe Final'],
+            ['Fecha de Inscripción'],
+            ['Rol'],
+        ])
+        
+        #ver_tabla_proyectos = Table([campos] + proyectos_cliente)
         ver_tabla_proyectos.setStyle(TableStyle(
             [
-                ('ALIGN',(0,0),(3,0),'CENTER'),
+                ('ALIGN',(0,0),(3,10),'CENTER'),
                 ('GRID',(0,0), (-1, -1), 1, colors.blue),
-                ('FONTSIZE',(0, 0),(-1, -1), 10),
+                ('FONTSIZE',(0, 0),(-1, -1), 12),
+                ('BACKGROUND', (0, 0), (0, 10), colors.Color(20, 121, 195)),
+                ('BOX',(0,0),(-1,-1),1.25,colors.black),
+                ('GRID',(0,0),(-1,-1),0.5,colors.black),
+                ('TEXTCOLOR', (0, 0), (0, 10), colors.blue),
             ]
         ))
         
         ver_tabla_proyectos.wrapOn(cliente_pdf, 500, 350)
-        ver_tabla_proyectos.drawOn(cliente_pdf, 10, posicion_y)
+        ver_tabla_proyectos.drawOn(cliente_pdf, 10, posicion_y)        
         return ver_tabla_proyectos
     
     
@@ -185,17 +235,17 @@ class InformeClientePDFView(View):
         response['Content-Disposition'] = 'attachment; filename="informe_cliente.pdf"'    
         
         buffer = BytesIO()
-        cliente_pdf = canvas.Canvas(buffer, pagesize=A2)
+        cliente_pdf = canvas.Canvas(buffer, pagesize=A4)
         
         self.header(cliente_pdf)
         
         id_cliente = Cliente.objects.filter(id=cliente_id)
-        posicion_cliente_y = 640
+        posicion_cliente_y = 390
         self.tabla_datos_cliente(cliente_pdf,posicion_cliente_y, id_cliente)
         
         
-        posicion_proyectos_y = 430
-        self.tabla_proyectos_cliente(cliente_pdf,posicion_proyectos_y, id_cliente)
+        posicion_proyectos_y = 125
+        self.tabla_proyectos_cliente(cliente_pdf,posicion_proyectos_y)
         
         cliente_pdf.showPage()
         cliente_pdf.save()
