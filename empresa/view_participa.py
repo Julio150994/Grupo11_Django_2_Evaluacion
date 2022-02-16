@@ -165,17 +165,16 @@ class InformeClientePDFView(View):
         return ver_tabla_cliente
     
     def tabla_proyectos_cliente(self, cliente_pdf, posicion_y):
-        
         proyectos_cliente = [
-            ['Usuario',"".join([(participa.idCliente.idUsuario.username) for participa in Participa.objects.order_by('-id').all()])],
-            ['Título',"".join([(participa.idProyecto.titulo) for participa in Participa.objects.order_by('-id').all()])],
-            ['Descripción',"".join([(participa.idProyecto.descripcion) for participa in Participa.objects.order_by('-id').all()])],
-            ['Nivel',"".join([str((participa.idProyecto.nivel)) for participa in Participa.objects.order_by('-id').all()])],
-            ['Fecha de Inicio',"".join([(participa.idProyecto.fechaInicio.strftime('%d/%m/%Y')) for participa in Participa.objects.order_by('-id').all()])],
-            ['Fecha Fin',"".join([(participa.idProyecto.fechaFin.strftime('%d/%m/%Y')) for participa in Participa.objects.order_by('-id').all()])],
-            ['Informe Final',"".join([(participa.idProyecto.informeFinal) for participa in Participa.objects.order_by('-id').all()])],
-            ['Fecha Fin',"".join([(participa.fechaInscripcion.strftime('%d/%m/%Y')) for participa in Participa.objects.order_by('-id').all()])],
-            ['Rol',"".join([(participa.rol) for participa in Participa.objects.order_by('-id').all()])],
+            ['Usuario',"".join([(participa.idCliente.idUsuario.username) for participa in Participa.objects.order_by('-id')])],
+            ['Título',"".join([(participa.idProyecto.titulo) for participa in Participa.objects.order_by('-id')])],
+            ['Descripción',"".join([(participa.idProyecto.descripcion) for participa in Participa.objects.order_by('-id')])],
+            ['Nivel',"".join([str((participa.idProyecto.nivel)) for participa in Participa.objects.order_by('-id')])],
+            ['Fecha de Inicio',"".join([(participa.idProyecto.fechaInicio.strftime('%d/%m/%Y')) for participa in Participa.objects.order_by('-id')])],
+            ['Fecha Fin',"".join([(participa.idProyecto.fechaFin.strftime('%d/%m/%Y')) for participa in Participa.objects.order_by('-id')])],
+            ['Informe Final',"".join([(participa.idProyecto.informeFinal) for participa in Participa.objects.order_by('-id')])],
+            ['Fecha de Inscripción',"".join([(participa.fechaInscripcion.strftime('%d/%m/%Y')) for participa in Participa.objects.order_by('-id')])],
+            ['Rol',"".join([(participa.rol) for participa in Participa.objects.order_by('-id')])],
         ]
         
         ver_tabla_proyectos = Table(proyectos_cliente)
