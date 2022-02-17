@@ -174,8 +174,10 @@ class InformeClientePDFView(View):
         datos_orden.setStyle(TableStyle(
             [
                 ('ALIGN',(0,0),(3,0),'CENTER'),
-                ('GRID', (0,0),(-1,-1),1,colors.black),
+                ('GRID', (0,0),(-1,-1),1,colors.transparent),
                 ('FONTSIZE', (0,0),(-1,-1),10),
+                 ('BACKGROUND',(0,0),(-1,-1),colors.Color(red=(250/255),green=(128/255),blue=(114/255), alpha=(125/255))),
+                ('COLBACKGROUNDS',(0,1),(-1,-1),(colors.beige,colors.lightyellow)),
             ]
         ))
     
