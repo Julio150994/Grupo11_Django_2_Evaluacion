@@ -231,13 +231,15 @@ class InformeClientePDFView(View):
                 ('ALIGN',(0,0),(3,0),'CENTER'),
                 ('GRID', (0,0),(-1,-1),1,colors.transparent),
                 ('FONTSIZE', (0,0),(-1,-1),10),
-                ('BACKGROUND',(0,0),(0,-1),colors.lightgreen),
-                ('BACKGROUND',(1,0),(0,-1),colors.beige),
-                ('BACKGROUND',(2,0),(2,-1),colors.lightgreen)
+                ('BACKGROUND',(0,0),(0,-1),colors.salmon),
+                ('ROWBACKGROUNDS',(0,1),(-1,-1),(colors.lightgreen,colors.lightblue)),
+                # ('COLBACKGROUNDS',colors.beige),
+
 
                 
             ]
         ))
+        
     
         datos_pry.wrapOn(cliente_pdf,800,600)
         datos_pry.drawOn(cliente_pdf,60,posicion_y)
