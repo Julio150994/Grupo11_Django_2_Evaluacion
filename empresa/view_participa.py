@@ -225,7 +225,7 @@ class InformeClientePDFView(View):
     
         encabezados = ('Titulo','Descripcion','Inicio','Fin')
         datos = [(self.Para(p.idProyecto.titulo), self.Para(p.idProyecto.descripcion), p.idProyecto.fechaInicio, p.idProyecto.fechaFin ) for p in Participa.objects.order_by('-id')]
-        datos_pry = Table([encabezados] + datos, colWidths=[5*cm,5*cm,5*cm], splitByRow = True)
+        datos_pry = Table([encabezados] + datos, colWidths=[4*cm,4*cm,4*cm], splitByRow = True)
         datos_pry.setStyle(TableStyle(
             [
                 ('ALIGN',(0,0),(3,0),'CENTER'),
