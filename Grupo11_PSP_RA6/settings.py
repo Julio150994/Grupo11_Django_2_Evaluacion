@@ -41,9 +41,12 @@ INSTALLED_APPS = [
     'empresa',
     'django_cleanup',
     'rest_framework',
+    'rest_framework.authtoken',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -131,5 +134,16 @@ MEDIA_URL = '/fotos/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR,"empresa/static"),
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES':[
+        'rest_framework.authentication.TokenAuthentication',
+    ]
+}
+
+CORS_ORIGIN_ALLOW_ALL = False
+CORS_ORIGIN_WHITELIST = (
+    'http://localhost:8080',
+)
 
 LOGIN_REDIRECT_URL = 'sign_in/'
