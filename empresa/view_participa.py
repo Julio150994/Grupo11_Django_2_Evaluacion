@@ -1,5 +1,6 @@
 from datetime import datetime
 import datetime
+from tkinter.ttk import Style
 from django.core.checks import messages
 from django.urls import reverse
 from django.shortcuts import render, redirect
@@ -11,10 +12,11 @@ from django.conf import settings
 from io import BytesIO
 from django.http import HttpResponse
 from reportlab.pdfgen import canvas
-from reportlab.platypus import Table, TableStyle
+from reportlab.platypus import Table, TableStyle, Paragraph
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.units import cm
+from reportlab.lib.styles import getSampleStyleSheet
 from django.views.generic import View
 
 
@@ -122,6 +124,9 @@ def buscar_clientes_pry(request):
 
 class InformeClientePDFView(View):
     
+    global style
+    style = getSampleStyleSheet()['Normal']
+    
     def header(self, cliente_pdf):
         logo_salesianos = settings.MEDIA_ROOT+'\logo_informe.png'
         cliente_pdf.drawImage(logo_salesianos, 10, 770, 40, 70, preserveAspectRatio=True)
@@ -178,6 +183,8 @@ class InformeClientePDFView(View):
         datos_orden.drawOn(cliente_pdf,60,posicion_y)
         return datos_orden
     
+    def Para(self,txt):
+        return Paragraph(txt, style)
 
     def tabla_proyectos_cliente(self, cliente_pdf, posicion_y, usuario_cliente):
         
@@ -217,13 +224,15 @@ class InformeClientePDFView(View):
     #     return ver_tabla_proyectos
     
         encabezados = ('Titulo','Descripcion','Inicio','Fin')
-        datos = [(p.idProyecto.titulo, p.idProyecto.descripcion, p.idProyecto.fechaInicio, p.idProyecto.fechaFin ) for p in Participa.objects.order_by('-id')]
-        datos_pry = Table([encabezados] + datos, colWidths=[5*cm, 5*cm,5*cm])
+        datos = [(self.Para(p.idProyecto.titulo), self.Para(p.idProyecto.descripcion), p.idProyecto.fechaInicio, p.idProyecto.fechaFin ) for p in Participa.objects.order_by('-id')]
+        datos_pry = Table([encabezados] + datos, colWidths=[5*cm,5*cm,5*cm], splitByRow = True)
         datos_pry.setStyle(TableStyle(
             [
                 ('ALIGN',(0,0),(3,0),'CENTER'),
                 ('GRID', (0,0),(-1,-1),1,colors.black),
                 ('FONTSIZE', (0,0),(-1,-1),10),
+
+                
             ]
         ))
     
