@@ -183,7 +183,6 @@ class InformeClientePDFView(View):
         ))
     
         datos_orden.wrapOn(cliente_pdf,800,600)
-        #60#
         datos_orden.drawOn(cliente_pdf,10,posicion_y)
         return datos_orden
     
@@ -244,7 +243,6 @@ class InformeClientePDFView(View):
         
     
         datos_pry.wrapOn(cliente_pdf,800,600)
-        #60#
         datos_pry.drawOn(cliente_pdf,10,posicion_y)
         return datos_pry
     
