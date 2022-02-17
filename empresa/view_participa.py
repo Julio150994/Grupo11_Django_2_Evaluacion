@@ -14,6 +14,7 @@ from reportlab.pdfgen import canvas
 from reportlab.platypus import Table, TableStyle
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import A4
+from reportlab.lib.units import cm
 from django.views.generic import View
 
 
@@ -129,75 +130,106 @@ class InformeClientePDFView(View):
         cliente_pdf.setFillColorRGB(0.29296875, 0.453125, 0.609375)
         cliente_pdf.drawString(150, 795, u"INFORME PDF DE SALESEMP")
         
-        cliente_pdf.setFont('Times-Roman',17)
-        cliente_pdf.setFillColorRGB(0.21, 0.139, 0.37)
-        cliente_pdf.drawString(10, 726, u"DATOS DE CLIENTE")
+        # cliente_pdf.setFont('Times-Roman',17)
+        # cliente_pdf.setFillColorRGB(0.21, 0.139, 0.37)
+        # cliente_pdf.drawString(10, 726, u"DATOS DE CLIENTE")
         
-        cliente_pdf.setFont('Times-Roman',17)
-        cliente_pdf.setFillColorRGB(0.21, 0.139, 0.37)
-        cliente_pdf.drawString(10, 510, u"PROYECTOS EN LOS QUE PARTICIPA EL CLIENTE")
+        # cliente_pdf.setFont('Times-Roman',17)
+        # cliente_pdf.setFillColorRGB(0.21, 0.139, 0.37)
+        # cliente_pdf.drawString(10, 510, u"PROYECTOS EN LOS QUE PARTICIPA EL CLIENTE")
     
     def tabla_datos_cliente(self, cliente_pdf, posicion_y, cliente_id):        
-        #Leyenda de la tabla: Table([nombre de los campos], datos del cliente actual)#
-        ver_tabla_cliente = Table([
-            ['Dni',"".join([(cliente.dni) for cliente in cliente_id])],
-            ['Nombre', "".join([(cliente.nombre) for cliente in cliente_id])],
-            ['Apellidos', "".join([(cliente.apellidos) for cliente in cliente_id])],
-            ['Dirección', "".join([(cliente.direccion) for cliente in cliente_id])],
-            ['Fecha de Nacimiento', "".join([(cliente.fechaNacimiento).strftime('%d/%m/%Y') for cliente in cliente_id])],
-            ['Fecha de Alta', "".join([(cliente.fechaAlta).strftime('%d/%m/%Y') for cliente in cliente_id])],
-            ['Usuario', "".join([(cliente.idUsuario.username) for cliente in cliente_id])],
-        ])
+    #     #Leyenda de la tabla: Table([nombre de los campos], datos del cliente actual)#
+    #     ver_tabla_cliente = Table([
+    #         ['Dni',"".join([(cliente.dni) for cliente in cliente_id])],
+    #         ['Nombre', "".join([(cliente.nombre) for cliente in cliente_id])],
+    #         ['Apellidos', "".join([(cliente.apellidos) for cliente in cliente_id])],
+    #         ['Dirección', "".join([(cliente.direccion) for cliente in cliente_id])],
+    #         ['Fecha de Nacimiento', "".join([(cliente.fechaNacimiento).strftime('%d/%m/%Y') for cliente in cliente_id])],
+    #         ['Fecha de Alta', "".join([(cliente.fechaAlta).strftime('%d/%m/%Y') for cliente in cliente_id])],
+    #         ['Usuario', "".join([(cliente.idUsuario.username) for cliente in cliente_id])],
+    #     ])
         
-        ver_tabla_cliente.setStyle(TableStyle(
+    #     ver_tabla_cliente.setStyle(TableStyle(
+    #         [
+    #             ('ALIGN',(0,0),(3,16),'LEFT'),
+    #             ('FONTSIZE',(0, 0),(-1, -1), 12),
+    #             ('BACKGROUND', (0, 0), (0, 7), colors.Color(20, 121, 195)),
+    #             ('TEXTCOLOR', (0, 0), (0, 6), colors.blue),
+    #         ]
+    #     ))
+        
+    #     ver_tabla_cliente.wrapOn(cliente_pdf, 500, 350) # anchura y altura de la tabla#
+    #     ver_tabla_cliente.drawOn(cliente_pdf, 10, posicion_y) # coordenada que se mostrará en la tabla#
+    #     return ver_tabla_cliente
+    
+        encabezados = ('Nombre','Apellidos','Direccion')
+        datos = [(c.nombre, c.apellidos, c.direccion) for c in cliente_id]
+        datos_orden = Table([encabezados] + datos, colWidths=[5*cm, 5*cm,5*cm])
+        datos_orden.setStyle(TableStyle(
             [
-                ('ALIGN',(0,0),(3,16),'LEFT'),
-                ('FONTSIZE',(0, 0),(-1, -1), 12),
-                ('BACKGROUND', (0, 0), (0, 7), colors.Color(20, 121, 195)),
-                ('TEXTCOLOR', (0, 0), (0, 6), colors.blue),
+                ('ALIGN',(0,0),(3,0),'CENTER'),
+                ('GRID', (0,0),(-1,-1),1,colors.black),
+                ('FONTSIZE', (0,0),(-1,-1),10),
             ]
         ))
-        
-        ver_tabla_cliente.wrapOn(cliente_pdf, 500, 350) # anchura y altura de la tabla#
-        ver_tabla_cliente.drawOn(cliente_pdf, 10, posicion_y) # coordenada que se mostrará en la tabla#
-        return ver_tabla_cliente
     
+        datos_orden.wrapOn(cliente_pdf,800,600)
+        datos_orden.drawOn(cliente_pdf,60,posicion_y)
+        return datos_orden
+    
+
     def tabla_proyectos_cliente(self, cliente_pdf, posicion_y, usuario_cliente):
         
-        proyectos_cliente = [
-            ['Título',"".join([(participa.idProyecto.titulo) for participa in Participa.objects.order_by('-id')
-                if participa.idCliente.idUsuario.username == usuario_cliente])],
-            ['Descripción',"".join([(participa.idProyecto.descripcion) for participa in Participa.objects.order_by('-id')
-                if participa.idCliente.idUsuario.username == usuario_cliente])],
-            ['Nivel',"".join([str((participa.idProyecto.nivel)) for participa in Participa.objects.order_by('-id')
-                if participa.idCliente.idUsuario.username == usuario_cliente])],
-            ['Fecha de Inicio',"".join([(participa.idProyecto.fechaInicio.strftime('%d/%m/%Y')) for participa in Participa.objects.order_by('-id')
-                if participa.idCliente.idUsuario.username == usuario_cliente])],
-            ['Fecha Fin',"".join([(participa.idProyecto.fechaFin.strftime('%d/%m/%Y')) for participa in Participa.objects.order_by('-id')
-                if participa.idCliente.idUsuario.username == usuario_cliente])],
-            ['Informe Final',"".join([(participa.idProyecto.informeFinal) for participa in Participa.objects.order_by('-id')
-                if participa.idCliente.idUsuario.username == usuario_cliente])],
-            ['Fecha de Inscripción',"".join([(participa.fechaInscripcion.strftime('%d/%m/%Y')) for participa in Participa.objects.order_by('-id')
-                if participa.idCliente.idUsuario.username == usuario_cliente])],
-            ['Rol',"".join([(participa.rol) for participa in Participa.objects.order_by('-id')
-                if participa.idCliente.idUsuario.username == usuario_cliente])],
-        ]
+    #     proyectos_cliente = [
+    #         ['Título',"".join([(participa.idProyecto.titulo) for participa in Participa.objects.order_by('-id')
+    #             if participa.idCliente.idUsuario.username == usuario_cliente])],
+    #         ['Descripción',"".join([(participa.idProyecto.descripcion) for participa in Participa.objects.order_by('-id')
+    #             if participa.idCliente.idUsuario.username == usuario_cliente])],
+    #         ['Nivel',"".join([str((participa.idProyecto.nivel)) for participa in Participa.objects.order_by('-id')
+    #             if participa.idCliente.idUsuario.username == usuario_cliente])],
+    #         ['Fecha de Inicio',"".join([(participa.idProyecto.fechaInicio.strftime('%d/%m/%Y')) for participa in Participa.objects.order_by('-id')
+    #             if participa.idCliente.idUsuario.username == usuario_cliente])],
+    #         ['Fecha Fin',"".join([(participa.idProyecto.fechaFin.strftime('%d/%m/%Y')) for participa in Participa.objects.order_by('-id')
+    #             if participa.idCliente.idUsuario.username == usuario_cliente])],
+    #         ['Informe Final',"".join([(participa.idProyecto.informeFinal) for participa in Participa.objects.order_by('-id')
+    #             if participa.idCliente.idUsuario.username == usuario_cliente])],
+    #         ['Fecha de Inscripción',"".join([(participa.fechaInscripcion.strftime('%d/%m/%Y')) for participa in Participa.objects.order_by('-id')
+    #             if participa.idCliente.idUsuario.username == usuario_cliente])],
+    #         ['Rol',"".join([(participa.rol) for participa in Participa.objects.order_by('-id')
+    #             if participa.idCliente.idUsuario.username == usuario_cliente])],
+    #     ]
         
-        ver_tabla_proyectos = Table(proyectos_cliente)
-        ver_tabla_proyectos.setStyle(TableStyle(
+    #     ver_tabla_proyectos = Table(proyectos_cliente)
+    #     ver_tabla_proyectos.setStyle(TableStyle(
+    #         [
+    #             ('ALIGN',(0,0),(3,10),'CENTER'),
+    #             ('GRID',(0,0), (-1, -1), 1, colors.blue),
+    #             ('FONTSIZE',(0, 0),(-1, -1), 7.8),
+    #             ('BACKGROUND', (0, 0), (0, 10), colors.Color(20, 121, 195)),
+    #             ('BOX',(0,0),(-1,-1),1.25,colors.blue),
+    #             ('TEXTCOLOR', (0, 0), (0, 10), colors.blue),
+    #         ]
+    #     ))
+        
+    #     ver_tabla_proyectos.wrapOn(cliente_pdf, 500, 350)
+    #     ver_tabla_proyectos.drawOn(cliente_pdf, 10, posicion_y)
+    #     return ver_tabla_proyectos
+    
+        encabezados = ('Titulo','Descripcion','Inicio','Fin')
+        datos = [(p.idProyecto.titulo, p.idProyecto.descripcion, p.idProyecto.fechaInicio, p.idProyecto.fechaFin ) for p in Participa.objects.order_by('-id')]
+        datos_pry = Table([encabezados] + datos, colWidths=[5*cm, 5*cm,5*cm])
+        datos_pry.setStyle(TableStyle(
             [
-                ('ALIGN',(0,0),(3,10),'CENTER'),
-                ('GRID',(0,0), (-1, -1), 1, colors.blue),
-                ('FONTSIZE',(0, 0),(-1, -1), 7.8),
-                ('BACKGROUND', (0, 0), (0, 10), colors.Color(20, 121, 195)),
-                ('BOX',(0,0),(-1,-1),1.25,colors.blue),
-                ('TEXTCOLOR', (0, 0), (0, 10), colors.blue),
+                ('ALIGN',(0,0),(3,0),'CENTER'),
+                ('GRID', (0,0),(-1,-1),1,colors.black),
+                ('FONTSIZE', (0,0),(-1,-1),10),
             ]
         ))
-        
-        ver_tabla_proyectos.wrapOn(cliente_pdf, 500, 350)
-        ver_tabla_proyectos.drawOn(cliente_pdf, 10, posicion_y)
-        return ver_tabla_proyectos
+    
+        datos_pry.wrapOn(cliente_pdf,800,600)
+        datos_pry.drawOn(cliente_pdf,60,posicion_y)
+        return datos_pry
     
     
     def get(self, request, cliente_id, *args, **kwargs):
