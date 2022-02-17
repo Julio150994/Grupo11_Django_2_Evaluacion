@@ -214,7 +214,7 @@ class InformeClientePDFView(View):
         self.tabla_datos_cliente(cliente_pdf,posicion_cliente_y, id_cliente)
         
         cliente_actual = request.user.username
-        posicion_proyectos_y = 328
+        posicion_proyectos_y = 353
         self.tabla_proyectos_cliente(cliente_pdf,posicion_proyectos_y, cliente_actual)
         
         cliente_pdf.showPage()
