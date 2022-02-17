@@ -165,8 +165,6 @@ class InformeClientePDFView(View):
     def tabla_proyectos_cliente(self, cliente_pdf, posicion_y, usuario_cliente):
         
         proyectos_cliente = [
-            ['Usuario',"".join([(participa.idCliente.idUsuario.username) for participa in Participa.objects.order_by('-id')
-                if participa.idCliente.idUsuario.username == usuario_cliente])],
             ['Título',"".join([(participa.idProyecto.titulo) for participa in Participa.objects.order_by('-id')
                 if participa.idCliente.idUsuario.username == usuario_cliente])],
             ['Descripción',"".join([(participa.idProyecto.descripcion) for participa in Participa.objects.order_by('-id')
