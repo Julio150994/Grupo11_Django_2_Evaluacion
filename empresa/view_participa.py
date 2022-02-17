@@ -135,13 +135,14 @@ class InformeClientePDFView(View):
         cliente_pdf.setFillColorRGB(0.29296875, 0.453125, 0.609375)
         cliente_pdf.drawString(150, 795, u"INFORME PDF DE SALESEMP")
         
-        # cliente_pdf.setFont('Times-Roman',17)
-        # cliente_pdf.setFillColorRGB(0.21, 0.139, 0.37)
-        # cliente_pdf.drawString(10, 726, u"DATOS DE CLIENTE")
+        cliente_pdf.setFont('Times-Roman',17)
+        cliente_pdf.setFillColorRGB(0.21, 0.139, 0.37)
+        cliente_pdf.drawString(10, 726, u"DATOS DE CLIENTE")
         
-        # cliente_pdf.setFont('Times-Roman',17)
-        # cliente_pdf.setFillColorRGB(0.21, 0.139, 0.37)
-        # cliente_pdf.drawString(10, 510, u"PROYECTOS EN LOS QUE PARTICIPA EL CLIENTE")
+        cliente_pdf.setFont('Times-Roman',17)
+        cliente_pdf.setFillColorRGB(0.21, 0.139, 0.37)
+        #510#
+        cliente_pdf.drawString(10, 450, u"PROYECTOS DONDE PARTICIPA EL CLIENTE") #PROYECTOS EN LOS QUE PARTICIPA EL CLIENTE#
     
     def tabla_datos_cliente(self, cliente_pdf, posicion_y, cliente_id):        
     #     #Leyenda de la tabla: Table([nombre de los campos], datos del cliente actual)#
@@ -168,12 +169,12 @@ class InformeClientePDFView(View):
     #     ver_tabla_cliente.drawOn(cliente_pdf, 10, posicion_y) # coordenada que se mostrará en la tabla#
     #     return ver_tabla_cliente
     
-        encabezados = ('Nombre','Apellidos','Direccion','DNI')
-        datos = [(c.nombre, c.apellidos, c.direccion, c.dni) for c in cliente_id]
+        encabezados = ('Dni','Nombre','Apellidos','Direccion')
+        datos = [(c.dni, c.nombre, c.apellidos, c.direccion) for c in cliente_id]
         datos_orden = Table([encabezados] + datos, colWidths=[4*cm,4*cm,4*cm])
         datos_orden.setStyle(TableStyle(
             [
-                ('ALIGN',(0,0),(3,0),'CENTER'),
+                ('ALIGN',(0,0),(3,4),'CENTER'),
                 ('GRID', (0,0),(-1,-1),1,colors.transparent),
                 ('FONTSIZE', (0,0),(-1,-1),10),
                  ('BACKGROUND',(0,0),(-1,-1),colors.Color(red=(250/255),green=(128/255),blue=(114/255), alpha=(125/255))),
@@ -182,7 +183,8 @@ class InformeClientePDFView(View):
         ))
     
         datos_orden.wrapOn(cliente_pdf,800,600)
-        datos_orden.drawOn(cliente_pdf,60,posicion_y)
+        #60#
+        datos_orden.drawOn(cliente_pdf,10,posicion_y)
         return datos_orden
     
     def Para(self,txt):
@@ -231,7 +233,7 @@ class InformeClientePDFView(View):
         datos_pry = Table([encabezados] + datos, colWidths=[4*cm,4*cm,4*cm], splitByRow = True)
         datos_pry.setStyle(TableStyle(
             [
-                ('ALIGN',(0,0),(3,0),'CENTER'),
+                ('ALIGN',(0,0),(3,10),'CENTER'),
                 ('GRID', (0,0),(4,0),1, colors.transparent),
                 ('FONTSIZE', (0,0),(-1,-1),10),
                 ('BACKGROUND',(0,0),(-1,-1),colors.Color(red=(250/255),green=(128/255),blue=(114/255), alpha=(125/255))),
@@ -242,7 +244,8 @@ class InformeClientePDFView(View):
         
     
         datos_pry.wrapOn(cliente_pdf,800,600)
-        datos_pry.drawOn(cliente_pdf,60,posicion_y)
+        #60#
+        datos_pry.drawOn(cliente_pdf,10,posicion_y)
         return datos_pry
     
     
@@ -256,10 +259,10 @@ class InformeClientePDFView(View):
         self.header(cliente_pdf)
         
         id_cliente = Cliente.objects.filter(id=cliente_id)
-        posicion_cliente_y = 590
+        posicion_cliente_y = 680
         self.tabla_datos_cliente(cliente_pdf,posicion_cliente_y, id_cliente)
         
-        posicion_proyectos_y = 353
+        posicion_proyectos_y = 323
         self.tabla_proyectos_cliente(cliente_pdf,posicion_proyectos_y, request.user.username)
         
         cliente_pdf.showPage()
