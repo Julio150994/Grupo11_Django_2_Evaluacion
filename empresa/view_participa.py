@@ -13,10 +13,8 @@ from django.http import HttpResponse
 from reportlab.pdfgen import canvas
 from reportlab.platypus import Table, TableStyle
 from reportlab.lib import colors
-#from reportlab.lib.pagesizes import A1, A2, A3, A4
 from reportlab.lib.pagesizes import A4
 from django.views.generic import View
-
 
 
 def mostrar_clientes_pry(request,id):
@@ -164,17 +162,27 @@ class InformeClientePDFView(View):
         ver_tabla_cliente.drawOn(cliente_pdf, 10, posicion_y) # coordenada que se mostrará en la tabla#
         return ver_tabla_cliente
     
-    def tabla_proyectos_cliente(self, cliente_pdf, posicion_y):
+    def tabla_proyectos_cliente(self, cliente_pdf, posicion_y, usuario_cliente):
+        
         proyectos_cliente = [
-            ['Usuario',"".join([(participa.idCliente.idUsuario.username) for participa in Participa.objects.order_by('-id')])],
-            ['Título',"".join([(participa.idProyecto.titulo) for participa in Participa.objects.order_by('-id')])],
-            ['Descripción',"".join([(participa.idProyecto.descripcion) for participa in Participa.objects.order_by('-id')])],
-            ['Nivel',"".join([str((participa.idProyecto.nivel)) for participa in Participa.objects.order_by('-id')])],
-            ['Fecha de Inicio',"".join([(participa.idProyecto.fechaInicio.strftime('%d/%m/%Y')) for participa in Participa.objects.order_by('-id')])],
-            ['Fecha Fin',"".join([(participa.idProyecto.fechaFin.strftime('%d/%m/%Y')) for participa in Participa.objects.order_by('-id')])],
-            ['Informe Final',"".join([(participa.idProyecto.informeFinal) for participa in Participa.objects.order_by('-id')])],
-            ['Fecha de Inscripción',"".join([(participa.fechaInscripcion.strftime('%d/%m/%Y')) for participa in Participa.objects.order_by('-id')])],
-            ['Rol',"".join([(participa.rol) for participa in Participa.objects.order_by('-id')])],
+            ['Usuario',"".join([(participa.idCliente.idUsuario.username) for participa in Participa.objects.order_by('-id')
+                if participa.idCliente.idUsuario.username == usuario_cliente])],
+            ['Título',"".join([(participa.idProyecto.titulo) for participa in Participa.objects.order_by('-id')
+                if participa.idCliente.idUsuario.username == usuario_cliente])],
+            ['Descripción',"".join([(participa.idProyecto.descripcion) for participa in Participa.objects.order_by('-id')
+                if participa.idCliente.idUsuario.username == usuario_cliente])],
+            ['Nivel',"".join([str((participa.idProyecto.nivel)) for participa in Participa.objects.order_by('-id')
+                if participa.idCliente.idUsuario.username == usuario_cliente])],
+            ['Fecha de Inicio',"".join([(participa.idProyecto.fechaInicio.strftime('%d/%m/%Y')) for participa in Participa.objects.order_by('-id')
+                if participa.idCliente.idUsuario.username == usuario_cliente])],
+            ['Fecha Fin',"".join([(participa.idProyecto.fechaFin.strftime('%d/%m/%Y')) for participa in Participa.objects.order_by('-id')
+                if participa.idCliente.idUsuario.username == usuario_cliente])],
+            ['Informe Final',"".join([(participa.idProyecto.informeFinal) for participa in Participa.objects.order_by('-id')
+                if participa.idCliente.idUsuario.username == usuario_cliente])],
+            ['Fecha de Inscripción',"".join([(participa.fechaInscripcion.strftime('%d/%m/%Y')) for participa in Participa.objects.order_by('-id')
+                if participa.idCliente.idUsuario.username == usuario_cliente])],
+            ['Rol',"".join([(participa.rol) for participa in Participa.objects.order_by('-id')
+                if participa.idCliente.idUsuario.username == usuario_cliente])],
         ]
         
         ver_tabla_proyectos = Table(proyectos_cliente)
@@ -207,9 +215,9 @@ class InformeClientePDFView(View):
         posicion_cliente_y = 590
         self.tabla_datos_cliente(cliente_pdf,posicion_cliente_y, id_cliente)
         
-        
+        cliente_actual = request.user.username
         posicion_proyectos_y = 328
-        self.tabla_proyectos_cliente(cliente_pdf,posicion_proyectos_y)
+        self.tabla_proyectos_cliente(cliente_pdf,posicion_proyectos_y, cliente_actual)
         
         cliente_pdf.showPage()
         cliente_pdf.save()
