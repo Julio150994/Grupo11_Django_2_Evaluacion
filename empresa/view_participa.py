@@ -168,9 +168,9 @@ class InformeClientePDFView(View):
     #     ver_tabla_cliente.drawOn(cliente_pdf, 10, posicion_y) # coordenada que se mostrará en la tabla#
     #     return ver_tabla_cliente
     
-        encabezados = ('Nombre','Apellidos','Direccion')
-        datos = [(c.nombre, c.apellidos, c.direccion) for c in cliente_id]
-        datos_orden = Table([encabezados] + datos, colWidths=[5*cm, 5*cm,5*cm])
+        encabezados = ('Nombre','Apellidos','Direccion','DNI')
+        datos = [(c.nombre, c.apellidos, c.direccion, c.dni) for c in cliente_id]
+        datos_orden = Table([encabezados] + datos, colWidths=[4*cm,4*cm,4*cm])
         datos_orden.setStyle(TableStyle(
             [
                 ('ALIGN',(0,0),(3,0),'CENTER'),
@@ -224,18 +224,16 @@ class InformeClientePDFView(View):
     #     return ver_tabla_proyectos
     
         encabezados = ('Titulo','Descripcion','Inicio','Fin')
-        datos = [(self.Para(p.idProyecto.titulo), self.Para(p.idProyecto.descripcion), p.idProyecto.fechaInicio, p.idProyecto.fechaFin ) for p in Participa.objects.order_by('-id')]
+        datos = [(self.Para(p.idProyecto.titulo), self.Para(p.idProyecto.descripcion), (p.idProyecto.fechaInicio).strftime('%d/%m/%Y'), (p.idProyecto.fechaFin).strftime('%d/%m/%Y') ) for p in Participa.objects.order_by('-id')
+            if p.idCliente.idUsuario.username == usuario_cliente]
         datos_pry = Table([encabezados] + datos, colWidths=[4*cm,4*cm,4*cm], splitByRow = True)
         datos_pry.setStyle(TableStyle(
             [
                 ('ALIGN',(0,0),(3,0),'CENTER'),
-                ('GRID', (0,0),(-1,-1),1,colors.transparent),
+                ('GRID', (0,0),(4,0),1, colors.transparent),
                 ('FONTSIZE', (0,0),(-1,-1),10),
-                ('BACKGROUND',(0,0),(0,-1),colors.salmon),
-                ('ROWBACKGROUNDS',(0,1),(-1,-1),(colors.lightgreen,colors.lightblue)),
-                # ('COLBACKGROUNDS',colors.beige),
-
-
+                ('BACKGROUND',(0,0),(-1,-1),colors.Color(red=(250/255),green=(128/255),blue=(114/255), alpha=(125/255))),
+                ('COLBACKGROUNDS',(0,1),(-1,-1),(colors.beige,colors.lightyellow)),
                 
             ]
         ))
