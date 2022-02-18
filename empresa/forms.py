@@ -16,13 +16,12 @@ class ClienteSerializers(serializers.ModelSerializer):
         model = Cliente
         fields = ['dni','nombre','apellidos','direccion','fechaNacimiento','fechaAlta']
 
-
 # Mostrar los proyectos en los que participa el cliente #
-class ProyectosClienteSer(serializers.ModelSerializer):        
+#'idCliente'#
+class ProyectosClienteSerial(serializers.ModelSerializer):
     class Meta:
         model = Participa
         fields = ['idCliente','idProyecto','fechaInscripcion','rol']
-
 
 """Para los formularios de los modelos"""
 class UsuarioModelForm(forms.ModelForm):
