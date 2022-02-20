@@ -1,27 +1,6 @@
-from rest_framework import serializers
 from django import forms
 from empresa.models import Categoria, Empleado, Participa, Proyecto, Usuario, Cliente
 
-
-"""Para realizar serializaciones con api rest en django"""
-# Iniciamos sesión con cualquier usuario #
-class UsuarioSerializers(serializers.ModelSerializer):
-    class Meta:
-        model = Usuario
-        fields = ['username','password']
-        
-# Validamos que sea usuario cliente #
-class ClienteSerializers(serializers.ModelSerializer):
-    class Meta:
-        model = Cliente
-        fields = ['dni','nombre','apellidos','direccion','fechaNacimiento','fechaAlta']
-
-# Mostrar los proyectos en los que participa el cliente #
-#'idCliente'#
-class ProyectosClienteSerial(serializers.ModelSerializer):
-    class Meta:
-        model = Participa
-        fields = ['idCliente','idProyecto','fechaInscripcion','rol']
 
 """Para los formularios de los modelos"""
 class UsuarioModelForm(forms.ModelForm):
