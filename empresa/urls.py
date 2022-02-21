@@ -2,7 +2,7 @@
 from django.urls import path
 from empresa import view_clientes, view_participa, view_pry, views, view_empleados, view_categorias
 from empresa.view_participa import InformeClientePDFView
-from empresa.view_django_rest import ProyectosClienteAPI
+from empresa.view_django_rest import ProyectosClienteAPIView, TokenView
 
 urlpatterns = [
     path('',views.mostrar_inicio, name="page_inicio"),
@@ -41,5 +41,7 @@ urlpatterns = [
     path('buscar_cli/',view_participa.buscar_clientes_pry,name="buscar_clientes"),
     path('informe_cli/<int:cliente_id>/',InformeClientePDFView.as_view(), name="pdf"),
     
-    path('api/proyectos_cli/', ProyectosClienteAPI.as_view()),
+    path('api/token/',TokenView.as_view()),
+    #path('api/login_cliente',LoginClienteAPIView.as_view()),
+    path('api/proyectos_cli/', ProyectosClienteAPIView.as_view()),
 ]
