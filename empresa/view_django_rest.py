@@ -22,23 +22,33 @@ class TokenView(APIView):
                 status=status.HTTP_400_BAD_REQUEST
             )
             
-        if "username" not in data or "password" not in data:
+        if "user" not in data or "password" not in data:
             return Response(
                 'Error en las credenciales',
                 status=status.HTTP_401_UNAUTHORIZED
             )
             
-        cliente = Cliente.objects.get(username=data['cliente'])
-        if not cliente:
+        #cliente = Cliente.objects.get(username=data['cliente'])
+        user = User.objects.get(username=data["user"])
+        
+        if not user:
              return Response(
-                'Cliente no encontrado en la base de datos.',
+                'Usuario no encontrado en la base de datos.',
                 status=status.HTTP_404_NOT_FOUND
             )
-        
-        token = Token.objects.get_or_create(cliente=cliente)
+             
+        token = Token.objects.get_or_create(user=user)
         return Response({'detail': 'Respuesta POST', 'token':token[0].key})
     
-class LoginClienteAPIView(APIView):
+    
+class ProyectosClienteAPIView(APIView):
+    def get(self, request, format=None, *args, **kwargs):
+        participa = Participa.objects.order_by('-id')
+        
+        serial_proyectos_cli = ParticipaSerializer(participa, many=True)
+        return Response(serial_proyectos_cli.data)
+    
+"""class LoginClienteAPIView(APIView):
     permission_classes = [IsAuthenticated]
     
     def get(self, request, format=None, *args, **kwargs):
@@ -54,12 +64,4 @@ class LoginClienteAPIView(APIView):
         if serializer_cliente.is_valid():
             serializer_cliente.save()
             return Response(serializer_cliente.data, status=status.HTTP_201_CREATED)
-        return Response(serializer_cliente.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-
-class ProyectosClienteAPIView(APIView):
-    def get(self, request, format=None, *args, **kwargs):
-        participa = Participa.objects.order_by('-id')
-        
-        serial_proyectos_cli = ParticipaSerializer(participa, many=True)
-        return Response(serial_proyectos_cli.data)
+        return Response(serializer_cliente.errors, status=status.HTTP_400_BAD_REQUEST)"""
