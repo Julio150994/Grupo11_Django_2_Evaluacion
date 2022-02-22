@@ -1,6 +1,6 @@
 import datetime
 from rest_framework import serializers
-from empresa.models import Cliente, Participa, Proyecto, Usuario
+from empresa.models import Cliente, Participa, Usuario
 
 """Para realizar serializaciones con api rest en django"""
 # Iniciamos sesión con usuarios que sean clientes #
@@ -20,18 +20,23 @@ class ClienteSerializers(serializers.ModelSerializer):
 class ParticipaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Participa
-        fields = ['idProyecto','fechaInscripcion','rol']
-        
+        fields = ['idCliente','idProyecto','fechaInscripcion','rol']  
+    
     def to_representation(self, instance):
-        fecha_actual = datetime.datetime.now().strftime('%d/%m/%Y')
+        fecha_actual = datetime.date(int(datetime.date.today().year), int(datetime.date.today().month), int(datetime.date.today().day))
+        fecha_fin = datetime.date(int(instance.idProyecto.fechaFin.year),int(instance.idProyecto.fechaFin.month), int(instance.idProyecto.fechaFin.day))
         
-        return {
-            'titulo':instance.idProyecto.titulo,
-            'descripcion':instance.idProyecto.descripcion,
-            'nivel':instance.idProyecto.nivel,
-            'fechaInicio':instance.idProyecto.fechaInicio.strftime('%d/%m/%Y'),
-            'fechaFin':instance.idProyecto.fechaFin.strftime('%d/%m/%Y'),
-            'informeFinal':instance.idProyecto.informeFinal,
-            'fechaInscripcion':instance.fechaInscripcion.strftime('%d/%m/%Y'),
-            'rol':instance.rol,
-        }
+        if (fecha_fin < fecha_actual and instance.idCliente.idUsuario.username == "frango1994") == True:
+            return  {
+                'titulo':instance.idProyecto.titulo,
+                'descripcion':instance.idProyecto.descripcion,
+                'nivel':instance.idProyecto.nivel,
+                'fechaInicio':instance.idProyecto.fechaInicio.strftime('%d/%m/%Y'),
+                'fechaFin':instance.idProyecto.fechaFin.strftime('%d/%m/%Y'),
+                'informeFinal':instance.idProyecto.informeFinal,
+                'fechaInscripcion':instance.fechaInscripcion.strftime('%d/%m/%Y'),
+                'rol':instance.rol,
+            }
+        else:
+            if instance is None: 
+                return ''
