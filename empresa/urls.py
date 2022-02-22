@@ -43,5 +43,5 @@ urlpatterns = [
     
     path('api/token/',TokenView.as_view()),
     #path('api/login_cliente',LoginClienteAPIView.as_view()),
-    path('api/proyectos_cli/', ProyectosClienteAPIView.as_view()),
+    path('api/proyectos_cli/', ProyectosClienteAPIView.as_view(), name="api_proyecto_cli"),
 ]

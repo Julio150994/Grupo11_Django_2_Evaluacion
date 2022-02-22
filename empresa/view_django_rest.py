@@ -2,6 +2,7 @@ from lib2to3.pgen2.parse import ParseError
 from empresa.models import Cliente, Participa, Usuario
 from .serializers import ParticipaSerializer, UsuarioSerializers
 from django.contrib.auth.models import User
+from django.shortcuts import redirect
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 from rest_framework.permissions import IsAuthenticated
@@ -38,7 +39,8 @@ class TokenView(APIView):
             )
              
         token = Token.objects.get_or_create(user=user)
-        return Response({'detail': 'Respuesta POST', 'token':token[0].key})
+        Response({'detail': 'Respuesta POST', 'token':token[0].key})
+        return redirect('api_proyecto_cli')
     
     
 class ProyectosClienteAPIView(APIView):
