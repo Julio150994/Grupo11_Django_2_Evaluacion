@@ -11,10 +11,6 @@ class UsuarioSerializers(serializers.ModelSerializer):
         model = Usuario
         fields = ['username','password']
 
-class UserTokenSerializers(serializers.ModelSerializer):
-    class Meta:
-        model = User
-
 # Mostrar los proyectos en los que participa el cliente #
 class ParticipaSerializer(serializers.ModelSerializer):
     

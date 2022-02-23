@@ -1,6 +1,6 @@
 from lib2to3.pgen2.parse import ParseError
 from empresa.models import Cliente, Empleado, Participa, Usuario
-from .serializers import ParticipaSerializer, UserTokenSerializers, UsuarioSerializers
+from .serializers import ParticipaSerializer
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
 from rest_framework import status
@@ -41,8 +41,7 @@ class TokenView(APIView):
         else:
             if user.is_active:
                 token, get_token = Token.objects.get_or_create(user=user)
-                usuario_serializer = UserTokenSerializers(user)
-
+                
                 if get_token:
                     # Creamos y/o eliminamos el token #
                     return Response({
