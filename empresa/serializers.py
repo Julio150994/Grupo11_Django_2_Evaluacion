@@ -1,5 +1,6 @@
 import datetime
 from rest_framework import serializers
+from rest_framework.response import Response
 from django.contrib.auth.models import User
 from empresa.models import Cliente, Participa, Usuario
 
@@ -10,25 +11,23 @@ class UsuarioSerializers(serializers.ModelSerializer):
         model = Usuario
         fields = ['username','password']
 
-class ClienteSerializers(serializers.ModelSerializer):
+class UserTokenSerializers(serializers.ModelSerializer):
     class Meta:
-        model = Cliente
-        fields = ['idCliente']
-        depth = 1
-
+        model = User
 
 # Mostrar los proyectos en los que participa el cliente #
 class ParticipaSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Participa
-        fields = ['idCliente','idProyecto','fechaInscripcion','rol']  
+        fields = ['idCliente','idProyecto','fechaInscripcion','rol']
     
     def to_representation(self, instance):
         fecha_actual = datetime.date(int(datetime.date.today().year), int(datetime.date.today().month), int(datetime.date.today().day))
         fecha_fin = datetime.date(int(instance.idProyecto.fechaFin.year),int(instance.idProyecto.fechaFin.month), int(instance.idProyecto.fechaFin.day))
-
+        
         if fecha_fin < fecha_actual and instance.idCliente.idUsuario.username == "frango1994":
+            
             return  {
                 'titulo':instance.idProyecto.titulo,
                 'descripcion':instance.idProyecto.descripcion,

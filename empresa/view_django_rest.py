@@ -1,6 +1,6 @@
 from lib2to3.pgen2.parse import ParseError
 from empresa.models import Cliente, Empleado, Participa, Usuario
-from .serializers import ParticipaSerializer, UsuarioSerializers
+from .serializers import ParticipaSerializer, UserTokenSerializers, UsuarioSerializers
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
 from rest_framework import status
@@ -14,7 +14,9 @@ class TokenView(APIView):
     def get(self, request, format=None):
         return Response({'detail':"Respuesta GET"})
     
-    def post(self, request, format=None):
+    def post(self, request, format=None, *args, **kwargs):
+        #login = self.serializer_class(data = request.data, context = {'request':request})
+        
         try:
             data = request.data
         except ParseError as error:
@@ -31,21 +33,37 @@ class TokenView(APIView):
         
         user = User.objects.get(username=data["user"])
 
-        usuario = Usuario.objects.filter(username=user).values('username')
-        print(usuario)
-
-        cliente = Cliente.objects.filter(idUsuario=usuario)
-        print("Cliente obtenido: "+str(cliente))
-
         if not user:
-             return Response(
+            return Response(
                 'Usuario no encontrado en la base de datos.',
                 status=status.HTTP_404_NOT_FOUND
             )
-        
-        token = Token.objects.get_or_create(user=user)
-        return Response({'detail': 'Respuesta POST', 'token':token[0].key})
-        #return redirect('api_proyecto_cli')
+        else:
+            if user.is_active:
+                token, get_token = Token.objects.get_or_create(user=user)
+                usuario_serializer = UserTokenSerializers(user)
+
+                if get_token:
+                    # Creamos y/o eliminamos el token #
+                    return Response({
+                        'detail': 'Ha iniciado sesión correctamente',
+                        'token': token[0].key
+                    })
+
+                    #status = status.HTTP_200_OK#  
+                else:
+                    # Eliminamos el token anteriormente generado para crear uno nuevo #
+                    token.delete()
+                    token = Token.objects.create(user=user)
+                    return Response({
+                        'detail': 'Ha iniciado sesión correctamente',
+                        'token': token.key,
+                    })
+                #return redirect('api_proyecto_cli')
+            else:
+                return Response({
+                    'detail': 'El usuario debe estar activado para poder iniciar sesión'
+                }, status= status.HTTP_401_UNAUTHORIZED)
     
     
 class ProyectosClienteAPIView(APIView):
@@ -54,21 +72,3 @@ class ProyectosClienteAPIView(APIView):
         
         serial_proyectos_cli = ParticipaSerializer(participa, many=True)
         return Response(serial_proyectos_cli.data)
-    
-"""class LoginClienteAPIView(APIView):
-    permission_classes = [IsAuthenticated]
-    
-    def get(self, request, format=None, *args, **kwargs):
-        usuario = Usuario.objects.all()
-        cliente = Cliente.objects.all()
-        
-        serial = UsuarioSerializers(usuario, many=True)
-        return Response(serial.data)
-    
-    def post(self, request, format=None):
-        serializer_cliente = UsuarioSerializers(data=request.data)
-        
-        if serializer_cliente.is_valid():
-            serializer_cliente.save()
-            return Response(serializer_cliente.data, status=status.HTTP_201_CREATED)
-        return Response(serializer_cliente.errors, status=status.HTTP_400_BAD_REQUEST)"""
