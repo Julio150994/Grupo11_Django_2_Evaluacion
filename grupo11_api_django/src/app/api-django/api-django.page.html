@@ -1,0 +1,33 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title id="titulo">Grupo 11 Trabajo Django</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-button color="tertiary" expand="full" (click)="getProyectos()" id="btnHistorial">
+    <ion-icon name="list-circle"></ion-icon>
+    <span>Historial de proyectos</span>
+  </ion-button>
+
+
+<ion-label *ngFor="let participa of proyectosCliente | slice:0:slice; let numProyecto = index">
+  <ion-card *ngIf="participa != null" id="proyectosCli">
+    <ion-card-header color="success" id="content">
+      <ion-card-title id="cabecera">Proyecto de cliente</ion-card-title>
+    </ion-card-header>
+    
+    <ion-card-content class="text-white">
+      <h4><strong>Título: </strong> <ion-label>{{ participa.titulo }}</ion-label></h4>
+      <h4><strong>Descripción: </strong> <ion-label>{{ participa.descripcion }}</ion-label></h4>
+      <h4><strong>Nivel: </strong> <ion-label>{{ participa.nivel }}</ion-label></h4>
+      <h4><strong>Fecha de inicio: </strong> <ion-label>{{ participa.fechaInicio }}</ion-label></h4>
+      <h4><strong>Fecha fin: </strong> <ion-label>{{ participa.fechaFin }}</ion-label></h4>
+      <h4><strong>Informe Final: </strong> <ion-label>{{ participa.informeFinal }}</ion-label></h4>
+      <h4><strong>Fecha de Inscripción: </strong> <ion-label>{{ participa.fechaInscripcion }}</ion-label></h4>
+      <h4><strong>Rol: </strong> <ion-label>{{ participa.rol }}</ion-label></h4>
+    </ion-card-content>
+  </ion-card>
+</ion-label>
+
+</ion-content>
