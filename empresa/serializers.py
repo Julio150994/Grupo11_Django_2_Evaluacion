@@ -13,22 +13,19 @@ class UsuarioSerializers(serializers.ModelSerializer):
         model = Usuario
         fields = ['username','password']
 
-# Mostrar los proyectos en los que participa el cliente #
+
+# Mostramos los proyectos en los que participa el cliente #
 class ParticipaSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Participa
         fields = ['idCliente','idProyecto','fechaInscripcion','rol']
-
+    
     def to_representation(self, instance):
-        result = super(ParticipaSerializer, self).to_representation(instance)
-        
         fecha_actual = datetime.date(int(datetime.date.today().year), int(datetime.date.today().month), int(datetime.date.today().day))
         fecha_fin = datetime.date(int(instance.idProyecto.fechaFin.year),int(instance.idProyecto.fechaFin.month), int(instance.idProyecto.fechaFin.day))
         
-        
         if fecha_fin < fecha_actual and instance.idCliente.idUsuario.username == "frango1994":
-            
             return  {
                 'titulo':instance.idProyecto.titulo,
                 'descripcion':instance.idProyecto.descripcion,
@@ -39,6 +36,4 @@ class ParticipaSerializer(serializers.ModelSerializer):
                 'fechaInscripcion':instance.fechaInscripcion.strftime('%d/%m/%Y'),
                 'rol':instance.rol,
             }
-        """else:
-            ret = OrderedDict(filter(itemgetter(1), ret.items()))
-            return ret"""
+            

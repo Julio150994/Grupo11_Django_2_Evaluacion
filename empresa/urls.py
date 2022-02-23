@@ -41,7 +41,6 @@ urlpatterns = [
     path('buscar_cli/',view_participa.buscar_clientes_pry,name="buscar_clientes"),
     path('informe_cli/<int:cliente_id>/',InformeClientePDFView.as_view(), name="pdf"),
     
-    path('api/token/',TokenView.as_view()),
-    #path('api/login_cliente',LoginClienteAPIView.as_view()),
+    path('api/token/',TokenView.as_view(), name="api_token"),
     path('api/proyectos_cli/', ProyectosClienteAPIView.as_view(), name="api_proyecto_cli"),
 ]

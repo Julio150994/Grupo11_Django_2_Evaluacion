@@ -15,8 +15,6 @@ class TokenView(APIView):
         return Response({'detail':"Respuesta GET"})
     
     def post(self, request, format=None, *args, **kwargs):
-        #login = self.serializer_class(data = request.data, context = {'request':request})
-        
         try:
             data = request.data
         except ParseError as error:
@@ -27,7 +25,7 @@ class TokenView(APIView):
             
         if "user" not in data or "password" not in data:
             return Response(
-                'Error en las credenciales',
+                'Error al introducir las credenciales',
                 status=status.HTTP_401_UNAUTHORIZED
             )
         
@@ -35,7 +33,7 @@ class TokenView(APIView):
 
         if not user:
             return Response(
-                'Usuario no encontrado en la base de datos.',
+                'Cliente no encontrado en la base de datos.',
                 status=status.HTTP_404_NOT_FOUND
             )
         else:
@@ -43,31 +41,31 @@ class TokenView(APIView):
                 token, get_token = Token.objects.get_or_create(user=user)
                 
                 if get_token:
-                    # Creamos y/o eliminamos el token #
+                    # Generamos y/o eliminamos token para generar otro nuevo #
                     return Response({
                         'detail': 'Ha iniciado sesión correctamente',
-                        'token': token[0].key
-                    })
-
-                    #status = status.HTTP_200_OK#  
+                        'token': token.key
+                    }, status = status.HTTP_201_CREATED)
+  
                 else:
-                    # Eliminamos el token anteriormente generado para crear uno nuevo #
                     token.delete()
-                    token = Token.objects.create(user=user)
-                    return Response({
-                        'detail': 'Ha iniciado sesión correctamente',
-                        'token': token.key,
-                    })
-                #return redirect('api_proyecto_cli')
+                    Response({
+                        'error': 'Ya se ha iniciado sesión con este cliente',
+                    }, status = status.HTTP_409_CONFLICT)
+                    
+                return redirect('api_token')
+                
             else:
                 return Response({
-                    'detail': 'El usuario debe estar activado para poder iniciar sesión'
+                    'detail': 'Error. El usuario debe ser un cliente'
                 }, status= status.HTTP_401_UNAUTHORIZED)
     
     
 class ProyectosClienteAPIView(APIView):
+    permission_class = [IsAuthenticated]
+    
     def get(self, request, format=None, *args, **kwargs):
         participa = Participa.objects.order_by('-id')
-
+        
         serial_proyectos_cli = ParticipaSerializer(participa, many=True)
         return Response(serial_proyectos_cli.data)
