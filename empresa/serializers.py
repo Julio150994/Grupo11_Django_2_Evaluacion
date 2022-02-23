@@ -1,5 +1,6 @@
 import datetime
 from rest_framework import serializers
+from django.contrib.auth.models import User
 from empresa.models import Cliente, Participa, Usuario
 
 """Para realizar serializaciones con api rest en django"""
@@ -18,6 +19,7 @@ class ClienteSerializers(serializers.ModelSerializer):
 
 # Mostrar los proyectos en los que participa el cliente #
 class ParticipaSerializer(serializers.ModelSerializer):
+    
     class Meta:
         model = Participa
         fields = ['idCliente','idProyecto','fechaInscripcion','rol']  
@@ -25,8 +27,8 @@ class ParticipaSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         fecha_actual = datetime.date(int(datetime.date.today().year), int(datetime.date.today().month), int(datetime.date.today().day))
         fecha_fin = datetime.date(int(instance.idProyecto.fechaFin.year),int(instance.idProyecto.fechaFin.month), int(instance.idProyecto.fechaFin.day))
-        
-        if (fecha_fin < fecha_actual and instance.idCliente.idUsuario.username == "frango1994") == True:
+
+        if fecha_fin < fecha_actual and instance.idCliente.idUsuario.username == "frango1994":
             return  {
                 'titulo':instance.idProyecto.titulo,
                 'descripcion':instance.idProyecto.descripcion,
@@ -37,6 +39,3 @@ class ParticipaSerializer(serializers.ModelSerializer):
                 'fechaInscripcion':instance.fechaInscripcion.strftime('%d/%m/%Y'),
                 'rol':instance.rol,
             }
-        else:
-            if instance is None: 
-                return ''

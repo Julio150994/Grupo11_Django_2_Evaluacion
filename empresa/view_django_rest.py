@@ -1,5 +1,5 @@
 from lib2to3.pgen2.parse import ParseError
-from empresa.models import Cliente, Participa, Usuario
+from empresa.models import Cliente, Empleado, Participa, Usuario
 from .serializers import ParticipaSerializer, UsuarioSerializers
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
@@ -28,19 +28,24 @@ class TokenView(APIView):
                 'Error en las credenciales',
                 status=status.HTTP_401_UNAUTHORIZED
             )
-            
-        #cliente = Cliente.objects.get(username=data['cliente'])
-        user = User.objects.get(username=data["user"])
         
+        user = User.objects.get(username=data["user"])
+
+        usuario = Usuario.objects.filter(username=user).values('username')
+        print(usuario)
+
+        cliente = Cliente.objects.filter(idUsuario=usuario)
+        print("Cliente obtenido: "+str(cliente))
+
         if not user:
              return Response(
                 'Usuario no encontrado en la base de datos.',
                 status=status.HTTP_404_NOT_FOUND
             )
-             
+        
         token = Token.objects.get_or_create(user=user)
-        Response({'detail': 'Respuesta POST', 'token':token[0].key})
-        return redirect('api_proyecto_cli')
+        return Response({'detail': 'Respuesta POST', 'token':token[0].key})
+        #return redirect('api_proyecto_cli')
     
     
 class ProyectosClienteAPIView(APIView):
