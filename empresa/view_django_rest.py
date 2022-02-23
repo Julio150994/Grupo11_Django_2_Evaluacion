@@ -68,6 +68,6 @@ class TokenView(APIView):
 class ProyectosClienteAPIView(APIView):
     def get(self, request, format=None, *args, **kwargs):
         participa = Participa.objects.order_by('-id')
-        
+
         serial_proyectos_cli = ParticipaSerializer(participa, many=True)
         return Response(serial_proyectos_cli.data)
