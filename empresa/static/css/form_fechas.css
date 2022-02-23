@@ -1,0 +1,23 @@
+body {
+    background-image: url("/static/assets/img/fondo_django.png");
+}
+
+#form {
+    margin-top: 3.45%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+    border-radius: 20px;
+}
+
+#fechas {
+    margin-bottom: 1.78em;
+}
+
+#fechas_alert {
+    width: 200%;
+    margin-left: 6%;
+}
+
+#proyecto {
+    margin-top: 3.45%;
+}

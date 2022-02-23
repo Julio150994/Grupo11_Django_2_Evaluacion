@@ -50,10 +50,9 @@
                                         <li class="nav-item" style="margin-left: 2.8em;">
                                             <a href="{% url 'pry_lunes' %}" class="navbar-brand text-white">Proyectos de la semana que viene</a>
                                         </li>
-                                        <!-- Enlace para el informe pdf de datos y todos los proyectos que esté el cliente -->
                                         <li class="nav-item" style="margin-left: 2em;">
-                                            <a href="{% url 'pdf' cliente.id %}" class="navbar-brand text-white">
-                                                Informe PDF Cliente
+                                            <a href="{% url 'form_fechas' cliente.id %}" class="navbar-brand text-white">
+                                                Filtrado de Fechas
                                             </a>
                                         </li>
 

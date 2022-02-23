@@ -121,6 +121,33 @@ def buscar_clientes_pry(request):
     
     return render(request,"empresa/buscar_clientes.html",context)
 
+def form_fechas(request, cliente_id):
+    id_cliente = Cliente.objects.get(id=cliente_id)
+    participas = Participa.objects.order_by('-idProyecto')
+    participa = ParticipaModelForm()
+
+    context = {
+        'cliente':id_cliente,
+        'participas':participas,
+        'participa': participa
+    }
+
+    if request.GET:
+         participa = ParticipaModelForm(request.GET)
+         context = {
+            'cliente':id_cliente,
+            'participa':participa
+         }
+
+         if participa.is_valid():
+            idCliente = request.GET.get("idCliente",id_cliente)
+            idProyecto = request.GET.get("idProyecto")
+            
+            if idCliente is not None or idProyecto is not None:
+                participa_pry = Participa(idCliente=idCliente, fechaInicio=Proyecto.objects.get(idProyecto), fechaFin=Proyecto.objects.get(idProyecto))
+                return redirect('pdf')
+
+    return render(request,"empresa/form_fechas.html", context)
 
 class InformeClientePDFView(View):
     
