@@ -6,7 +6,9 @@ from empresa.models import Categoria, Cliente, Empleado, Participa, Proyecto, Us
 from .forms import CategoriaModelForm, EmpleadoModelForm, FinProyectoModelForm, ProyectoModelForm, UsuarioModelForm
 from django.contrib import messages
 from django.db.models import Case, Q
+from empresa.decorators import ClienteDeco, EmpleadoDeco
 
+@EmpleadoDeco
 def mostrar_pry(request):
     list_usuarios = Usuario.objects.all()
     list_proyectos = Proyecto.objects.all()
@@ -23,7 +25,7 @@ def mostrar_pry(request):
     }
     return render(request,'empresa/proyectos.html',context)
 
-
+@ClienteDeco
 def mostrar_pry_clientes(request):
     nombre_categoria = request.GET.get("search")
     print("Nombre de categoría: "+str(nombre_categoria))
