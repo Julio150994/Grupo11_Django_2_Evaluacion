@@ -4,6 +4,7 @@ from django.urls import reverse
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
 from django.views.generic.list import ListView
+from empresa.decorators import Admin
 from empresa.models import Categoria, Cliente, Usuario, Empleado
 from .forms import CategoriaModelForm, ClienteModelForm, EmpleadoModelForm, UsuarioModelForm
 from django.contrib import messages
@@ -11,7 +12,7 @@ from django.contrib.auth.base_user import BaseUserManager
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 
-
+@Admin
 def mostrar_empleados(request):
     listEmpleados = Empleado.objects.order_by('-id').all()
     context = { 'empleados':listEmpleados }
