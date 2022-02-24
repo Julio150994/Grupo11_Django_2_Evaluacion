@@ -58,7 +58,7 @@ def mostrar_pry_clientes(request):
     return render(request,'empresa/proyectos_cliente.html',context)
 
 
-
+@EmpleadoDeco
 def annadir_proyecto(request,empleado_id):
     id_emp = Empleado.objects.get(id=empleado_id)
         
@@ -112,7 +112,7 @@ def annadir_proyecto(request,empleado_id):
             
     return render(request, "empresa/form_add_pry.html",context)
 
-
+@EmpleadoDeco
 def modificar_pry(request,id,empleado_id):
     id_proyecto = Proyecto.objects.get(id = id)
     id_emp = Empleado.objects.get(id = empleado_id)
@@ -151,7 +151,7 @@ def modificar_pry(request,id,empleado_id):
             
     return render(request, "empresa/form_edit_pry.html",context)
 
-
+@EmpleadoDeco
 def dar_baja_pry(request,id):
     proyecto = Proyecto.objects.filter(id=id)
     proyecto.delete()
@@ -159,7 +159,7 @@ def dar_baja_pry(request,id):
     messages.error(request,'Ha podido darse de baja correctamente.')
     return redirect('proyectos')
 
-
+@EmpleadoDeco
 def ver_historial_proyectos(request, idUsuario):
     id_usuario = Usuario.objects.filter(id=idUsuario)
     
@@ -171,7 +171,7 @@ def ver_historial_proyectos(request, idUsuario):
       
     return render(request,'empresa/historial_pry.html',context)
 
-
+@ClienteDeco
 def proyectos_siguiente_lunes(request):
        
     today = datetime.date.today() # SE QUEDA EN INGLES PARA FACILITAR EL USO DE LA MISMA
@@ -186,7 +186,8 @@ def proyectos_siguiente_lunes(request):
     }
     
     return render(request,'empresa/proyectos_Lunes.html',context)
-
+    
+@EmpleadoDeco
 def finalizar_proyectos(request,id):
     id_pry = Proyecto.objects.get(id = id)
     hoy = datetime.date.today()

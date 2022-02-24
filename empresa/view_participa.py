@@ -4,6 +4,7 @@ from tkinter.ttk import Style
 from django.core.checks import messages
 from django.urls import reverse
 from django.shortcuts import render, redirect
+from empresa.decorators import ClienteDeco, EmpleadoDeco
 from empresa.models import Categoria, Cliente, Empleado, Participa, Proyecto, Usuario
 from .forms import CategoriaModelForm, ClienteModelForm, ParticipaModelForm, UsuarioModelForm
 from django.contrib import messages
@@ -19,7 +20,7 @@ from reportlab.lib.units import cm
 from reportlab.lib.styles import getSampleStyleSheet
 from django.views.generic import View
 
-
+@EmpleadoDeco
 def mostrar_clientes_pry(request,id):
     proyecto = Proyecto.objects.get(id = id)
     print("Id proyecto: "+str(proyecto))
@@ -33,7 +34,7 @@ def mostrar_clientes_pry(request,id):
     
     return render(request,"empresa/ver_clientes_empleado.html",context)
 
-
+@ClienteDeco
 def annadir_inscripcion_pry(request, cliente_id):
     id_cliente = Cliente.objects.get(id=cliente_id)
     
@@ -89,7 +90,7 @@ def annadir_inscripcion_pry(request, cliente_id):
 
     return render(request, "empresa/inscripcion_pry.html",context)
 
-
+@EmpleadoDeco
 def buscar_clientes_pry(request):
     nombre_rol = request.GET.get("search")
     fecha_actual = datetime.now().strftime("%d/%m/%Y")
@@ -121,6 +122,7 @@ def buscar_clientes_pry(request):
     
     return render(request,"empresa/buscar_clientes.html",context)
 
+@ClienteDeco
 def form_fechas(request, cliente_id):
     id_cliente = Cliente.objects.get(id=cliente_id)
     participas = Participa.objects.order_by('-idProyecto')

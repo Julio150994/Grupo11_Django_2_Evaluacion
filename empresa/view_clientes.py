@@ -115,6 +115,7 @@ def editar_clientes(request,id):
             return redirect('clientes')
     
     return render(request, "empresa/form_edit_cliente.html",context)
+
 @Admin
 def eliminar_cliente(request,id):
     cliente = Cliente.objects.filter(id=id)
