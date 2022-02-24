@@ -12,7 +12,7 @@ from django.conf import settings
 from io import BytesIO
 from django.http import HttpResponse
 from reportlab.pdfgen import canvas
-from reportlab.platypus import Table, TableStyle, Paragraph
+from reportlab.platypus import Table, TableStyle, Paragraph, Image
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.units import cm
@@ -168,10 +168,9 @@ class InformeClientePDFView(View):
         
         cliente_pdf.setFont('Times-Roman',17)
         cliente_pdf.setFillColorRGB(0.21, 0.139, 0.37)
-        cliente_pdf.drawString(10, 450, u"PROYECTOS DONDE PARTICIPA EL CLIENTE") #PROYECTOS EN LOS QUE PARTICIPA EL CLIENTE#
+        cliente_pdf.drawString(10, 450, u"PROYECTOS DONDE PARTICIPA EL CLIENTE")
     
-    def tabla_datos_cliente(self, cliente_pdf, posicion_y, cliente_id):        
-    
+    def tabla_datos_cliente(self, cliente_pdf, posicion_y, cliente_id):
         encabezados = ('Dni','Nombre','Apellidos','Direccion')
         datos = [(c.dni, c.nombre, c.apellidos, c.direccion) for c in cliente_id]
         datos_orden = Table([encabezados] + datos, colWidths=[4*cm,4*cm,4*cm])
@@ -193,9 +192,9 @@ class InformeClientePDFView(View):
         return Paragraph(txt, style)
 
     def tabla_proyectos_cliente(self, cliente_pdf, posicion_y, usuario_cliente):
-    
-        encabezados = ('Titulo','Descripcion','Inicio','Fin')
-        datos = [(self.Para(p.idProyecto.titulo), self.Para(p.idProyecto.descripcion), (p.idProyecto.fechaInicio).strftime('%d/%m/%Y'), (p.idProyecto.fechaFin).strftime('%d/%m/%Y') ) for p in Participa.objects.order_by('-id')
+        encabezados = ('Titulo','Descripcion','Inicio','Fin','Foto de Categoría')
+        datos = [(self.Para(p.idProyecto.titulo), self.Para(p.idProyecto.descripcion), (p.idProyecto.fechaInicio).strftime('%d/%m/%Y'), (p.idProyecto.fechaFin).strftime('%d/%m/%Y'),
+            Image(p.idProyecto.idCategoria.foto)) for p in Participa.objects.order_by('-id')
             if p.idCliente.idUsuario.username == usuario_cliente]
         datos_pry = Table([encabezados] + datos, colWidths=[4*cm,4*cm,4*cm], splitByRow = True)
         datos_pry.setStyle(TableStyle(
@@ -209,6 +208,7 @@ class InformeClientePDFView(View):
             ]
         ))
         
+    
         datos_pry.wrapOn(cliente_pdf,800,600)
         datos_pry.drawOn(cliente_pdf,10,posicion_y)
         return datos_pry
