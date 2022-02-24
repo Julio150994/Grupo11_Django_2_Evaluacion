@@ -168,7 +168,7 @@ class InformeClientePDFView(View):
         
         cliente_pdf.setFont('Times-Roman',17)
         cliente_pdf.setFillColorRGB(0.21, 0.139, 0.37)
-        cliente_pdf.drawString(10, 450, u"PROYECTOS DONDE PARTICIPA EL CLIENTE")
+        cliente_pdf.drawString(10, 560, u"PROYECTOS DONDE PARTICIPA EL CLIENTE")
     
     def tabla_datos_cliente(self, cliente_pdf, posicion_y, cliente_id):
         encabezados = ('Dni','Nombre','Apellidos','Direccion')
@@ -199,7 +199,7 @@ class InformeClientePDFView(View):
         datos_pry = Table([encabezados] + datos, colWidths=[4*cm,4*cm,4*cm], splitByRow = True)
         datos_pry.setStyle(TableStyle(
             [
-                ('ALIGN',(0,0),(3,10),'CENTER'),
+                ('ALIGN',(0,0),(6,10),'CENTER'),
                 ('GRID', (0,0),(4,0),1, colors.transparent),
                 ('FONTSIZE', (0,0),(-1,-1),10),
                 ('BACKGROUND',(0,0),(-1,-1),colors.Color(red=(250/255),green=(128/255),blue=(114/255), alpha=(125/255))),
