@@ -18,7 +18,7 @@ def mostrar_empleados(request):
     context = { 'empleados':listEmpleados }
     return render(request,'empresa/empleados.html',context)
 
-
+@Admin
 def annadir_empleados(request):
     usuario = UsuarioModelForm()
     empleado = EmpleadoModelForm()
@@ -71,6 +71,7 @@ def annadir_empleados(request):
                 
     return render(request, "empresa/form_add_empleado.html",context)
 
+@Admin
 def editar_empleados(request,id):
     id_empleado = Empleado.objects.get(id = id)
     context = {'empleado':id_empleado}
@@ -101,7 +102,7 @@ def editar_empleados(request,id):
             
     return render(request,'empresa/form_edit_empleado.html',context)
 
-
+@Admin
 def eliminar_empleados(request,id):    
     empleado = Empleado.objects.filter(id=id)
     print(empleado)

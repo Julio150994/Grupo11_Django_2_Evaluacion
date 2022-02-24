@@ -3,17 +3,18 @@ from django.core.checks import messages
 from django.urls import reverse
 from django.shortcuts import render, redirect
 from django.conf import settings
+from empresa.decorators import Admin
 from empresa.models import Categoria
 from .forms import CategoriaModelForm
 from django.contrib import messages
 
-
+@Admin
 def mostrar_categorias(request):
     listCategorias = Categoria.objects.all()
     context = { 'categorias':listCategorias }
     return render(request,'empresa/categorias.html',context)
 
-
+@Admin
 def annadir_categorias(request):
     categoria = CategoriaModelForm()
     context = {'categoria':categoria}
@@ -37,7 +38,7 @@ def annadir_categorias(request):
 
     return render(request, "empresa/form_add_categoria.html",context)
 
-
+@Admin
 def editar_categorias(request,id):
     id_categoria = Categoria.objects.get(id = id)
     context = {'categoria':id_categoria}
@@ -60,7 +61,7 @@ def editar_categorias(request,id):
         
     return render(request, "empresa/form_edit_categoria.html",context)
 
-
+@Admin
 def eliminar_categorias(request,id):
     categoria = Categoria.objects.filter(id=id)
     categoria.delete()

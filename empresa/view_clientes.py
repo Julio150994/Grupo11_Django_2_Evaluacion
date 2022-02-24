@@ -3,17 +3,18 @@ from django.urls import reverse
 from django.contrib.auth.hashers import make_password
 from django.contrib import messages
 from django.contrib.auth.models import User
+from empresa.decorators import Admin
 from empresa.forms import ClienteModelForm
 from empresa.models import Cliente, Usuario
 from .forms import ClienteModelForm, UsuarioModelForm
 
-
+@Admin
 def mostrar_clientes(request):
     listClientes = Cliente.objects.order_by('-id').all()
     context = { 'clientes': listClientes }
     return render(request,'empresa/clientes.html',context)
 
-
+@Admin
 def get_actived(request,id):
     cliente = Cliente.objects.get(id = id)
     print("Cliente: "+str(cliente))
@@ -31,7 +32,7 @@ def get_actived(request,id):
     
     return redirect('clientes')
 
-
+@Admin
 def annadir_clientes(request):
     usuario = UsuarioModelForm()
     cliente = ClienteModelForm()
@@ -84,7 +85,7 @@ def annadir_clientes(request):
 
     return render(request, "empresa/form_add_cliente.html",context)
 
-
+@Admin
 def editar_clientes(request,id):
     id_cliente = Cliente.objects.get(id = id)
     context = {'cliente':id_cliente}
@@ -114,7 +115,7 @@ def editar_clientes(request,id):
             return redirect('clientes')
     
     return render(request, "empresa/form_edit_cliente.html",context)
-
+@Admin
 def eliminar_cliente(request,id):
     cliente = Cliente.objects.filter(id=id)
     print(cliente)
